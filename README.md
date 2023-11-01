@@ -3,3 +3,4 @@
 - allison
 - brenda
 - emily
+- sohyun
