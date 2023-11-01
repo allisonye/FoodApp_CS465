@@ -2,3 +2,4 @@
 ## Contributors
 - allison
 - brenda
+- emily
