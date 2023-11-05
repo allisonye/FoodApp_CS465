@@ -19,17 +19,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(DEBUG, "onCreate()");
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.food_preview);
         if (savedInstanceState != null) {
             String value = new String(savedInstanceState.getString(KEY));
             Log.d(DEBUG, value);
         }
 
-        falseButton = (Button) findViewById(R.id.false_button);
-        trueButton = (Button) findViewById(R.id.true_button);
+//        falseButton = (Button) findViewById(R.id.false_button);
+//        trueButton = (Button) findViewById(R.id.true_button);
 
-        falseButton.setOnClickListener(this);
-        trueButton.setOnClickListener(this);
+//        falseButton.setOnClickListener(this);
+//        trueButton.setOnClickListener(this);
     }
 
     protected void onSaveInstanceState(Bundle savedInstance) {
