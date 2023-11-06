@@ -3,21 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginVertical="10dp"
 >
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="BACK"
-
-            >
+            android:id="@+id/back_button">
 
         </Button>
 
@@ -175,9 +176,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="directon"
-            android:textAllCaps="true"></Button>
+            android:textAllCaps="true"
+            android:id="@+id/direction_button"></Button>
 
     </LinearLayout>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
