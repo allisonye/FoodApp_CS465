@@ -3,4 +3,6 @@
     <string name="question_message_text">Is Chicago the capital of Illinois?</string>
     <string name="true_button_text"> TRUE </string>
     <string name="false_button_text"> FALSE </string>
+    <string name="Location">Food\'s Location</string>
+    <string name="empty">""</string>
 </resources>
