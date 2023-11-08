@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(DEBUG, "onCreate()");
-        setContentView(R.layout.food_preview);
+        setContentView(R.layout.post_food);
         if (savedInstanceState != null) {
             String value = new String(savedInstanceState.getString(KEY));
             Log.d(DEBUG, value);
