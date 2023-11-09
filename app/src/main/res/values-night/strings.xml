@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="food_name">Food Name*</string>
+    <string name="description">Description</string>
+</resources>
