@@ -71,4 +71,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "INCORRECT", Toast.LENGTH_SHORT).show();
         }
     }
+//    bottomAppBar.setNavigationOnClickListener {
+//            // Handle navigation icon press
+//    }
+//
+//    bottomAppBar.setOnMenuItemClickListener { menuItem ->
+//            when (menuItem.itemId) {
+//                R.id.search -> {
+//                    // Handle search icon press
+//                    true
+//                }
+//                R.id.more -> {
+//                    // Handle more item (inside overflow menu) press
+//                    true
+//                }
+//                else -> false
+//            }
+//        }
 }

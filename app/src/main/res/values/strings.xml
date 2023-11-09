@@ -5,4 +5,6 @@
     <string name="false_button_text"> FALSE </string>
     <string name="Location">Food\'s Location</string>
     <string name="empty">""</string>
+    <string name="food_name">Food Name*</string>
+    <string name="descriptionRequired">Description*</string>
 </resources>
