@@ -1,11 +1,16 @@
 package edu.illinois.cs465.myquizappwithlifecycle;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -19,11 +24,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(DEBUG, "onCreate()");
-        setContentView(R.layout.post_food);
+        setContentView(R.layout.landing_screen);
+
         if (savedInstanceState != null) {
             String value = new String(savedInstanceState.getString(KEY));
             Log.d(DEBUG, value);
         }
+
+        findViewById(R.id.deleted_post_button).setOnClickListener(v -> {
+            showDeletedEventPopup();
+        });
+
+        findViewById(R.id.food_popup).setOnClickListener(v -> {
+            showFoodInfoPopup();
+        });
 
 //        falseButton = (Button) findViewById(R.id.false_button);
 //        trueButton = (Button) findViewById(R.id.true_button);
@@ -88,4 +102,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                else -> false
 //            }
 //        }
+
+    private void showDeletedEventPopup() {
+        AlertDialog dialog = new MaterialAlertDialogBuilder(MainActivity.this)
+            .setMessage("Post has been deleted by host")
+            .setPositiveButton("Ok", null)
+            .show();
+    }
+
+    private void showFoodInfoPopup() {
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.food_popup);
+        dialog.show();
+    }
 }
+
