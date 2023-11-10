@@ -7,4 +7,5 @@
     <string name="empty">""</string>
     <string name="food_name">Food Name*</string>
     <string name="descriptionRequired">Description*</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>
