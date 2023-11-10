@@ -5,7 +5,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/deleted_post_button"
@@ -13,6 +14,13 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="see deleted post"/>
+
+        <Button
+            android:id="@+id/food_popup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="check food popup"/>
 
     </LinearLayout>
 
