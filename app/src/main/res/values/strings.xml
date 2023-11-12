@@ -9,4 +9,7 @@
     <string name="descriptionRequired">Description*</string>
     <string name="fab_content_desc">Profile</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="title">"Title"</string>
+    <string name="card_date">"11/12/2023"</string>
+    <string name="card_expire_time">"9:00pm"</string>
 </resources>
