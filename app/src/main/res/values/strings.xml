@@ -8,4 +8,9 @@
     <string name="food_name">Food Name*</string>
     <string name="descriptionRequired">Description*</string>
     <string name="fab_content_desc">Profile</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="title">Title</string>
+    <string name="card_date">Card Date</string>
+    <string name="card_expire_time">Time Expired</string>
 </resources>
+

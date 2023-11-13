@@ -1,12 +1,18 @@
 package edu.illinois.cs465.myquizappwithlifecycle;
 
 import android.content.pm.PackageManager;
+import android.app.Dialog;
+
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import android.content.Intent;
 
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -15,6 +21,8 @@ import androidx.core.app.NotificationManagerCompat;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -28,13 +36,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(DEBUG, "onCreate()");
-        setContentView(R.layout.post_food);
+        setContentView(R.layout.landing_screen);
+
         if (savedInstanceState != null) {
             String value = new String(savedInstanceState.getString(KEY));
             Log.d(DEBUG, value);
         }
         createNotificationChannel();
         showNotification();
+
+        findViewById(R.id.deleted_post_button).setOnClickListener(v -> {
+            showDeletedEventPopup();
+        });
+
+        findViewById(R.id.food_popup).setOnClickListener(v -> {
+            // Inflater to be able to grab button in dialog
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogLayout = inflater.inflate(R.layout.food_popup, null);
+
+            showFoodInfoPopup(dialogLayout);
+
+            Button seeMoreButton = (Button)dialogLayout.findViewById(R.id.see_more_button);
+            seeMoreButton.setOnClickListener(b -> {
+                Intent intent = new Intent(this, FoodInfoActivity.class);
+                startActivity(intent);
+            });
+
+        });
+
 
 //        falseButton = (Button) findViewById(R.id.false_button);
 //        trueButton = (Button) findViewById(R.id.true_button);
@@ -138,4 +167,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                else -> false
 //            }
 //        }
+
+    private void showDeletedEventPopup() {
+        AlertDialog dialog = new MaterialAlertDialogBuilder(MainActivity.this)
+            .setMessage("Post has been deleted by host")
+            .setPositiveButton("Ok", null)
+            .show();
+    }
+
+    private void showFoodInfoPopup(View dialog_layout) {
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(dialog_layout);
+        dialog.show();
+    }
 }
+
