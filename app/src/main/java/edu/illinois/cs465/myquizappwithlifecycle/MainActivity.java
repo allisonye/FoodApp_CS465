@@ -3,9 +3,12 @@ package edu.illinois.cs465.myquizappwithlifecycle;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import android.content.Intent;
+
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,8 +39,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         findViewById(R.id.food_popup).setOnClickListener(v -> {
-            showFoodInfoPopup();
+            // Inflater to be able to grab button in dialog
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogLayout = inflater.inflate(R.layout.food_popup, null);
+
+            showFoodInfoPopup(dialogLayout);
+
+            Button seeMoreButton = (Button)dialogLayout.findViewById(R.id.see_more_button);
+            seeMoreButton.setOnClickListener(b -> {
+                Intent intent = new Intent(this, FoodInfoActivity.class);
+                startActivity(intent);
+            });
+
         });
+
 
 //        falseButton = (Button) findViewById(R.id.false_button);
 //        trueButton = (Button) findViewById(R.id.true_button);
@@ -110,9 +125,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             .show();
     }
 
-    private void showFoodInfoPopup() {
+    private void showFoodInfoPopup(View dialog_layout) {
         Dialog dialog = new Dialog(MainActivity.this);
-        dialog.setContentView(R.layout.food_popup);
+        dialog.setContentView(dialog_layout);
         dialog.show();
     }
 }
