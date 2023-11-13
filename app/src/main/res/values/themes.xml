@@ -3,6 +3,8 @@
     <style name="Base.Theme.MyQuizAppWithLifecycle" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowEnterAnimation">@anim/slide_in_animation</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_animation</item>
     </style>
 
     <style name="Theme.MyQuizAppWithLifecycle" parent="Base.Theme.MyQuizAppWithLifecycle" />
