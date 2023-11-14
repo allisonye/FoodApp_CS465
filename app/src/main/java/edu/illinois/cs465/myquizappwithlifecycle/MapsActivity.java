@@ -1,8 +1,10 @@
 package edu.illinois.cs465.myquizappwithlifecycle;
 
 import androidx.fragment.app.FragmentActivity;
+import androidx.room.Room;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -11,15 +13,23 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.illinois.cs465.myquizappwithlifecycle.data.AppDatabase;
+import edu.illinois.cs465.myquizappwithlifecycle.data.AppExecutors;
+import edu.illinois.cs465.myquizappwithlifecycle.data.FoodListing;
+import edu.illinois.cs465.myquizappwithlifecycle.data.FoodListingDao;
 import edu.illinois.cs465.myquizappwithlifecycle.databinding.ActivityMapsBinding;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-
+    private static String DEBUG = "DEBUG";
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(DEBUG,"onCreate()");
         super.onCreate(savedInstanceState);
 
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
@@ -29,6 +39,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        // create listings
+        FoodListing fl1 = new FoodListing();
+        fl1.food_name = "CIF";
+        fl1.latitude = 40.11260764797458;
+        fl1.longitude = -88.22836335177905;
+        FoodListing fl2 = new FoodListing();
+        fl2.food_name = "Illini Union";
+        fl2.latitude = 40.10931671622374;
+        fl2.longitude = -88.22723322505533;
+
+        // add listings to database
+        AppDatabase db = AppDatabase.getInstance(getApplicationContext());
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(DEBUG,"inserting fl1 and fl2");
+                db.foodListingDao().insertAll(fl1, fl2);
+                Log.d(DEBUG,"fl1 and fl2 inserted");
+            }
+        });
     }
 
     /**
@@ -41,11 +72,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.d(DEBUG,"onMapReady()");
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
+        // Add a marker at Siebel and ECE and move the camera
         LatLng siebel = new LatLng(40.113876587817316, -88.22487301073227);
-        mMap.addMarker(new MarkerOptions().position(siebel).title("Siebel Center for Computer Science"));
+        mMap.addMarker(new MarkerOptions().position(siebel).title("Siebel"));
+        LatLng ece = new LatLng(40.11504431688674, -88.22802319553404);
+        mMap.addMarker(new MarkerOptions().position(ece).title("ECE"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(siebel));
+
+        // add listing markers to map
+        AppDatabase db = AppDatabase.getInstance(getApplicationContext());
+        List<FoodListing> foodListings = new ArrayList<FoodListing>();
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(DEBUG,"getting listings");
+                foodListings = db.foodListingDao().getAll();
+                Log.d(DEBUG,"listings retrieved");
+            }
+        });
+        for (FoodListing foodListing : foodListings) {
+            Log.d(DEBUG,"hello");
+            mMap.addMarker(new MarkerOptions().position(new LatLng(foodListing.latitude, foodListing.longitude)).title(foodListing.food_name));
+        }
     }
 }

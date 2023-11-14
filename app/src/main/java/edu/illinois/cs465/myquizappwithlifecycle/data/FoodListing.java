@@ -7,7 +7,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 @Entity
 public class FoodListing {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int food_id;
 
     public String food_name;
