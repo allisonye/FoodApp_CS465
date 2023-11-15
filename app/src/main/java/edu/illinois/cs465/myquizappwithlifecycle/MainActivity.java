@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             LayoutInflater inflater = getLayoutInflater();
             View dialogLayout = inflater.inflate(R.layout.food_popup, null);
 
-        RsoBaseScreenBinding binding = RsoBaseScreenBinding.inflate(getLayoutInflater());
-        binding.floatingActionButton.setOnClickListener(v -> showBottomDialog());
+//        RsoBaseScreenBinding binding = RsoBaseScreenBinding.inflate(getLayoutInflater());
+//        binding.floatingActionButton.setOnClickListener(v -> showBottomDialog());
 
 //        findViewById(R.id.floating_action_button).setOnClickListener(v -> {
 //            showBottomDialog();
@@ -253,10 +253,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         dialog.show();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().getAttributes().windowAnimations = com.google.android.material.R.style.MaterialAlertDialog_Material3_Animation;
         dialog.getWindow().setGravity(Gravity.BOTTOM);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
