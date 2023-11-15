@@ -43,5 +43,6 @@
         </activity>
         <activity android:name=".FoodInfoActivity"></activity>
         <activity android:name=".RSOActivity"></activity>
+        <activity android:name=".FoodPostActivity" />
     </application>
 </manifest>
