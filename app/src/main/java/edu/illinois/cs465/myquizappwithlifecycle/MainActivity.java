@@ -6,14 +6,19 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import android.content.Intent;
 
 
+import androidx.annotation.MenuRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -177,6 +182,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Dialog dialog = new Dialog(MainActivity.this);
         dialog.setContentView(dialog_layout);
         dialog.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.overflow_menu, menu);
+        return true;
+    }
+
+    private void showMenu(View v, @MenuRes int menuRes) {
+        PopupMenu popup = new PopupMenu(MainActivity.this, v);
+        popup.getMenuInflater().inflate(menuRes, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                // Respond to menu item click.
+                return false;
+            }
+        });
+        popup.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+                // Respond to popup being dismissed.
+            }
+        });
+        popup.show();
     }
 }
 
