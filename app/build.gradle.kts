@@ -55,4 +55,7 @@ dependencies {
     val room_version = "2.6.0"
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
+
+    val lifecycle_version = "2.6.2"
+    implementation("androidx.lifecycle:lifecycle-livedata:$lifecycle_version")
 }

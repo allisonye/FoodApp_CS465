@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 import edu.illinois.cs465.myquizappwithlifecycle.data.AppDatabase;
 import edu.illinois.cs465.myquizappwithlifecycle.data.AppExecutors;
@@ -41,25 +42,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         // create listings
-        FoodListing fl1 = new FoodListing();
-        fl1.food_name = "CIF";
-        fl1.latitude = 40.11260764797458;
-        fl1.longitude = -88.22836335177905;
-        FoodListing fl2 = new FoodListing();
-        fl2.food_name = "Illini Union";
-        fl2.latitude = 40.10931671622374;
-        fl2.longitude = -88.22723322505533;
-
-        // add listings to database
-        AppDatabase db = AppDatabase.getInstance(getApplicationContext());
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(DEBUG,"inserting fl1 and fl2");
-                db.foodListingDao().insertAll(fl1, fl2);
-                Log.d(DEBUG,"fl1 and fl2 inserted");
-            }
-        });
+//        FoodListing fl1 = new FoodListing();
+//        fl1.food_name = "CIF";
+//        fl1.latitude = 40.11260764797458;
+//        fl1.longitude = -88.22836335177905;
+//        FoodListing fl2 = new FoodListing();
+//        fl2.food_name = "Illini Union";
+//        fl2.latitude = 40.10931671622374;
+//        fl2.longitude = -88.22723322505533;
+//
+//        // add listings to database
+//        AppDatabase db = AppDatabase.getInstance(getApplicationContext());
+//        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                Log.d(DEBUG,"inserting fl1 and fl2");
+//                db.foodListingDao().insertAll(fl1, fl2);
+//                Log.d(DEBUG,"fl1 and fl2 inserted");
+//            }
+//        });
     }
 
     /**
@@ -83,19 +84,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(siebel));
 
         // add listing markers to map
-        AppDatabase db = AppDatabase.getInstance(getApplicationContext());
-        List<FoodListing> foodListings = new ArrayList<FoodListing>();
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(DEBUG,"getting listings");
-                foodListings = db.foodListingDao().getAll();
-                Log.d(DEBUG,"listings retrieved");
-            }
-        });
-        for (FoodListing foodListing : foodListings) {
-            Log.d(DEBUG,"hello");
-            mMap.addMarker(new MarkerOptions().position(new LatLng(foodListing.latitude, foodListing.longitude)).title(foodListing.food_name));
-        }
+//        AppDatabase db = AppDatabase.getInstance(getApplicationContext());
+//        final List<FoodListing>[] foodListings = new List[]{new ArrayList<FoodListing>()};
+//        Executor diskIO = AppExecutors.getInstance().diskIO();
+//        diskIO.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                Log.d(DEBUG,"getting listings");
+//                foodListings[0] = db.foodListingDao().getAll();
+//                Log.d(DEBUG, foodListings[0].get(0).food_name);
+//                Log.d(DEBUG,"listings retrieved");
+//            }
+//        });
+//        // w
+//        Log.d(DEBUG,Integer.toString(foodListings[0].size()));
+//        for (FoodListing foodListing : foodListings[0]) {
+//            Log.d(DEBUG,"hello");
+//            mMap.addMarker(new MarkerOptions().position(new LatLng(foodListing.latitude, foodListing.longitude)).title(foodListing.food_name));
+//        }
     }
 }
