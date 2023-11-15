@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-public class ViewModal {
+public class ViewModal extends AndroidViewModel {
     // creating a new variable for course repository.
     private FoodListingRepository foodListingRepository;
 
@@ -18,9 +18,9 @@ public class ViewModal {
 
     // constructor for our view modal.
     public ViewModal(@NonNull Application application) {
-        super(); // super(application)
+        super(application);
         foodListingRepository = new FoodListingRepository(application);
-        allFoodListings = foodListingRepository.getAllCourses();
+        allFoodListings = foodListingRepository.getAllFoodListings();
     }
 
     // below method is use to insert the data to our repository.
@@ -36,6 +36,10 @@ public class ViewModal {
     // below line is to delete the data in our repository.
     public void delete(FoodListing foodListing) {
         foodListingRepository.delete(foodListing);
+    }
+
+    public void deleteAll() {
+        foodListingRepository.deleteAll();
     }
 
     // below method is to get all the courses in our list.

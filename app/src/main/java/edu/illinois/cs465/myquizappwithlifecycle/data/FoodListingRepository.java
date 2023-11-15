@@ -32,8 +32,12 @@ public class FoodListingRepository {
         new DeleteFoodListingAsyncTask(dao).execute(foodListing);
     }
 
+    public void deleteAll() {
+        new DeleteAllAsyncTask(dao).execute();
+    }
+
     // below method is to read all the courses.
-    public LiveData<List<FoodListing>> getAllCourses() {
+    public LiveData<List<FoodListing>> getAllFoodListings() {
         return allFoodListings;
     }
 
@@ -83,6 +87,22 @@ public class FoodListingRepository {
             // below line is use to delete
             // our course modal in dao.
             dao.delete(foodListings[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteAllAsyncTask extends AsyncTask<FoodListing, Void, Void> {
+        private FoodListingDao dao;
+
+        private DeleteAllAsyncTask(FoodListingDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(FoodListing... foodListings) {
+            // below line is use to delete
+            // our course modal in dao.
+            dao.deleteAll();
             return null;
         }
     }

@@ -20,6 +20,9 @@ public interface FoodListingDao {
     @Delete
     void delete(FoodListing foodListing);
 
+    @Query("DELETE FROM FoodListing")
+    void deleteAll();
+
     @Query("SELECT * FROM FoodListing")
     LiveData<List<FoodListing>> getAll();
 }
