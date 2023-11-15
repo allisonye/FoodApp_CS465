@@ -64,12 +64,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         });
 
-
-//        falseButton = (Button) findViewById(R.id.false_button);
-//        trueButton = (Button) findViewById(R.id.true_button);
-
-//        falseButton.setOnClickListener(this);
-//        trueButton.setOnClickListener(this);
+        findViewById(R.id.post_food).setOnClickListener(v -> {
+            Intent intent = new Intent(this, FoodPostActivity.class);
+            startActivity(intent);
+        });
     }
 
     protected void onSaveInstanceState(Bundle savedInstance) {
