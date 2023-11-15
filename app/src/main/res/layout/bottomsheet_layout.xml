@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_bkg">
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/round_remove_24"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center|top"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="viewStart"
+            android:text="Accounts"
+            android:textSize="25sp"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="5dp"/>
+
+        <ImageView
+            android:id="@+id/cancelButton"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="230dp"
+            android:layout_marginTop="10dp"
+            android:adjustViewBounds="true"
+            android:maxWidth="42dp"
+            android:maxHeight="42dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/baseline_clear_24" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/user1"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/account_circle_24px"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User 1"
+            android:layout_marginLeft="30dp"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/user2"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/account_circle_24px"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User 2"
+            android:layout_marginLeft="30dp"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/user3"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/account_circle_24px"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User 3"
+            android:layout_marginLeft="30dp"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+</LinearLayout>
