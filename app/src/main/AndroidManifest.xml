@@ -42,5 +42,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".FoodInfoActivity"></activity>
+        <activity android:name=".RSOActivity"></activity>
     </application>
 </manifest>
