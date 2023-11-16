@@ -25,4 +25,7 @@ public interface FoodListingDao {
 
     @Query("SELECT * FROM FoodListing")
     LiveData<List<FoodListing>> getAll();
+
+    @Query("SELECT * FROM FoodListing WHERE food_id=:id")
+    LiveData<FoodListing> getById(int id);
 }

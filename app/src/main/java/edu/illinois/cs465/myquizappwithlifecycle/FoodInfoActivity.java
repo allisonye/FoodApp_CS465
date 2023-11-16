@@ -15,5 +15,6 @@ public class FoodInfoActivity extends AppCompatActivity {
         findViewById(R.id.back_button).setOnClickListener(v -> {
             finish();
         });
+
     }
 }
