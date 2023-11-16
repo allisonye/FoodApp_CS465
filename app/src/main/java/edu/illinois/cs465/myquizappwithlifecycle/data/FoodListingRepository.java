@@ -2,10 +2,13 @@ package edu.illinois.cs465.myquizappwithlifecycle.data;
 
 import android.app.Application;
 import android.os.AsyncTask;
+//import android.os.AsyncResponse;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FoodListingRepository {
     private FoodListingDao dao;
@@ -37,9 +40,14 @@ public class FoodListingRepository {
     }
 
     // below method is to read all the courses.
-    public LiveData<List<FoodListing>> getAllFoodListings() {
+    public LiveData<List<FoodListing>> getAll() {
         return allFoodListings;
     }
+
+    public LiveData<FoodListing> getById(int id) {
+       return dao.getById(id);
+    }
+
 
     // we are creating a async task method to insert new course.
     private static class InsertFoodListingAsyncTask extends AsyncTask<FoodListing, Void, Void> {
@@ -91,7 +99,7 @@ public class FoodListingRepository {
         }
     }
 
-    private static class DeleteAllAsyncTask extends AsyncTask<FoodListing, Void, Void> {
+    private static class DeleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
         private FoodListingDao dao;
 
         private DeleteAllAsyncTask(FoodListingDao dao) {
@@ -99,11 +107,48 @@ public class FoodListingRepository {
         }
 
         @Override
-        protected Void doInBackground(FoodListing... foodListings) {
+        protected Void doInBackground(Void... voids) {
             // below line is use to delete
             // our course modal in dao.
             dao.deleteAll();
             return null;
         }
     }
+
+//    private static class GetByIdAsyncTask extends AsyncTask<Integer, Void, FoodListing> {
+//        private FoodListingDao dao;
+//
+//        private GetByIdAsyncTask(FoodListingDao dao) {
+//            this.dao = dao;
+//        }
+//
+//        @Override
+//        protected FoodListing doInBackground(Integer... ids) {
+//            return dao.getById(ids[0]);
+//        }
+//    }
+//    private static class GetByIdAsyncTask extends AsyncTask<Integer, Void, FoodListing> {
+//        private FoodListingDao dao;
+//
+//        // you may separate this or combined to caller class.
+//        public interface AsyncResponse {
+//            void processFinish(FoodListing output);
+//        }
+//
+//        public AsyncResponse delegate = null;
+//
+//        public GetByIdAsyncTask(AsyncResponse delegate){
+//            this.delegate = delegate;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(FoodListing foodListing) {
+//            delegate.processFinish(foodListing);
+//        }
+//
+//        @Override
+//        protected FoodListing doInBackground(Integer... ids) {
+//            return dao.getById(ids[0]);
+//        }
+//    }
 }
