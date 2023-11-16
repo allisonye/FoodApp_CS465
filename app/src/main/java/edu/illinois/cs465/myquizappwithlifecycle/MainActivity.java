@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -60,7 +61,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         super.onCreate(savedInstanceState);
         Log.d(DEBUG, "onCreate()");
-        setContentView(R.layout.rso_food_card);
+
+        setContentView(R.layout.landing_screen);
 
 //        RsoBaseScreenBinding binding = RsoBaseScreenBinding.inflate(getLayoutInflater());
 //        setContentView(binding.getRoot());
@@ -71,9 +73,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d(DEBUG, value);
             }
         }
-//
-//        findViewById(R.id.deleted_post_button).setOnClickListener(v -> {
-//            showDeletedEventPopup();
+
+        findViewById(R.id.deleted_post_button).setOnClickListener(v -> {
+            showDeletedEventPopup();
+        });
+
+        findViewById(R.id.food_popup).setOnClickListener(v -> {
+            // Inflater to be able to grab button in dialog
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogLayout = inflater.inflate(R.layout.food_popup, null);
+
+//        RsoBaseScreenBinding binding = RsoBaseScreenBinding.inflate(getLayoutInflater());
+//        binding.floatingActionButton.setOnClickListener(view -> showBottomDialog());
+
+//        findViewById(R.id.floating_action_button).setOnClickListener(v -> {
+//            showBottomDialog();
+
 //        });
 //
 //        findViewById(R.id.food_popup).setOnClickListener(v -> {
@@ -255,32 +270,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.bottomsheet_layout);
 
-        LinearLayout user1 = dialog.findViewById(R.id.user1);
-        LinearLayout user2 = dialog.findViewById(R.id.user2);
-        LinearLayout user3 = dialog.findViewById(R.id.user3);
+        LinearLayout rso1 = dialog.findViewById(R.id.rso1);
         ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
 
-        user1.setOnClickListener(new View.OnClickListener() {
+        rso1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                Toast.makeText(MainActivity.this, "Switching to user 1", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        user2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                Toast.makeText(MainActivity.this, "Switching to user 2", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        user3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                Toast.makeText(MainActivity.this, "Switching to user 3", Toast.LENGTH_SHORT).show();
+                setContentView(R.layout.rso_base_screen); // Switch to rso_base_screen layout
+                Toast.makeText(MainActivity.this, "Switching to RSO screen", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -297,6 +295,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.getWindow().getAttributes().windowAnimations = com.google.android.material.R.style.MaterialAlertDialog_Material3_Animation;
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
