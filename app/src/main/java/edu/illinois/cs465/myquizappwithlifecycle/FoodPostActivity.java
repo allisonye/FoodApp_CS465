@@ -2,6 +2,7 @@ package edu.illinois.cs465.myquizappwithlifecycle;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -34,34 +35,43 @@ public class FoodPostActivity extends AppCompatActivity {
     }
 
     private void showNotification() {
-
+        // Create the notification channel for Oreo and above
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Free Food Alert!";
             String description = "Pizza Available at Siebel CS NOW!";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_DEFAULT; // Check this importance
             NotificationChannel channel = new NotificationChannel("channel_id", name, importance);
             channel.setDescription(description);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
 
+        Intent notifyIntent = new Intent(this, MainActivity.class);
+        // Set the Activity to start in a new, empty task.
+        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        // Create the PendingIntent.
+        PendingIntent notifyPendingIntent = PendingIntent.getActivity(
+                this, 0, notifyIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        // Build the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channel_id")
-                .setSmallIcon(R.drawable.account_circle_24px) // replace with your own icon
+                .setSmallIcon(R.drawable.account_circle_24px) // Make sure this icon exists
                 .setContentTitle("Free Food Alert!")
                 .setContentText("Pizza Available at Siebel CS NOW!")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(notifyPendingIntent)
+                .setAutoCancel(true); // Auto-cancel the notification after it's tapped
 
+        // Post the notification
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            // Handle missing permissions
             return;
         }
+
         notificationManager.notify(1, builder.build());
     }
 
