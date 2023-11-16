@@ -13,6 +13,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -54,14 +56,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markers = new ArrayList<Marker>();
 
         // TODO: delete this when ready
-        // clears map, initializes one food listing at CIF
+        // clears map, initializes two food listings at CIF and Illini Union
         viewmodal.deleteAllFoodListings();
         FoodListing fl1 = new FoodListing();
         fl1.food_id = 5;
-        fl1.food_name = "CIF";
+        fl1.food_name = "Pizza @ CIF";
         fl1.latitude = 40.11260764797458;
         fl1.longitude = -88.22836335177905;
+        fl1.status = "AVAILABLE";
         viewmodal.insertFoodListing(fl1);
+        FoodListing fl2 = new FoodListing();
+        fl2.food_id = 6;
+        fl2.food_name = "Sandwiches @ Illini Union";
+        fl2.latitude = 40.10934133355023;
+        fl2.longitude = -88.22725468192122;
+        fl2.status = "LOW";
+        viewmodal.insertFoodListing(fl2);
     }
 
     /**
@@ -94,7 +104,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 markers.clear();
                 // add markers back to map
                 for (FoodListing foodListing : foodListings) {
-                    Marker m = mMap.addMarker(new MarkerOptions().position(new LatLng(foodListing.latitude, foodListing.longitude)).title(foodListing.food_name));
+                    BitmapDescriptor icon = foodListing.status.equals("LOW")
+                            ? BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)
+                            : BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+                    Marker m = mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(foodListing.latitude, foodListing.longitude))
+                            .title(foodListing.food_name)
+                            .icon(icon)
+                    );
                     markers.add(m);
                     Log.d(DEBUG, "ID " + foodListing.food_id);
                 }
