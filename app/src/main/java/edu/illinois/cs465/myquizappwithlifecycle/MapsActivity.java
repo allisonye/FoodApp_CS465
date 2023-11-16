@@ -13,6 +13,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -49,33 +51,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        //
-
+        // initialize viewmodal, gmaps markers list
         viewmodal = new ViewModelProvider(this).get(ViewModal.class);
+        markers = new ArrayList<Marker>();
 
-        // create
-        viewmodal.deleteAll();
+        // TODO: delete this when ready
+        // clears map, initializes two food listings at CIF and Illini Union
+        viewmodal.deleteAllFoodListings();
         FoodListing fl1 = new FoodListing();
-        fl1.food_name = "CIF2";
+        fl1.food_id = 5;
+        fl1.food_name = "Pizza @ CIF";
         fl1.latitude = 40.11260764797458;
         fl1.longitude = -88.22836335177905;
-        viewmodal.insert(fl1);
-        markers = new ArrayList<Marker>();
-//        FoodListing fl2 = new FoodListing();
-//        fl2.food_name = "Illini Union";
-//        fl2.latitude = 40.10931671622374;
-//        fl2.longitude = -88.22723322505533;
-//
-//        // add listings to database
-//        AppDatabase db = AppDatabase.getInstance(getApplicationContext());
-//        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                Log.d(DEBUG,"inserting fl1 and fl2");
-//                db.foodListingDao().insertAll(fl1, fl2);
-//                Log.d(DEBUG,"fl1 and fl2 inserted");
-//            }
-//        });
+        fl1.status = "AVAILABLE";
+        viewmodal.insertFoodListing(fl1);
+        FoodListing fl2 = new FoodListing();
+        fl2.food_id = 6;
+        fl2.food_name = "Sandwiches @ Illini Union";
+        fl2.latitude = 40.10934133355023;
+        fl2.longitude = -88.22725468192122;
+        fl2.status = "LOW";
+        viewmodal.insertFoodListing(fl2);
     }
 
     /**
@@ -101,38 +97,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         viewmodal.getAllFoodListings().observe(this, new Observer<List<FoodListing>>() {
             @Override
             public void onChanged(List<FoodListing> foodListings) {
-                // when the data is changed in our models we are
-                // adding that list to our adapter class.
+                // clear existing markers from map
                 for (Marker m : markers) {
                     m.remove();
                 }
                 markers.clear();
+                // add markers back to map
                 for (FoodListing foodListing : foodListings) {
-                    Marker m = mMap.addMarker(new MarkerOptions().position(new LatLng(foodListing.latitude, foodListing.longitude)).title(foodListing.food_name));
+                    BitmapDescriptor icon = foodListing.status.equals("LOW")
+                            ? BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)
+                            : BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+                    Marker m = mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(foodListing.latitude, foodListing.longitude))
+                            .title(foodListing.food_name)
+                            .icon(icon)
+                    );
                     markers.add(m);
+                    Log.d(DEBUG, "ID " + foodListing.food_id);
                 }
-
             }
         });
 
-        // add listing markers to map
-//        AppDatabase db = AppDatabase.getInstance(getApplicationContext());
-//        final List<FoodListing>[] foodListings = new List[]{new ArrayList<FoodListing>()};
-//        Executor diskIO = AppExecutors.getInstance().diskIO();
-//        diskIO.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                Log.d(DEBUG,"getting listings");
-//                foodListings[0] = db.foodListingDao().getAll();
-//                Log.d(DEBUG, foodListings[0].get(0).food_name);
-//                Log.d(DEBUG,"listings retrieved");
-//            }
-//        });
-//        // w
-//        Log.d(DEBUG,Integer.toString(foodListings[0].size()));
-//        for (FoodListing foodListing : foodListings[0]) {
-//            Log.d(DEBUG,"hello");
-//            mMap.addMarker(new MarkerOptions().position(new LatLng(foodListing.latitude, foodListing.longitude)).title(foodListing.food_name));
-//        }
+        // copy this code + viewmodal init code in whatever activities need it
+        viewmodal.getFoodListingById(5).observe(this, new Observer<FoodListing>() {
+            @Override
+            public void onChanged(FoodListing foodListing) {
+                if (foodListing != null) {
+                    Log.d(DEBUG, "GET BY ID    " + foodListing.food_name);
+                }
+            }
+        });
     }
 }

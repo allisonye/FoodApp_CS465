@@ -15,28 +15,37 @@
         android:orientation="horizontal">
 
         <!-- Media Placeholder, Insert Menu for status-->
+        <!-- Outer Layout acts as a clickable button -->
         <LinearLayout
+            android:id="@+id/food_card_status_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_margin="8dp"
-            android:background="@drawable/border">
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:gravity="center_horizontal"
-                app:tint="@color/status_available_color"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/circle_status"
-                android:scaleType="centerCrop"
-                />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/arrow_drop_down"
-                />
+            android:clickable="true"
+            android:background="@android:drawable/list_selector_background">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:background="@drawable/border">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:gravity="center_horizontal"
+                    app:tint="@color/status_available_color"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/circle_status"
+                    android:scaleType="centerCrop"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/arrow_drop_down"
+                    />
+            </LinearLayout>
         </LinearLayout>
 
 
@@ -87,7 +96,7 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/imageBtn"
+                android:id="@+id/vert_icon_button"
                 android:layout_width="30dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"

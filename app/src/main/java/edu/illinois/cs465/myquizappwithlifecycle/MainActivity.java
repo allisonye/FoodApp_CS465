@@ -1,9 +1,14 @@
 package edu.illinois.cs465.myquizappwithlifecycle;
 
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.app.Dialog;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.InsetDrawable;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,10 +31,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.MenuRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -54,7 +61,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         super.onCreate(savedInstanceState);
         Log.d(DEBUG, "onCreate()");
-//        setContentView(R.layout.landing_screen);
+
+        setContentView(R.layout.landing_screen);
 
 //        RsoBaseScreenBinding binding = RsoBaseScreenBinding.inflate(getLayoutInflater());
 //        setContentView(binding.getRoot());
@@ -80,26 +88,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 //        findViewById(R.id.floating_action_button).setOnClickListener(v -> {
 //            showBottomDialog();
+
 //        });
-//        falseButton = (Button) findViewById(R.id.false_button);
-//        trueButton = (Button) findViewById(R.id.true_button);
-
-//        falseButton.setOnClickListener(this);
-//        trueButton.setOnClickListener(this);
-            showFoodInfoPopup(dialogLayout);
-
-            Button seeMoreButton = (Button)dialogLayout.findViewById(R.id.see_more_button);
-            seeMoreButton.setOnClickListener(b -> {
-                Intent intent = new Intent(this, FoodInfoActivity.class);
-                startActivity(intent);
-            });
-
+//
+//        findViewById(R.id.food_popup).setOnClickListener(v -> {
+//            // Inflater to be able to grab button in dialog
+//            LayoutInflater inflater = getLayoutInflater();
+//            View dialogLayout = inflater.inflate(R.layout.food_popup, null);
+//
+////        RsoBaseScreenBinding binding = RsoBaseScreenBinding.inflate(getLayoutInflater());
+////        binding.floatingActionButton.setOnClickListener(v -> showBottomDialog());
+//
+////        findViewById(R.id.floating_action_button).setOnClickListener(v -> {
+////            showBottomDialog();
+////        });
+////        falseButton = (Button) findViewById(R.id.false_button);
+////        trueButton = (Button) findViewById(R.id.true_button);
+//
+////        falseButton.setOnClickListener(this);
+////        trueButton.setOnClickListener(this);
+//            showFoodInfoPopup(dialogLayout);
+//
+//            Button seeMoreButton = (Button)dialogLayout.findViewById(R.id.see_more_button);
+//            seeMoreButton.setOnClickListener(b -> {
+//                Intent intent = new Intent(this, FoodInfoActivity.class);
+//                startActivity(intent);
+//            });
+//
+//        });
+//
+//        findViewById(R.id.post_food).setOnClickListener(v -> {
+//            Intent intent = new Intent(this, FoodPostActivity.class);
+//            startActivity(intent);
+//        });
+        findViewById(R.id.food_card_status_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Code to display the menu
+                showStatusMenu(v, R.menu.overflow_menu);
+            }
+        });
+        findViewById(R.id.vert_icon_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Code to display the menu
+                showVertMenu(v, R.menu.vert_menu);
+            }
         });
 
-        findViewById(R.id.post_food).setOnClickListener(v -> {
-            Intent intent = new Intent(this, FoodPostActivity.class);
-            startActivity(intent);
-        });
 
     }
 
@@ -211,6 +247,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.setContentView(dialog_layout);
         dialog.show();
     }
+    private void showDeleteConfirmationPopup() {
+        AlertDialog dialog = new MaterialAlertDialogBuilder(this)
+                .setTitle(getResources().getString(R.string.delete_confirmation_title))
+                .setMessage(getResources().getString(R.string.delete_confirmation_message))
+                .setNegativeButton(getResources().getString(R.string.cancel_delete), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        // Respond to negative button press
+                    }
+                })
+                .setPositiveButton(getResources().getString(R.string.confirm_delete), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        // Respond to positive button press
+                    }
+                }).show();
+    }
+
     private void showBottomDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -249,13 +303,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-    private void showMenu(View v, @MenuRes int menuRes) {
-        PopupMenu popup = new PopupMenu(MainActivity.this, v);
+
+    private void showVertMenu(View v, @MenuRes int menuRes) {
+        PopupMenu popup = new PopupMenu(this, v);
         popup.getMenuInflater().inflate(menuRes, popup.getMenu());
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                // Respond to menu item click.
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.option_vert_menu_delete) {
+                    showDeleteConfirmationPopup();
+                    return true;
+                }
+                // Handle other menu item clicks if necessary
                 return false;
             }
         });
@@ -265,8 +324,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // Respond to popup being dismissed.
             }
         });
+
+        // Show the popup menu.
+        popup.show();
+    }
+
+
+    private void showStatusMenu(View v, @MenuRes int menuRes) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.getMenuInflater().inflate(menuRes, popup.getMenu());
+
+        // Define your colors
+        int statusAvailableColor = ContextCompat.getColor(this, R.color.status_available_color);
+        int statusLowColor = ContextCompat.getColor(this, R.color.status_low_color);
+
+        if (popup.getMenu() instanceof MenuBuilder) {
+            MenuBuilder menuBuilder = (MenuBuilder) popup.getMenu();
+            menuBuilder.setOptionalIconsVisible(true);
+
+            for (MenuItem item : menuBuilder.getVisibleItems()) {
+                Drawable icon = item.getIcon();
+                if (icon != null) {
+                    // Set the tint based on some condition or item ID
+                    if (item.getItemId() == R.id.option_1) {
+                        icon.setColorFilter(statusAvailableColor, PorterDuff.Mode.SRC_IN);
+                    } else if (item.getItemId() == R.id.option_2) {
+                        icon.setColorFilter(statusLowColor, PorterDuff.Mode.SRC_IN);
+                    }
+                }
+            }
+        }
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                // Handle menu item selection
+                return true;
+            }
+        });
         popup.show();
     }
 
 }
+
+
 

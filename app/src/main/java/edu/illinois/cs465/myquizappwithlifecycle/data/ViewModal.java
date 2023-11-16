@@ -9,41 +9,36 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 public class ViewModal extends AndroidViewModel {
-    // creating a new variable for course repository.
     private FoodListingRepository foodListingRepository;
-
-    // below line is to create a variable for live
-    // data where all the courses are present.
     private LiveData<List<FoodListing>> allFoodListings;
 
-    // constructor for our view modal.
     public ViewModal(@NonNull Application application) {
         super(application);
         foodListingRepository = new FoodListingRepository(application);
-        allFoodListings = foodListingRepository.getAllFoodListings();
+        allFoodListings = foodListingRepository.getAll();
     }
 
-    // below method is use to insert the data to our repository.
-    public void insert(FoodListing foodListing) {
+    public void insertFoodListing(FoodListing foodListing) {
         foodListingRepository.insert(foodListing);
     }
 
-    // below line is to update data in our repository.
-    public void update(FoodListing foodListing) {
+    public void updateFoodListing(FoodListing foodListing) {
         foodListingRepository.update(foodListing);
     }
 
-    // below line is to delete the data in our repository.
-    public void delete(FoodListing foodListing) {
+    public void deleteFoodListing(FoodListing foodListing) {
         foodListingRepository.delete(foodListing);
     }
 
-    public void deleteAll() {
+    public void deleteAllFoodListings() {
         foodListingRepository.deleteAll();
     }
 
-    // below method is to get all the courses in our list.
     public LiveData<List<FoodListing>> getAllFoodListings() {
         return allFoodListings;
+    }
+
+    public LiveData<FoodListing> getFoodListingById(int id) {
+        return foodListingRepository.getById(id);
     }
 }
