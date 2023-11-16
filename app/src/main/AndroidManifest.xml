@@ -64,6 +64,5 @@
             android:name=".FoodPostActivity"
             android:exported="true"
             android:label="FoodPostActivity" />
-
     </application>
 </manifest>
