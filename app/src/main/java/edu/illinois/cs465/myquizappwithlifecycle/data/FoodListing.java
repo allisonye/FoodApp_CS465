@@ -5,6 +5,8 @@ import androidx.room.PrimaryKey;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+
 @Entity
 public class FoodListing {
     @PrimaryKey(autoGenerate = true)
@@ -13,4 +15,8 @@ public class FoodListing {
     public String food_name;
     public double latitude;
     public double longitude;
+    public String description;
+    public ArrayList<String> dietary_restrictions;
+    public String status;
+    public String rso_name;
 }
