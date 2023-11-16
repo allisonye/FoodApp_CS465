@@ -96,7 +96,7 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/imageBtn"
+                android:id="@+id/vert_icon_button"
                 android:layout_width="30dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"

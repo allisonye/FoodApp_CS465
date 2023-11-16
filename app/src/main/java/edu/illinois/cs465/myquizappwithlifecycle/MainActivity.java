@@ -112,6 +112,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 showStatusMenu(v, R.menu.overflow_menu);
             }
         });
+        findViewById(R.id.vert_icon_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Code to display the menu
+                showVertMenu(v, R.menu.vert_menu);
+            }
+        });
+
 
     }
 
@@ -276,6 +284,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         inflater.inflate(R.menu.overflow_menu, menu);
         return true;
     }
+
+
+    private void showVertMenu(View v, @MenuRes int menuRes) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.getMenuInflater().inflate(menuRes, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                // Respond to menu item click.
+                return false;
+            }
+        });
+        popup.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+                // Respond to popup being dismissed.
+            }
+        });
+
+        // Show the popup menu.
+        popup.show();
+    }
+
 
     private void showStatusMenu(View v, @MenuRes int menuRes) {
         PopupMenu popup = new PopupMenu(this, v);
