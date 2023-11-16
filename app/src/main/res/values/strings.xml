@@ -16,5 +16,9 @@
     <string name="card_expire_time">Time Expired</string>
     <string name="vert_edit">Edit</string>
     <string name="vert_delete">Delete</string>
+    <string name="cancel_delete">Cancel</string>
+    <string name="confirm_delete">Delete</string>
+    <string name="delete_confirmation_message">This will remove your event from the map.</string>
+    <string name="delete_confirmation_title">Are you sure you want to delete this event?</string>
 
 </resources>
