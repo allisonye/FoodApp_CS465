@@ -9,7 +9,6 @@ public class RSOActivity extends AppCompatActivity {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
-            setContentView(R.layout.rso_base_screen);
+            setContentView(R.layout.rso_list_food);
         }
 }
