@@ -70,8 +70,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d(DEBUG, value);
             }
         }
-        createNotificationChannel();
-        showNotification();
 //
 //        findViewById(R.id.deleted_post_button).setOnClickListener(v -> {
 //            showDeletedEventPopup();
@@ -114,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 showStatusMenu(v, R.menu.overflow_menu);
             }
         });
+
     }
 
     protected void onSaveInstanceState(Bundle savedInstance) {
