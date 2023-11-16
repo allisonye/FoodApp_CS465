@@ -1,5 +1,6 @@
 package edu.illinois.cs465.myquizappwithlifecycle;
 
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.app.Dialog;
 import android.graphics.Color;
@@ -231,6 +232,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.setContentView(dialog_layout);
         dialog.show();
     }
+    private void showDeleteConfirmationPopup() {
+        AlertDialog dialog = new MaterialAlertDialogBuilder(this)
+                .setTitle(getResources().getString(R.string.delete_confirmation_title))
+                .setMessage(getResources().getString(R.string.delete_confirmation_message))
+                .setNegativeButton(getResources().getString(R.string.cancel_delete), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        // Respond to negative button press
+                    }
+                })
+                .setPositiveButton(getResources().getString(R.string.confirm_delete), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        // Respond to positive button press
+                    }
+                }).show();
+    }
+
     private void showBottomDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -291,8 +310,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         popup.getMenuInflater().inflate(menuRes, popup.getMenu());
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                // Respond to menu item click.
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.option_vert_menu_delete) {
+                    showDeleteConfirmationPopup();
+                    return true;
+                }
+                // Handle other menu item clicks if necessary
                 return false;
             }
         });
@@ -342,6 +365,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         popup.show();
     }
+
 }
 
 
