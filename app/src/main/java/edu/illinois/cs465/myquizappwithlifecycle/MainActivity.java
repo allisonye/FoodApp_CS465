@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         super.onCreate(savedInstanceState);
         Log.d(DEBUG, "onCreate()");
-        setContentView(R.layout.rso_food_card);
+        setContentView(R.layout.landing_screen);
 
 //        RsoBaseScreenBinding binding = RsoBaseScreenBinding.inflate(getLayoutInflater());
 //        setContentView(binding.getRoot());
@@ -106,22 +106,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            Intent intent = new Intent(this, FoodPostActivity.class);
 //            startActivity(intent);
 //        });
-        findViewById(R.id.food_card_status_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Code to display the menu
-                showStatusMenu(v, R.menu.overflow_menu);
-            }
-        });
-        findViewById(R.id.vert_icon_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Code to display the menu
-                showVertMenu(v, R.menu.vert_menu);
-            }
-        });
-
-
     }
 
     protected void onSaveInstanceState(Bundle savedInstance) {
@@ -232,23 +216,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.setContentView(dialog_layout);
         dialog.show();
     }
-    private void showDeleteConfirmationPopup() {
-        AlertDialog dialog = new MaterialAlertDialogBuilder(this)
-                .setTitle(getResources().getString(R.string.delete_confirmation_title))
-                .setMessage(getResources().getString(R.string.delete_confirmation_message))
-                .setNegativeButton(getResources().getString(R.string.cancel_delete), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        // Respond to negative button press
-                    }
-                })
-                .setPositiveButton(getResources().getString(R.string.confirm_delete), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        // Respond to positive button press
-                    }
-                }).show();
-    }
 
     private void showBottomDialog() {
         final Dialog dialog = new Dialog(this);
@@ -297,75 +264,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.getWindow().getAttributes().windowAnimations = com.google.android.material.R.style.MaterialAlertDialog_Material3_Animation;
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.overflow_menu, menu);
-        return true;
-    }
-
-
-    private void showVertMenu(View v, @MenuRes int menuRes) {
-        PopupMenu popup = new PopupMenu(this, v);
-        popup.getMenuInflater().inflate(menuRes, popup.getMenu());
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.option_vert_menu_delete) {
-                    showDeleteConfirmationPopup();
-                    return true;
-                }
-                // Handle other menu item clicks if necessary
-                return false;
-            }
-        });
-        popup.setOnDismissListener(new PopupMenu.OnDismissListener() {
-            @Override
-            public void onDismiss(PopupMenu menu) {
-                // Respond to popup being dismissed.
-            }
-        });
-
-        // Show the popup menu.
-        popup.show();
-    }
-
-
-    private void showStatusMenu(View v, @MenuRes int menuRes) {
-        PopupMenu popup = new PopupMenu(this, v);
-        popup.getMenuInflater().inflate(menuRes, popup.getMenu());
-
-        // Define your colors
-        int statusAvailableColor = ContextCompat.getColor(this, R.color.status_available_color);
-        int statusLowColor = ContextCompat.getColor(this, R.color.status_low_color);
-
-        if (popup.getMenu() instanceof MenuBuilder) {
-            MenuBuilder menuBuilder = (MenuBuilder) popup.getMenu();
-            menuBuilder.setOptionalIconsVisible(true);
-
-            for (MenuItem item : menuBuilder.getVisibleItems()) {
-                Drawable icon = item.getIcon();
-                if (icon != null) {
-                    // Set the tint based on some condition or item ID
-                    if (item.getItemId() == R.id.option_1) {
-                        icon.setColorFilter(statusAvailableColor, PorterDuff.Mode.SRC_IN);
-                    } else if (item.getItemId() == R.id.option_2) {
-                        icon.setColorFilter(statusLowColor, PorterDuff.Mode.SRC_IN);
-                    }
-                }
-            }
-        }
-
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                // Handle menu item selection
-                return true;
-            }
-        });
-        popup.show();
-    }
-
 }
 
 
