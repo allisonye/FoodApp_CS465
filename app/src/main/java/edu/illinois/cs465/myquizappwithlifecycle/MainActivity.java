@@ -64,8 +64,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d(DEBUG, value);
             }
         }
-        createNotificationChannel();
-        showNotification();
 
         findViewById(R.id.deleted_post_button).setOnClickListener(v -> {
             showDeletedEventPopup();
@@ -101,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(this, FoodPostActivity.class);
             startActivity(intent);
         });
+
     }
 
     protected void onSaveInstanceState(Bundle savedInstance) {
