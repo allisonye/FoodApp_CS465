@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import com.google.android.gms.maps.model.Marker;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 
 import edu.illinois.cs465.myquizappwithlifecycle.databinding.ActivityMapsBinding;
@@ -50,6 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Button buttonDistance = findViewById(R.id.buttonDistance);
         Button buttonRestrictions = findViewById(R.id.buttonRestrictions);
         SeekBar distanceSlider = findViewById(R.id.distanceSlider);
+        ImageView accountCircleImage = findViewById(R.id.account_circle_image);
 
         buttonDistance.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +86,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View view) {
                 showRestrictionsDialog();
+            }
+        });
+
+        accountCircleImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Intent to navigate to MainActivity
+                Intent intent = new Intent(MapsActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }

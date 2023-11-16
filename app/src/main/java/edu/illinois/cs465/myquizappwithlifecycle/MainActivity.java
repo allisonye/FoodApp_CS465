@@ -100,6 +100,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         });
 
+        ImageView accountCircleImage = findViewById(R.id.account_circle_image);
+
+        accountCircleImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Intent to navigate to MainActivity
+                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     protected void onSaveInstanceState(Bundle savedInstance) {
