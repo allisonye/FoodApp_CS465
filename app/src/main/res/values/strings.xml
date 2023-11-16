@@ -14,5 +14,7 @@
     <string name="title">Title</string>
     <string name="card_date">Card Date</string>
     <string name="card_expire_time">Time Expired</string>
+    <string name="vert_edit">Edit</string>
+    <string name="vert_delete">Delete</string>
 
 </resources>
