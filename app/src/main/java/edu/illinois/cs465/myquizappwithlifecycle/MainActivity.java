@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         Log.d(DEBUG, "onCreate()");
         setContentView(R.layout.landing_screen);
+        setContentView(R.layout.activity_maps);
 
 //        RsoBaseScreenBinding binding = RsoBaseScreenBinding.inflate(getLayoutInflater());
 //        setContentView(binding.getRoot());
@@ -261,6 +262,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.setContentView(R.layout.bottomsheet_layout);
 
         LinearLayout rso1 = dialog.findViewById(R.id.rso1);
+        LinearLayout student1 = dialog.findViewById(R.id.student1);
         ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
 
         rso1.setOnClickListener(new View.OnClickListener() {
@@ -273,6 +275,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        student1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                Toast.makeText(MainActivity.this, "Switching to Student 1 screen", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(intent);
+            }
+        });
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -287,6 +298,3 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 }
-
-
-
