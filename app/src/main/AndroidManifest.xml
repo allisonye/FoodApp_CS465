@@ -71,5 +71,9 @@
             android:name=".FoodPopUpActivity"
             android:exported="true"
             android:label="FoodPopUpActivity" />
+        <activity
+            android:name=".SwitchAccountActivity"
+            android:exported="true"
+            android:label="SwitchAccountActivity" />
     </application>
 </manifest>

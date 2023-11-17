@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 import android.content.Intent;
 
@@ -76,27 +77,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         findViewById(R.id.food_popup).setOnClickListener(v -> {
-                    // Inflater to be able to grab button in dialog
-                    LayoutInflater inflater = getLayoutInflater();
-                    View dialogLayout = inflater.inflate(R.layout.food_popup, null);
+            // Inflater to be able to grab button in dialog
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogLayout = inflater.inflate(R.layout.food_popup, null);
 //        RsoBaseScreenBinding binding = RsoBaseScreenBinding.inflate(getLayoutInflater());
 //        binding.floatingActionButton.setOnClickListener(view -> showBottomDialog());
 
 //        findViewById(R.id.floating_action_button).setOnClickListener(v -> {
 //            showBottomDialog();
-                });
-
-        ImageView accountCircleImage = findViewById(R.id.account_circle_image);
-
-        accountCircleImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Intent to navigate to MainActivity
-                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-                startActivity(intent);
-            }
         });
 
+//////////////////////// TO MAPS
+//        ImageView accountCircleImage = findViewById(R.id.account_circle_image);
+//
+//        accountCircleImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Intent to navigate to MainActivity
+//                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+/////////////////////
 //        });
 //
 //        findViewById(R.id.food_popup).setOnClickListener(v -> {
@@ -134,7 +136,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(this, RSOActivity.class);
             startActivity(intent);
         });
-}
+
+        ImageView accountCircleImage = findViewById(R.id.account_circle_image);
+        accountCircleImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SwitchAccountActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 
     protected void onSaveInstanceState(Bundle savedInstance) {
         super.onSaveInstanceState(savedInstance);
@@ -234,46 +245,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void showDeletedEventPopup() {
         AlertDialog dialog = new MaterialAlertDialogBuilder(MainActivity.this)
-            .setMessage("Post has been deleted by host")
-            .setPositiveButton("Ok", null)
-            .show();
+                .setMessage("Post has been deleted by host")
+                .setPositiveButton("Ok", null)
+                .show();
     }
 
     private void showFoodInfoPopup(View dialog_layout) {
         Dialog dialog = new Dialog(MainActivity.this);
         dialog.setContentView(dialog_layout);
         dialog.show();
-    }
-
-    private void showBottomDialog() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.bottomsheet_layout);
-
-        LinearLayout rso1 = dialog.findViewById(R.id.rso1);
-        ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
-
-        rso1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                setContentView(R.layout.rso_base_screen); // Switch to rso_base_screen layout
-                Toast.makeText(MainActivity.this, "Switching to RSO screen", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().getAttributes().windowAnimations = com.google.android.material.R.style.MaterialAlertDialog_Material3_Animation;
-        dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 }
 
