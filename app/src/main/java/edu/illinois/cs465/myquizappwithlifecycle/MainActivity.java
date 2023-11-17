@@ -53,9 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static String DEBUG = "DEBUG";
     private static final String KEY = "KEY";
     private static final String VALUE = "We passed the bundle of data";
-    private Button falseButton;
-    private Button trueButton;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
