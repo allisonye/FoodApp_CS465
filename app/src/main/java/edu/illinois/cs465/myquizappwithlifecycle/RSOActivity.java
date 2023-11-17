@@ -30,14 +30,17 @@ import java.util.List;
 
 import edu.illinois.cs465.myquizappwithlifecycle.data.FoodListing;
 import edu.illinois.cs465.myquizappwithlifecycle.data.ViewModal;
+import edu.illinois.cs465.myquizappwithlifecycle.databinding.ActivityMainBinding;
 import edu.illinois.cs465.myquizappwithlifecycle.rso_recycler_view.FoodCardAdapter;
 
 public class RSOActivity extends AppCompatActivity {
 
         private ViewModal foodListingModal;
+        private ActivityMainBinding binding;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            binding = ActivityMainBinding.inflate(getLayoutInflater());
             setContentView(R.layout.rso_list_food);
 
             RecyclerView recyclerView = findViewById(R.id.recycler_view);
@@ -48,18 +51,20 @@ public class RSOActivity extends AppCompatActivity {
             recyclerView.setAdapter(adapter);
 
             foodListingModal = new ViewModelProvider(this).get(ViewModal.class);
-            foodListingModal.deleteAll();
+            foodListingModal.deleteAllFoodListings();
             FoodListing fl1 = new FoodListing();
             fl1.food_name = "CIF2";
             fl1.latitude = 40.11260764797458;
             fl1.longitude = -88.22836335177905;
-            foodListingModal.insert(fl1);
+            foodListingModal.insertFoodListing(fl1);
 
             FoodListing fl2 = new FoodListing();
             fl2.food_name = "CIF3";
             fl2.latitude = 40.11260764797458;
             fl2.longitude = -88.22836335177905;
-            foodListingModal.insert(fl2);
+            foodListingModal.insertFoodListing(fl2);
+
+
 
             foodListingModal.getAllFoodListings().observe(this, new Observer<List<FoodListing>>() {
                 public void onChanged(@Nullable List<FoodListing> foodListings) {
@@ -67,19 +72,25 @@ public class RSOActivity extends AppCompatActivity {
                 }
             });
 
-            adapter.setOnItemClickListener(new FoodCardAdapter.OnItemClickListener() {
+            adapter.setOnClickListener(new FoodCardAdapter.OnClickListener() {
                 @Override
-                public void onItemClick(FoodListing foodListing) {
-                    Intent intent = new Intent(RSOActivity.this, FoodPostActivity.class);
-                    //TODO:Call post activity
+                public void onClick(View view, int position, FoodListing foodListing) {
+                    if (view.getId() == R.id.food_card_status_button) {
+                        showStatusMenu(view, R.menu.overflow_menu);
+                    }
+                    else if (view.getId() == R.id.vert_icon_button) {
+                        showVertMenu(view, R.menu.vert_menu);
+                    }
                 }
             });
+
 //            findViewById(R.id.food_card_status_button).setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
 //                    showStatusMenu(v, R.menu.overflow_menu);
 //                }
 //            });
+//
 //            findViewById(R.id.vert_icon_button).setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
@@ -176,4 +187,7 @@ public class RSOActivity extends AppCompatActivity {
         });
         popup.show();
     }
+
 }
+
+
