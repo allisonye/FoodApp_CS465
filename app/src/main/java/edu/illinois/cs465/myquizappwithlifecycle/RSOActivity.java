@@ -313,11 +313,11 @@ public class RSOActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position, FoodListing foodListing) {
                 if (view.getId() == R.id.food_card_status_button) {
-                    showStatusMenu(view, R.menu.overflow_menu);
+                    showStatusMenu(view, R.menu.overflow_menu, position);
                 }
                 else if (view.getId() == R.id.vert_icon_button) {
-//                    showVertMenu(view, R.menu.vert_menu);
-                    showDeleteConfirmationPopup(position);
+                    showVertMenu(view, R.menu.vert_menu, position);
+
                 }
             }
         });
@@ -384,34 +384,34 @@ public class RSOActivity extends AppCompatActivity {
     }
 
 
-//    private void showVertMenu(View v, @MenuRes int menuRes) {
-//        PopupMenu popup = new PopupMenu(this, v);
-//        popup.getMenuInflater().inflate(menuRes, popup.getMenu());
-//        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                if (item.getItemId() == R.id.option_vert_menu_delete) {
-//                    showDeleteConfirmationPopup();
-//                    return true;
-//                }
-//                // Handle other menu item clicks if necessary
-//                return false;
-//            }
-//        });
-//        popup.setOnDismissListener(new PopupMenu.OnDismissListener() {
-//            @Override
-//            public void onDismiss(PopupMenu menu) {
-//                // Respond to popup being dismissed.
-//            }
-//        });
-//
-//        // Show the popup menu.
-//        popup.show();
-//    }
+    private void showVertMenu(View v, @MenuRes int menuRes, int position) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.getMenuInflater().inflate(menuRes, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.option_vert_menu_delete) {
+                    showDeleteConfirmationPopup(position);
+                    return true;
+                }
+                // Handle other menu item clicks if necessary
+                return false;
+            }
+        });
+        popup.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+                // Respond to popup being dismissed.
+            }
+        });
+
+        // Show the popup menu.
+        popup.show();
+    }
 
 
     @SuppressLint("RestrictedApi")
-    private void showStatusMenu(View v, @MenuRes int menuRes) {
+    private void showStatusMenu(View v, @MenuRes int menuRes, int position) {
         PopupMenu popup = new PopupMenu(this, v);
         popup.getMenuInflater().inflate(menuRes, popup.getMenu());
 
