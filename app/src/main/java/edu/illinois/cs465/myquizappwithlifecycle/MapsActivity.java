@@ -9,6 +9,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import androidx.appcompat.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -29,13 +31,20 @@ import androidx.core.content.ContextCompat;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import com.google.android.gms.maps.model.Marker;
+
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -73,7 +82,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Button buttonDistance = findViewById(R.id.buttonDistance);
         Button buttonRestrictions = findViewById(R.id.buttonRestrictions);
         SeekBar distanceSlider = findViewById(R.id.distanceSlider);
+
         ImageView accountCircleImage = findViewById(R.id.account_circle_image);
+        accountCircleImage.setOnClickListener(v -> showBottomDialog());
 
         buttonDistance.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,14 +122,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        accountCircleImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Intent to navigate to MainActivity
-                Intent intent = new Intent(MapsActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+//        accountCircleImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Intent to navigate to MainActivity
+//                Intent intent = new Intent(MapsActivity.this, MainActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         // initialize viewmodal, gmaps markers list
         viewmodal = new ViewModelProvider(this).get(ViewModal.class);
@@ -300,5 +311,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+    }
+
+    private void showBottomDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottomsheet_layout);
+
+        LinearLayout rso1 = dialog.findViewById(R.id.rso1);
+        LinearLayout student1 = dialog.findViewById(R.id.student1);
+        ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
+
+        rso1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                Toast.makeText(MapsActivity.this, "Switching to RSO 1 screen", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MapsActivity.this, RSOActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        student1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                Toast.makeText(MapsActivity.this, "Already in Student 1 screen", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MapsActivity.this, MapsActivity.class);
+                startActivity(intent);
+            }
+        });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = com.google.android.material.R.style.MaterialAlertDialog_Material3_Animation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 }
