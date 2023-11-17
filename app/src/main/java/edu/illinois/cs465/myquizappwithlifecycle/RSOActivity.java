@@ -286,20 +286,21 @@ public class RSOActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         foodListingModal = new ViewModelProvider(this).get(ViewModal.class);
-        foodListingModal.deleteAllFoodListings();
-        FoodListing fl1 = new FoodListing();
-        fl1.food_name = "CIF2";
-        fl1.latitude = 40.11260764797458;
-        fl1.longitude = -88.22836335177905;
-        fl1.status = "AVAILABLE";
-        foodListingModal.insertFoodListing(fl1);
-
-        FoodListing fl2 = new FoodListing();
-        fl2.food_name = "CIF3";
-        fl2.latitude = 40.11260764797458;
-        fl2.longitude = -88.22836335177905;
-        fl2.status = "LOW";
-        foodListingModal.insertFoodListing(fl2);
+//        foodListingModal.deleteAllFoodListings();
+//        FoodListing fl1 = new FoodListing();
+//        fl1.food_name = "CIF2";
+//        fl1.latitude = 40.11260764797458;
+//        fl1.longitude = -88.22836335177905;
+//        fl1.status = "AVAILABLE";
+//        foodListingModal.insertFoodListing(fl1);
+//
+//        FoodListing fl2 = new FoodListing();
+//        fl2.food_name = "CIF3";
+//        fl2.latitude = 40.11260764797458;
+//        fl2.longitude = -88.22836335177905;
+//        fl2.status = "LOW";
+//        foodListingModal.insertFoodListing(fl2);
+        foodListingModal.getAllFoodListings();
 
 
 
