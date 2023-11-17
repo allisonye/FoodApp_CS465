@@ -88,6 +88,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        findViewById(R.id.floating_action_button).setOnClickListener(v -> {
 //            showBottomDialog();
 
+        ImageView accountCircleImage = findViewById(R.id.account_circle_image);
+
+        accountCircleImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Intent to navigate to MainActivity
+                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(intent);
+            }
+        });
+
 //        });
 //
 //        findViewById(R.id.food_popup).setOnClickListener(v -> {
