@@ -37,6 +37,12 @@ import edu.illinois.cs465.myquizappwithlifecycle.data.FoodListing;
 public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCardHolder> {
     private List<FoodListing> foodListings = new ArrayList<>();
     private OnClickListener onClickListener;
+    private RecyclerView recyclerView; // Add this line
+
+    // Constructor accepting RecyclerView reference
+    public FoodCardAdapter(RecyclerView recyclerView) {
+        this.recyclerView = recyclerView;
+    }
 
     @NonNull
     @Override
@@ -57,12 +63,24 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
         holder.statusButtonImg.setColorFilter(currentFoodListing.status.equals("LOW") ? Color.rgb(255, 255, 0) : Color.rgb(0, 255, 0));
         //TODO: Repeat for time and date use String.valueOf()
 
+//        holder.statusButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                int position = holder.getAdapterPosition();
+//                if (position != RecyclerView.NO_POSITION && onClickListener != null) {
+//                    onClickListener.onClick(view, position, foodListings.get(position));
+//                }
+//            }
+//        });
+        // Set initial color
+        updateStatusButtonColor(holder.statusButtonImg, currentFoodListing.status);
+
         holder.statusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int position = holder.getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION && onClickListener != null) {
-                    onClickListener.onClick(view, position, foodListings.get(position));
+                // Notify the activity to show the status menu
+                if (onClickListener != null) {
+                    onClickListener.onClick(view, position, currentFoodListing);
                 }
             }
         });
@@ -123,6 +141,36 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
         if (position >= 0 && position < foodListings.size()) {
             foodListings.remove(position);
             notifyItemRemoved(position);
+        }
+    }
+
+    private void updateStatusButtonColor(ImageView statusButtonImg, String status) {
+        int color = status.equals("LOW") ? Color.rgb(255, 255, 0) : Color.rgb(0, 255, 0); // Yellow for LOW, Green for AVAILABLE
+        statusButtonImg.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+    }
+
+    public void changeStatusAndUpdateColor(int position, String newStatus) {
+        if (position >= 0 && position < foodListings.size()) {
+            FoodListing foodListing = foodListings.get(position);
+            foodListing.status = newStatus;
+
+            // Determine the color based on the new status
+            int color;
+            if ("AVAILABLE".equals(newStatus)) {
+                color = Color.rgb(0, 255, 0); // Green for AVAILABLE
+            } else if ("LOW".equals(newStatus)) {
+                color = Color.rgb(255, 255, 0); // Yellow for LOW
+            } else {
+                color = Color.GRAY; // Default color if status is neither
+            }
+
+            // Update color immediately if the holder is visible
+            FoodCardHolder holder = (FoodCardHolder) recyclerView.findViewHolderForAdapterPosition(position);
+            if (holder != null) {
+                holder.statusButtonImg.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+            }
+
+            notifyItemChanged(position);
         }
     }
 

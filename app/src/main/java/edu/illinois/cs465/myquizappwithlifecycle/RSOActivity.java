@@ -57,7 +57,7 @@ public class RSOActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        adapter = new FoodCardAdapter();
+        adapter = new FoodCardAdapter(recyclerView);
         recyclerView.setAdapter(adapter);
 
         foodListingModal = new ViewModelProvider(this).get(ViewModal.class);
@@ -192,61 +192,23 @@ public class RSOActivity extends AppCompatActivity {
         PopupMenu popup = new PopupMenu(this, v);
         popup.getMenuInflater().inflate(menuRes, popup.getMenu());
 
-        // Define your colors
-        int statusAvailableColor = ContextCompat.getColor(this, R.color.status_available_color);
-        int statusLowColor = ContextCompat.getColor(this, R.color.status_low_color);
-
-        if (popup.getMenu() instanceof MenuBuilder) {
-            MenuBuilder menuBuilder = (MenuBuilder) popup.getMenu();
-            menuBuilder.setOptionalIconsVisible(true);
-
-            for (MenuItem item : menuBuilder.getVisibleItems()) {
-                Drawable icon = item.getIcon();
-                if (icon != null) {
-                    // Set the tint based on some condition or item ID
-                    if (item.getItemId() == R.id.status_option_1) {
-                        icon.setColorFilter(statusAvailableColor, PorterDuff.Mode.SRC_IN);
-                    } else if (item.getItemId() == R.id.status_option_2) {
-                        icon.setColorFilter(statusLowColor, PorterDuff.Mode.SRC_IN);
-                    }
-                }
-            }
-        }
-
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                // if (item.getItemId() == R.id.status_option_1) {
-                //     // click AVAILABLE
-                //     foodListingModal.getFoodListingById(??????).observe(this, new Observer<FoodListing>() {
-                //         @Override
-                //         public void onChanged(FoodListing foodListing) {
-                //             if (foodListing != null) {
-                //                 // Log.d(DEBUG, "GET BY ID    " + foodListing.food_name);
-                //                 foodListing.status = "AVAILABLE";
-                //                 foodListingModal.updateFoodListing();
-                //             }
-                //         }
-                //     });
-                // } else if (item.getItemId() == R.id.status_option_2) {
-                //     // click LOW
-                //     foodListingModal.getFoodListingById(??????).observe(this, new Observer<FoodListing>() {
-                //         @Override
-                //         public void onChanged(FoodListing foodListing) {
-                //             if (foodListing != null) {
-                //                 // Log.d(DEBUG, "GET BY ID    " + foodListing.food_name);
-                //                 foodListing.status = "LOW";
-                //                 foodListingModal.updateFoodListing();
-                //             }
-                //         }
-                //     });
-                // }
-                // Handle other menu item clicks if necessary
+                int id = item.getItemId();
+                if (id == R.id.status_option_1) {
+                    adapter.changeStatusAndUpdateColor(position, "AVAILABLE");
+                    return true;
+                } else if (id == R.id.status_option_2) {
+                    adapter.changeStatusAndUpdateColor(position, "LOW");
+                    return true;
+                }
                 return false;
             }
         });
         popup.show();
     }
+
 
     private void showBottomDialog() {
         final Dialog dialog = new Dialog(this);
@@ -290,3 +252,4 @@ public class RSOActivity extends AppCompatActivity {
     }
 
 }
+
