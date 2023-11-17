@@ -54,7 +54,7 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
     @Override
     public void onBindViewHolder(@NonNull FoodCardHolder holder, @SuppressLint("RecyclerView") int position) {
         FoodListing currentFoodListing = foodListings.get(position);
-
+        holder.cardId.setTag(currentFoodListing.food_id);
         holder.textViewTitle.setText(currentFoodListing.food_name);
         // holder.textViewDate.setText(new Timestamp(currentFoodListing.createdAt.getTime()).toString());
         String expiryTime = new Timestamp(currentFoodListing.createdAt.getTime() + 30*60000).toString();
@@ -116,9 +116,11 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
         private LinearLayout statusButton;
         private ImageView statusButtonImg;
         private ImageButton vertMenu;
+        private LinearLayout cardId;
 
         public FoodCardHolder(@NonNull View itemView) {
             super(itemView);
+            cardId = itemView.findViewById(R.id.food_card_id);
             textViewTitle = itemView.findViewById(R.id.text_view_title);
             // textViewDate = itemView.findViewById(R.id.text_view_card_date);
             textViewExpiryTime = itemView.findViewById(R.id.text_view_expiry_time);

@@ -10,6 +10,8 @@
     android:layout_margin="8dp">
 
     <LinearLayout
+        android:id="@+id/food_card_id"
+        android:tag="@string/food_card_id_tag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

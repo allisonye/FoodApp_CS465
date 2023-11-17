@@ -25,8 +25,19 @@ public class FoodInfoActivity extends AppCompatActivity {
         Chip c = findViewById(R.id.chip_diet);
         Chip c2 = findViewById(R.id.chip_diet2);
         ArrayList<String> diets =  (ArrayList<String>)intent.getSerializableExtra("diet");
-        c.setText(diets.get(0));
-        c2.setText(diets.get(1));
+        if(diets == null || diets.size()==0){
+            c.setText("Vegetarian");
+            c2.setText("Dairy-Free");
+        }
+        if(diets.size()==2) {
+            c.setText(diets.get(0));
+            c2.setText(diets.get(1));
+        }
+        else if(diets.size()==1){
+            c.setText(diets.get(0));
+            c2.setText("Dairy-Free");
+        }
+
 
         findViewById(R.id.back_button).setOnClickListener(v -> {
             finish();
