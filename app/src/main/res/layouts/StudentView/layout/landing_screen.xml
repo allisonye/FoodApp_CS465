@@ -37,6 +37,12 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="post food"/>
+        <Button
+            android:id="@+id/RSO_View"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="RSO Leader View"></Button>
 
     </LinearLayout>
 

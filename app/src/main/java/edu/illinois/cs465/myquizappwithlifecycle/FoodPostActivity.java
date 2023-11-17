@@ -81,7 +81,6 @@ public class FoodPostActivity extends AppCompatActivity {
                     fl1.status = "LOW";
                 };
 
-
 //                to do: get from gmap values
                 fl1.latitude = 40.11260764797458;
                 fl1.longitude = -88.22836335177905;
@@ -90,6 +89,11 @@ public class FoodPostActivity extends AppCompatActivity {
                 Log.d("DEBUG", "IM HRERE");
             }
         });
+        findViewById(R.id.direction_button).setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     private void showNotification() {

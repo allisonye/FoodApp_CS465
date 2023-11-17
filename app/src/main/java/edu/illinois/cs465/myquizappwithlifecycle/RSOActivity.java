@@ -97,6 +97,16 @@ public class RSOActivity extends AppCompatActivity {
 //                    showVertMenu(v, R.menu.vert_menu);
 //                }
 //            });
+
+            findViewById(R.id.rso_profile_icon).setOnClickListener(v -> {
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            });
+
+            findViewById(R.id.add_food_button).setOnClickListener(v -> {
+                Intent intent = new Intent(this, FoodPostActivity.class);
+                startActivity(intent);
+            });
         }
 
     private void showDeleteConfirmationPopup() {
