@@ -18,7 +18,8 @@ public class EditPostFoodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rso_food_card); // Use the edit_post_food.xml layout
 
-//        ImageButton imageBtn = findViewById(R.id.imageBtn);
+//        //SOHYUN I changed this button to R.id.vert_icon_button from R.id.imageBtn which does not exist
+        ImageButton imageBtn = findViewById(R.id.vert_icon_button);
 //        if (imageBtn != null) {
 //            setupPopupMenu(imageBtn);
 //        }

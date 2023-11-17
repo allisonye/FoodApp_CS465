@@ -6,13 +6,13 @@ import androidx.room.PrimaryKey;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Entity
 public class FoodListing {
     @PrimaryKey(autoGenerate = true)
     public int food_id;
-
     public String food_name;
     public double latitude;
     public double longitude;

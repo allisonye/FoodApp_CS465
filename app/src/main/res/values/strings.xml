@@ -12,8 +12,8 @@
     <string name="food_card_status_option_2">Running Low</string>
     <string name="food_card_status_option_1">Available</string>
     <string name="title">Title</string>
-    <string name="card_date">Card Date</string>
-    <string name="card_expire_time">Time Expired</string>
+    <string name="card_date"></string>
+    <string name="card_expire_time"></string>
     <string name="vert_edit">Edit</string>
     <string name="vert_delete">Delete</string>
     <string name="cancel_delete">Cancel</string>
