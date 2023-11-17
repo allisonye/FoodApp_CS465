@@ -42,7 +42,6 @@ public class FoodPostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_food);
-
         viewmodal = new ViewModelProvider(this).get(ViewModal.class);
 
         foodName = findViewById(R.id.textField1);
@@ -85,7 +84,7 @@ public class FoodPostActivity extends AppCompatActivity {
                 for(Integer id:ids){
                     Chip chip = chipGroup.findViewById(id);
                     dietary_res.add(chip.getText().toString());
-                    Log.d("DEBUG", "chip_name: " + chip.getText().toString());
+//                    Log.d("DEBUG", "chip_name: " + chip.getText().toString());
                 }
                 fl1.dietary_restrictions = dietary_res;
 
