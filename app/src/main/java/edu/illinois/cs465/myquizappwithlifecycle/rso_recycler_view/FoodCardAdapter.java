@@ -118,6 +118,13 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
         this.onClickListener = onClickListener;
     }
 
+    // Method to remove a food listing
+    public void removeFoodListing(int position) {
+        if (position >= 0 && position < foodListings.size()) {
+            foodListings.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
 
 }
 
