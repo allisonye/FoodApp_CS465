@@ -59,6 +59,7 @@
 
             <!-- Title, secondary and supporting text -->
             <TextView
+                android:id="@+id/text_view_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title"
@@ -69,6 +70,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
+                    android:id="@+id/text_view_card_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -78,6 +80,7 @@
                     android:textColor="?android:attr/textColorSecondary"
                     />
                 <TextView
+                    android:id="@+id/text_view_expiry_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"

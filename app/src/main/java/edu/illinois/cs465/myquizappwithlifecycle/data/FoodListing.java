@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public class FoodListing {
     @PrimaryKey(autoGenerate = true)
     public int food_id;
-
     public String food_name;
     public double latitude;
     public double longitude;
@@ -19,4 +18,6 @@ public class FoodListing {
     public ArrayList<String> dietary_restrictions;
     public String status; // "AVAILABLE", "LOW"
     public String rso_name;
+
+
 }
