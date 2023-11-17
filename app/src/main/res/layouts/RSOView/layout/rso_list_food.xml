@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <include layout="@layout/rso_base_screen"/>
 
@@ -12,7 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="100dp"
+        android:layout_marginBottom="100dp"
         app:layout_anchor="@id/rso_profile_icon"
-        app:layout_anchorGravity="bottom|end"/>
+        app:layout_anchorGravity="bottom|end"
+        tools:listitem="@layout/rso_food_card"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
