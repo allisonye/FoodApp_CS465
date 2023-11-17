@@ -26,7 +26,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RSO Name"
+            android:text="ACM X WCS"
             android:textSize="20dp">
         </TextView>
 
@@ -100,7 +100,6 @@
                 android:layout_height="wrap_content"
                 android:layout_row="0"
                 android:layout_column="2"
-                android:text="Available"
                 android:textAlignment="center"/>
         </LinearLayout>
 
