@@ -56,12 +56,14 @@ public class RSOActivity extends AppCompatActivity {
             fl1.food_name = "CIF2";
             fl1.latitude = 40.11260764797458;
             fl1.longitude = -88.22836335177905;
+            fl1.status = "AVAILABLE";
             foodListingModal.insertFoodListing(fl1);
 
             FoodListing fl2 = new FoodListing();
             fl2.food_name = "CIF3";
             fl2.latitude = 40.11260764797458;
             fl2.longitude = -88.22836335177905;
+            fl2.status = "LOW";
             foodListingModal.insertFoodListing(fl2);
 
 
@@ -179,9 +181,9 @@ public class RSOActivity extends AppCompatActivity {
                 Drawable icon = item.getIcon();
                 if (icon != null) {
                     // Set the tint based on some condition or item ID
-                    if (item.getItemId() == R.id.option_1) {
+                    if (item.getItemId() == R.id.status_option_1) {
                         icon.setColorFilter(statusAvailableColor, PorterDuff.Mode.SRC_IN);
-                    } else if (item.getItemId() == R.id.option_2) {
+                    } else if (item.getItemId() == R.id.status_option_2) {
                         icon.setColorFilter(statusLowColor, PorterDuff.Mode.SRC_IN);
                     }
                 }
@@ -191,8 +193,33 @@ public class RSOActivity extends AppCompatActivity {
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                // Handle menu item selection
-                return true;
+                // if (item.getItemId() == R.id.status_option_1) {
+                //     // click AVAILABLE
+                //     foodListingModal.getFoodListingById(??????).observe(this, new Observer<FoodListing>() {
+                //         @Override
+                //         public void onChanged(FoodListing foodListing) {
+                //             if (foodListing != null) {
+                //                 // Log.d(DEBUG, "GET BY ID    " + foodListing.food_name);
+                //                 foodListing.status = "AVAILABLE";
+                //                 foodListingModal.updateFoodListing();
+                //             }
+                //         }
+                //     });
+                // } else if (item.getItemId() == R.id.status_option_2) {
+                //     // click LOW
+                //     foodListingModal.getFoodListingById(??????).observe(this, new Observer<FoodListing>() {
+                //         @Override
+                //         public void onChanged(FoodListing foodListing) {
+                //             if (foodListing != null) {
+                //                 // Log.d(DEBUG, "GET BY ID    " + foodListing.food_name);
+                //                 foodListing.status = "LOW";
+                //                 foodListingModal.updateFoodListing();
+                //             }
+                //         }
+                //     });
+                // }
+                // Handle other menu item clicks if necessary
+                return false;
             }
         });
         popup.show();

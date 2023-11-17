@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class Converters {
@@ -24,4 +25,13 @@ public class Converters {
             return json;
         }
 
+        @TypeConverter
+        public static Date fromTimestamp(Long value) {
+            return value == null ? null : new Date(value);
+        }
+
+        @TypeConverter
+        public static Long dateToTimestamp(Date date) {
+            return date == null ? null : date.getTime();
+        }
 }

@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -20,5 +21,5 @@ public class FoodListing {
     public String status; // "AVAILABLE", "LOW"
     public String rso_name;
 
-
+    public Date createdAt;
 }

@@ -30,6 +30,7 @@
                 android:orientation="horizontal"
                 android:background="@drawable/border">
                 <ImageView
+                    android:id="@+id/food_card_status_button_img"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:gravity="center_horizontal"

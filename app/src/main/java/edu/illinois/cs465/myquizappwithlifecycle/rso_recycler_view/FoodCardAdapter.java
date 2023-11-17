@@ -2,6 +2,7 @@ package edu.illinois.cs465.myquizappwithlifecycle.rso_recycler_view;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,6 +26,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +50,13 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
         FoodListing currentFoodListing = foodListings.get(position);
 
         holder.textViewTitle.setText(currentFoodListing.food_name);
+        // holder.textViewDate.setText(new Timestamp(currentFoodListing.createdAt.getTime()).toString());
+        String expiryTime = new Timestamp(currentFoodListing.createdAt.getTime() + 30*60000).toString();
+        holder.textViewExpiryTime.setText("Available until " + expiryTime.substring(0, expiryTime.length() - 7));
+        // imageView.setColorFilter(Color.argb(255, 255, 255, 255)); // White Tint
+        holder.statusButtonImg.setColorFilter(currentFoodListing.status.equals("LOW") ? Color.rgb(255, 255, 0) : Color.rgb(0, 255, 0));
         //TODO: Repeat for time and date use String.valueOf()
+
         holder.statusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,17 +93,19 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
     }
     class FoodCardHolder extends RecyclerView.ViewHolder{
         private TextView textViewTitle;
-        private TextView textViewDate;
+        // private TextView textViewDate;
         private TextView textViewExpiryTime;
         private LinearLayout statusButton;
+        private ImageView statusButtonImg;
         private ImageButton vertMenu;
 
         public FoodCardHolder(@NonNull View itemView) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.text_view_title);
-//            textViewDate = itemView.findViewById(R.id.text_view_card_date);
-//            textViewExpiryTime = itemView.findViewById(R.id.text_view_expiry_time);
+            // textViewDate = itemView.findViewById(R.id.text_view_card_date);
+            textViewExpiryTime = itemView.findViewById(R.id.text_view_expiry_time);
             statusButton = itemView.findViewById(R.id.food_card_status_button);
+            statusButtonImg = itemView.findViewById(R.id.food_card_status_button_img);
             vertMenu = itemView.findViewById(R.id.vert_icon_button);
 
         }

@@ -7,25 +7,31 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.sql.Date;
 import java.util.List;
 
 @Dao
-public interface FoodListingDao {
+public abstract class FoodListingDao {
     @Insert
-    void insert(FoodListing foodListing);
+    abstract void insert(FoodListing foodListing);
+
+    void insertWithTimestamp(FoodListing foodListing) {
+        foodListing.createdAt = new Date(System.currentTimeMillis());
+        insert(foodListing);
+    }
 
     @Update
-    void update(FoodListing foodListing);
+    abstract void update(FoodListing foodListing);
 
     @Delete
-    void delete(FoodListing foodListing);
+    abstract void delete(FoodListing foodListing);
 
     @Query("DELETE FROM FoodListing")
-    void deleteAll();
+    abstract void deleteAll();
 
     @Query("SELECT * FROM FoodListing")
-    LiveData<List<FoodListing>> getAll();
+    abstract LiveData<List<FoodListing>> getAll();
 
     @Query("SELECT * FROM FoodListing WHERE food_id=:id")
-    LiveData<FoodListing> getById(int id);
+    abstract LiveData<FoodListing> getById(int id);
 }
