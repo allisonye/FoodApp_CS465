@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,9 +28,10 @@
 
 
         <TextView
+            android:id="@+id/post_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Post Title"
+
             android:textStyle="bold"
             android:textSize="30sp">
 
@@ -122,6 +127,7 @@
             android:orientation="horizontal">
 
             <TextView
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Status:"
@@ -130,9 +136,10 @@
             </TextView>
 
             <TextView
+                android:id="@+id/status_food"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Available"
+
                 android:textColor="@color/white"
                 android:background="#e04F7942"
                 android:paddingHorizontal="7dp"
@@ -152,6 +159,27 @@
             android:text="Dietary Information:"
             android:textSize="17sp">
         </TextView>
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupDiet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="5dp">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_diet"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:checkable="false"
+                android:textAlignment="center"
+                tools:ignore="SpeakableTextPresentCheck" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_diet2"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:checkable="false"
+                android:textAlignment="center"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.chip.ChipGroup>
         <Space
             android:layout_width="match_parent"
             android:layout_height="10dp"/>
@@ -163,9 +191,9 @@
         </TextView>
 
         <TextView
+            android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
             >
         </TextView>
         <Space
