@@ -138,13 +138,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         ImageView accountCircleImage = findViewById(R.id.account_circle_image);
-        accountCircleImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SwitchAccountActivity.class);
-                startActivity(intent);
-            }
-        });
+        accountCircleImage.setOnClickListener(v -> showBottomDialog());
+//        accountCircleImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showBottomDialog
+//            }
+//        });
     }
 
     protected void onSaveInstanceState(Bundle savedInstance) {
@@ -254,6 +254,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Dialog dialog = new Dialog(MainActivity.this);
         dialog.setContentView(dialog_layout);
         dialog.show();
+    }
+    private void showBottomDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottomsheet_layout);
+
+        LinearLayout rso1 = dialog.findViewById(R.id.rso1);
+        ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
+
+        rso1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                Toast.makeText(MainActivity.this, "Switching to RSO 1 screen", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, RSOActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = com.google.android.material.R.style.MaterialAlertDialog_Material3_Animation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 }
 

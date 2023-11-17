@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageView
+<!--        <ImageView-->
+<!--            android:id="@+id/account_circle_image"-->
+<!--            android:layout_width="200px"-->
+<!--            android:layout_height="200px"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_margin="16dp"-->
+<!--            android:src="@drawable/account_circle_24px" />-->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/account_circle_image"
-            android:layout_width="200px"
-            android:layout_height="200px"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_margin="16dp"
-            android:src="@drawable/account_circle_24px" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|left"
+            android:layout_margin="25dp"
+            android:contentDescription="@string/fab_content_desc"
+            app:srcCompat="@drawable/account_circle_24px"/>
 
         <Button
             android:id="@+id/deleted_post_button"
