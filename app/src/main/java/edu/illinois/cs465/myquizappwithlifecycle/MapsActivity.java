@@ -26,8 +26,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
+//import com.google.android.gms.location.FusedLocationProviderClient;
+//import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +35,9 @@ import com.google.android.gms.maps.model.Marker;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -48,11 +50,11 @@ import edu.illinois.cs465.myquizappwithlifecycle.data.ViewModal;
 import edu.illinois.cs465.myquizappwithlifecycle.databinding.ActivityMapsBinding;
 
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Serializable {
     private static String DEBUG = "DEBUG";
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    private FusedLocationProviderClient fusedLocationClient;
+//    private FusedLocationProviderClient fusedLocationClient;
     private ViewModal viewmodal;
     List<Marker> markers;
 
@@ -124,21 +126,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // TODO: delete this when ready
         // clears map, initializes two food listings at CIF and Illini Union
-        viewmodal.deleteAllFoodListings();
+        //viewmodal.deleteAllFoodListings();
         FoodListing fl1 = new FoodListing();
-        fl1.food_id = 5;
         fl1.food_name = "Pizza @ CIF";
+        fl1.description = "yo this is bomb";
         fl1.latitude = 40.11260764797458;
         fl1.longitude = -88.22836335177905;
-        fl1.status = "AVAILABLE";
+        fl1.status = "LOW";
+        ArrayList<String> temp_diets = new ArrayList<>();
+        temp_diets.add("vegetarian");
+        temp_diets.add("vegan");
+        fl1.dietary_restrictions =temp_diets;
         viewmodal.insertFoodListing(fl1);
+
+        /*
         FoodListing fl2 = new FoodListing();
         fl2.food_id = 6;
         fl2.food_name = "Sandwiches @ Illini Union";
+        fl2.description = "yo this is goooodddddd asfffffffff";
         fl2.latitude = 40.10934133355023;
         fl2.longitude = -88.22725468192122;
         fl2.status = "LOW";
+        ArrayList<String> temp_diets2 = new ArrayList<>();
+        temp_diets2.add("gluten-free");
+        temp_diets2.add("vegan");
+        fl2.dietary_restrictions =temp_diets2;
         viewmodal.insertFoodListing(fl2);
+         */
     }
 
     /**
@@ -153,23 +167,51 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         Log.d(DEBUG,"onMapReady()");
         mMap = googleMap;
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            mMap.setMyLocationEnabled(true);
-            getCurrentLocation();
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        }
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+//                == PackageManager.PERMISSION_GRANTED) {
+//            mMap.setMyLocationEnabled(true);
+//            getCurrentLocation();
+//        } else {
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+//        }
 
-        LatLng siebelCenterDesign = new LatLng(40.1027, -88.2328); // Coordinates for Siebel Center for Design
-        Marker siebelMarker = mMap.addMarker(new MarkerOptions().position(siebelCenterDesign).title("Siebel Center for Design"));
+
+//        LatLng siebelCenterDesign = new LatLng(40.1027, -88.2328); // Coordinates for Siebel Center for Design
+//        Marker siebelMarker = mMap.addMarker(new MarkerOptions().position(siebelCenterDesign).title("Siebel Center for Design"));
+
+        viewmodal.getAllFoodListings().observe(this, new Observer<List<FoodListing>>() {
+            @Override
+            public void onChanged(List<FoodListing> foodListings) {
+                // clear existing markers from map
+                for (Marker m : markers) {
+                    m.remove();
+                }
+                markers.clear();
+                // add markers back to map
+                for (FoodListing foodListing : foodListings) {
+                    BitmapDescriptor icon = foodListing.status.equals("LOW")
+                            ? BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)
+                            : BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+                    Marker m = mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(foodListing.latitude, foodListing.longitude))
+                            .title(foodListing.food_name)
+                            .icon(icon)
+
+                    );
+                    m.setTag(foodListing);
+                    markers.add(m);
+                    Log.d(DEBUG, "ID " + foodListing.food_id);
+                }
+            }
+        });
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                if (marker.equals(siebelMarker)) {
-                    showPopup();
-                    return true;
+                FoodListing foodListing = (FoodListing) marker.getTag();
+                if (foodListing != null){
+                showPopup(foodListing);
+                return true;
                 }
                 return false;
             }
@@ -183,19 +225,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    private void showPopup() {
+    private void showPopup(FoodListing foodListing) {
         LayoutInflater inflater = getLayoutInflater();
         View dialogLayout = inflater.inflate(R.layout.food_popup, null);
-
         showFoodInfoPopup(dialogLayout);
 
         Button seeMoreButton = (Button)dialogLayout.findViewById(R.id.see_more_button);
         seeMoreButton.setOnClickListener(b -> {
             Intent intent = new Intent(this, FoodInfoActivity.class);
+            intent.putExtra("foodName", foodListing.food_name);
+            intent.putExtra("description", foodListing.description);
+            intent.putExtra("diet",foodListing.dietary_restrictions);
+            intent.putExtra("status",foodListing.status);
             startActivity(intent);
         });
     }
 
+    /*
     private void getCurrentLocation() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -213,6 +259,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
+    */
+
 
     private void showRestrictionsDialog() {
 
@@ -241,36 +289,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         AlertDialog dialog = builder.create();
         dialog.show();
 
-        // Add a marker at Siebel and ECE and move the camera
-//        LatLng siebel = new LatLng(40.113876587817316, -88.22487301073227);
-//        Marker m1 = mMap.addMarker(new MarkerOptions().position(siebel).title("Siebel"));
-//        LatLng ece = new LatLng(40.11504431688674, -88.22802319553404);
-//        mMap.addMarker(new MarkerOptions().position(ece).title("ECE"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(siebel));
 
-        viewmodal.getAllFoodListings().observe(this, new Observer<List<FoodListing>>() {
-            @Override
-            public void onChanged(List<FoodListing> foodListings) {
-                // clear existing markers from map
-                for (Marker m : markers) {
-                    m.remove();
-                }
-                markers.clear();
-                // add markers back to map
-                for (FoodListing foodListing : foodListings) {
-                    BitmapDescriptor icon = foodListing.status.equals("LOW")
-                            ? BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)
-                            : BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
-                    Marker m = mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(foodListing.latitude, foodListing.longitude))
-                            .title(foodListing.food_name)
-                            .icon(icon)
-                    );
-                    markers.add(m);
-                    Log.d(DEBUG, "ID " + foodListing.food_id);
-                }
-            }
-        });
 
         // copy this code + viewmodal init code in whatever activities need it
         viewmodal.getFoodListingById(5).observe(this, new Observer<FoodListing>() {
@@ -283,13 +302,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
     }
-
-    /*@Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == 1) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                onMapReady(mMap);
-            }
-        }
-    }*/
 }

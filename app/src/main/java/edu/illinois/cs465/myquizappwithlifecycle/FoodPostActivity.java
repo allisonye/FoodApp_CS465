@@ -83,8 +83,9 @@ public class FoodPostActivity extends AppCompatActivity {
 
 
 //                to do: get from gmap values
-                fl1.latitude = 40.11260764797458;
-                fl1.longitude = -88.22836335177905;
+                fl1.latitude = 40.10934133355023;
+                fl1.longitude = -88.22725468192122;
+
                 viewmodal.insertFoodListing(fl1);
                 showNotification();
                 Log.d("DEBUG", "IM HRERE");
