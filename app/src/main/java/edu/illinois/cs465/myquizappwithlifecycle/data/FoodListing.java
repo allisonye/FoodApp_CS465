@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Entity

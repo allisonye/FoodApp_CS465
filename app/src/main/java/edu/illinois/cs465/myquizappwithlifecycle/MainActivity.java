@@ -131,6 +131,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(this, FoodPostActivity.class);
             startActivity(intent);
         });
+
+        findViewById(R.id.RSO_View).setOnClickListener(v -> {
+            Intent intent = new Intent(this, RSOActivity.class);
+            startActivity(intent);
+        });
 }
 
     protected void onSaveInstanceState(Bundle savedInstance) {
