@@ -33,6 +33,10 @@ public class FoodPostActivity extends AppCompatActivity {
     private EditText foodName;
     private EditText description;
     private ViewModal viewmodal;
+    private ChipGroup dietaryRestrictionsChipGroup;
+    private ChipGroup statusChipGroup;
+    private boolean isEditMode = false;
+    private int editingFoodId = -1; // ID of the FoodListing being edited
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +45,25 @@ public class FoodPostActivity extends AppCompatActivity {
 
         viewmodal = new ViewModelProvider(this).get(ViewModal.class);
 
+        foodName = findViewById(R.id.textField1);
+        description = findViewById(R.id.textField2);
+        dietaryRestrictionsChipGroup = findViewById(R.id.chipGroupDiet);
+        statusChipGroup = findViewById(R.id.chipGroup);
 
+        // Check for incoming FoodListing data
+        if (getIntent().hasExtra("food_id")) {
+            String foodNameValue = getIntent().getStringExtra("food_name");
+            String descriptionValue = getIntent().getStringExtra("description");
+            ArrayList<String> dietaryRestrictions = getIntent().getStringArrayListExtra("dietary_restrictions");
+            String status = getIntent().getStringExtra("status");
 
+            foodName.setText(foodNameValue);
+            description.setText(descriptionValue);
+            setDietaryRestrictions(dietaryRestrictions);
+            setStatusChip(status);
+        }
+
+        // insert or update db on submit
         findViewById(R.id.direction_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +106,14 @@ public class FoodPostActivity extends AppCompatActivity {
                 fl1.latitude = 40.10934133355023;
                 fl1.longitude = -88.22725468192122;
 
-                viewmodal.insertFoodListing(fl1);
+                if (getIntent().hasExtra("food_id")) {
+                    Log.d("DEBUG", "UPDATING FOOD LISTING WITH ID " + getIntent().getIntExtra("food_id", 0));
+                    fl1.food_id = getIntent().getIntExtra("food_id", 0);
+                    viewmodal.updateFoodListing(fl1);
+                } else {
+                    Log.d("DEBUG", "INSERTING FOOD LISTING");
+                    viewmodal.insertFoodListing(fl1);
+                }
                 showNotification();
                 Log.d("DEBUG", "IM HRERE");
             }
@@ -95,7 +123,40 @@ public class FoodPostActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        
+
     }
+
+    private void setDietaryRestrictions(ArrayList<String> restrictions) {
+        if (restrictions != null) {
+            for (String restriction : restrictions) {
+                int chipId = getDietaryRestrictionChipId(restriction);
+                Chip chip = findViewById(chipId);
+                if (chip != null) {
+                    chip.setChecked(true);
+                }
+            }
+        }
+    }
+
+    private int getDietaryRestrictionChipId(String restriction) {
+        // Map restriction strings to chip IDs
+        switch (restriction) {
+            case "Gluten-Free": return R.id.chip1;
+            case "Dairy-free": return R.id.chip2;
+            case "Vegetarian": return R.id.chip3;
+            // Add other mappings here
+            default: return -1;
+        }
+    }
+
+    private void setStatusChip(String status) {
+        if (status != null) {
+            int chipId = status.equals("AVAILABLE") ? R.id.chip_available : R.id.chip_runningLow;
+            statusChipGroup.check(chipId);
+        }
+    }
+
 
     private void showNotification() {
         // Create the notification channel for Oreo and above
@@ -137,5 +198,9 @@ public class FoodPostActivity extends AppCompatActivity {
 
         notificationManager.notify(1, builder.build());
     }
+
+
+
+
 
 }

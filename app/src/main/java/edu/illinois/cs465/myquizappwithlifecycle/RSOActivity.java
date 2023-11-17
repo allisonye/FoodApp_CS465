@@ -318,7 +318,6 @@ public class RSOActivity extends AppCompatActivity {
                 }
                 else if (view.getId() == R.id.vert_icon_button) {
                     showVertMenu(view, R.menu.vert_menu, position);
-
                 }
             }
         });
@@ -393,6 +392,11 @@ public class RSOActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.option_vert_menu_delete) {
                     showDeleteConfirmationPopup(position);
+                    return true;
+                }
+                else if (item.getItemId() == R.id.option_vert_menu_edit){
+                    FoodListing foodListing = adapter.getFoodListingAt(position);
+                    startFoodPostActivityWithFoodListing(foodListing);
                     return true;
                 }
                 // Handle other menu item clicks if necessary
@@ -470,6 +474,26 @@ public class RSOActivity extends AppCompatActivity {
             }
         });
         popup.show();
+    }
+
+
+    private void startFoodPostActivityWithFoodListing(FoodListing foodListing) {
+        Intent intent = new Intent(this, FoodPostActivity.class);
+        intent.putExtra("food_id", foodListing.food_id);
+        intent.putExtra("food_name", foodListing.food_name);
+        intent.putExtra("latitude", foodListing.latitude);
+        intent.putExtra("longitude", foodListing.longitude);
+        intent.putExtra("description", foodListing.description);
+        intent.putStringArrayListExtra("dietary_restrictions", foodListing.dietary_restrictions);
+        intent.putExtra("status", foodListing.status);
+        intent.putExtra("rso_name", foodListing.rso_name);
+
+        // For Date, you need to convert it to a long or string as Intent doesn't support Date directly
+        if (foodListing.createdAt != null) {
+            intent.putExtra("createdAt", foodListing.createdAt.getTime());
+        }
+
+        startActivity(intent);
     }
 
 }

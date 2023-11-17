@@ -20,5 +20,6 @@
     <string name="confirm_delete">Delete</string>
     <string name="delete_confirmation_message">This will remove your event from the map.</string>
     <string name="delete_confirmation_title">Are you sure you want to delete this event?</string>
+    <string name="food_card_id_tag" />
 
 </resources>
