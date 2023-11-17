@@ -18,10 +18,10 @@ public class EditPostFoodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rso_food_card); // Use the edit_post_food.xml layout
 
-        ImageButton imageBtn = findViewById(R.id.imageBtn);
-        if (imageBtn != null) {
-            setupPopupMenu(imageBtn);
-        }
+//        ImageButton imageBtn = findViewById(R.id.imageBtn);
+//        if (imageBtn != null) {
+//            setupPopupMenu(imageBtn);
+//        }
     }
 
     private void setupPopupMenu(ImageButton imageBtn) {

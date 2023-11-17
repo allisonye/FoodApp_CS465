@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 @Entity
@@ -19,4 +20,6 @@ public class FoodListing {
     public ArrayList<String> dietary_restrictions;
     public String status; // "AVAILABLE", "LOW"
     public String rso_name;
+
+    public Date createdAt;
 }
