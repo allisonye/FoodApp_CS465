@@ -16,7 +16,7 @@ public class FoodListing {
     public double longitude;
     public String description;
     public ArrayList<String> dietary_restrictions;
-    public String status;
+    public String status; // "AVAILABLE", "LOW"
     public String rso_name;
 
 

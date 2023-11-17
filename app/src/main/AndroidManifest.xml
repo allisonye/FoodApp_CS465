@@ -44,11 +44,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FoodInfoActivity"></activity>
+        <activity
+            android:name=".FoodInfoActivity"
+            android:exported="true"
+            android:label="FoodInfoActivity" />
         <activity
             android:name=".RSOActivity"
-            android:exported="true">
-        </activity>
-        <activity android:name=".FoodPostActivity" />
+            android:exported="true"
+            android:label="RSOActivity" />
+        <activity
+            android:name=".EditPostFoodActivity"
+            android:exported="true"
+            android:label="EditPostFoodActivity" />
+        <activity
+            android:name=".AddPostActivity"
+            android:exported="true"
+            android:label="AddPostActivity" />
+        <activity
+            android:name=".FoodPostActivity"
+            android:exported="true"
+            android:label="FoodPostActivity" />
     </application>
 </manifest>

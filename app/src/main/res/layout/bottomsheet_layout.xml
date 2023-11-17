@@ -45,7 +45,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/user1"
+        android:id="@+id/rso1"
         android:orientation="horizontal"
         android:padding="10dp"
         android:layout_marginTop="10dp"
@@ -57,47 +57,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User 1"
-            android:layout_marginLeft="30dp"
-            android:textSize="16sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/user2"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="10dp">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/account_circle_24px"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="User 2"
-            android:layout_marginLeft="30dp"
-            android:textSize="16sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/user3"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="10dp">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/account_circle_24px"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="User 3"
+            android:text="RSO 1"
             android:layout_marginLeft="30dp"
             android:textSize="16sp"/>
     </LinearLayout>
