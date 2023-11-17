@@ -78,15 +78,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         findViewById(R.id.food_popup).setOnClickListener(v -> {
-            // Inflater to be able to grab button in dialog
-            LayoutInflater inflater = getLayoutInflater();
-            View dialogLayout = inflater.inflate(R.layout.food_popup, null);
+                    // Inflater to be able to grab button in dialog
+                    LayoutInflater inflater = getLayoutInflater();
+                    View dialogLayout = inflater.inflate(R.layout.food_popup, null);
 
 //        RsoBaseScreenBinding binding = RsoBaseScreenBinding.inflate(getLayoutInflater());
 //        binding.floatingActionButton.setOnClickListener(view -> showBottomDialog());
 
 //        findViewById(R.id.floating_action_button).setOnClickListener(v -> {
 //            showBottomDialog();
+                });
 
         ImageView accountCircleImage = findViewById(R.id.account_circle_image);
 
