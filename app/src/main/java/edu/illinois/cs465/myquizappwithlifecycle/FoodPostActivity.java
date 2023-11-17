@@ -7,29 +7,87 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.illinois.cs465.myquizappwithlifecycle.data.FoodListing;
+import edu.illinois.cs465.myquizappwithlifecycle.data.ViewModal;
+
 public class FoodPostActivity extends AppCompatActivity {
-    private TextInputLayout foodName;
-    private TextInputLayout description;
+    private EditText foodName;
+    private EditText description;
+    private ViewModal viewmodal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_food);
 
+        viewmodal = new ViewModelProvider(this).get(ViewModal.class);
+
+
+
         findViewById(R.id.direction_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //make a FoodListing object
+                FoodListing fl1 = new FoodListing();
+
+                //Get food name
+                foodName = (EditText)findViewById(R.id.textField1);
+                fl1.food_name = foodName.getText().toString();
+
+                //Get description of the food
+                description = (EditText)findViewById(R.id.textField2);
+                fl1.description = description.getText().toString();
+
+                //get checked values from chipGroup for the dietary restriction
+                ChipGroup chipGroup = findViewById(R.id.chipGroupDiet);
+                List<Integer> ids = chipGroup.getCheckedChipIds();
+                ArrayList<String> dietary_res = new ArrayList<>();
+                for(Integer id:ids){
+                    Chip chip = chipGroup.findViewById(id);
+                    dietary_res.add(chip.getText().toString());
+                    Log.d("DEBUG", "chip_name: " + chip.getText().toString());
+                }
+                fl1.dietary_restrictions = dietary_res;
+
+                //get status
+                ChipGroup chipGroup2 = findViewById(R.id.chipGroup);
+                Integer id2 = chipGroup2.getCheckedChipId();
+                Chip chip_status = chipGroup2.findViewById(id2);
+                String status = chip_status.getText().toString();
+                Log.d("DEBUG", "status: " + status);
+                if(status.equals("Available")){
+                    fl1.status = "AVAILABLE";
+                }
+                else if(status.equals("Running Low")){
+                    fl1.status = "LOW";
+                };
+
+
+//                to do: get from gmap values
+                fl1.latitude = 40.11260764797458;
+                fl1.longitude = -88.22836335177905;
+                viewmodal.insertFoodListing(fl1);
                 showNotification();
+                Log.d("DEBUG", "IM HRERE");
             }
         });
     }

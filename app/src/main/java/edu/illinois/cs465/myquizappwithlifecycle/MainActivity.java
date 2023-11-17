@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // Inflater to be able to grab button in dialog
                     LayoutInflater inflater = getLayoutInflater();
                     View dialogLayout = inflater.inflate(R.layout.food_popup, null);
-
 //        RsoBaseScreenBinding binding = RsoBaseScreenBinding.inflate(getLayoutInflater());
 //        binding.floatingActionButton.setOnClickListener(view -> showBottomDialog());
 
@@ -128,11 +127,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //
 //        });
 //
-//        findViewById(R.id.post_food).setOnClickListener(v -> {
-//            Intent intent = new Intent(this, FoodPostActivity.class);
-//            startActivity(intent);
-//        });
-    }
+        findViewById(R.id.post_food).setOnClickListener(v -> {
+            Intent intent = new Intent(this, FoodPostActivity.class);
+            startActivity(intent);
+        });
+}
 
     protected void onSaveInstanceState(Bundle savedInstance) {
         super.onSaveInstanceState(savedInstance);
