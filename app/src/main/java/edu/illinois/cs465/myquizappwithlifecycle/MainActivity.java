@@ -1,9 +1,14 @@
 package edu.illinois.cs465.myquizappwithlifecycle;
 
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.app.Dialog;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.InsetDrawable;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -25,10 +31,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.MenuRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -75,30 +83,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             View dialogLayout = inflater.inflate(R.layout.food_popup, null);
 
 //        RsoBaseScreenBinding binding = RsoBaseScreenBinding.inflate(getLayoutInflater());
-//        binding.floatingActionButton.setOnClickListener(v -> showBottomDialog());
+//        binding.floatingActionButton.setOnClickListener(view -> showBottomDialog());
 
 //        findViewById(R.id.floating_action_button).setOnClickListener(v -> {
 //            showBottomDialog();
-//        });
-//        falseButton = (Button) findViewById(R.id.false_button);
-//        trueButton = (Button) findViewById(R.id.true_button);
-
-//        falseButton.setOnClickListener(this);
-//        trueButton.setOnClickListener(this);
-            showFoodInfoPopup(dialogLayout);
-
-            Button seeMoreButton = (Button)dialogLayout.findViewById(R.id.see_more_button);
-            seeMoreButton.setOnClickListener(b -> {
-                Intent intent = new Intent(this, FoodInfoActivity.class);
-                startActivity(intent);
-            });
-
-        });
-
-        findViewById(R.id.post_food).setOnClickListener(v -> {
-            Intent intent = new Intent(this, FoodPostActivity.class);
-            startActivity(intent);
-        });
 
         ImageView accountCircleImage = findViewById(R.id.account_circle_image);
 
@@ -111,6 +99,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+//        });
+//
+//        findViewById(R.id.food_popup).setOnClickListener(v -> {
+//            // Inflater to be able to grab button in dialog
+//            LayoutInflater inflater = getLayoutInflater();
+//            View dialogLayout = inflater.inflate(R.layout.food_popup, null);
+//
+////        RsoBaseScreenBinding binding = RsoBaseScreenBinding.inflate(getLayoutInflater());
+////        binding.floatingActionButton.setOnClickListener(v -> showBottomDialog());
+//
+////        findViewById(R.id.floating_action_button).setOnClickListener(v -> {
+////            showBottomDialog();
+////        });
+////        falseButton = (Button) findViewById(R.id.false_button);
+////        trueButton = (Button) findViewById(R.id.true_button);
+//
+////        falseButton.setOnClickListener(this);
+////        trueButton.setOnClickListener(this);
+//            showFoodInfoPopup(dialogLayout);
+//
+//            Button seeMoreButton = (Button)dialogLayout.findViewById(R.id.see_more_button);
+//            seeMoreButton.setOnClickListener(b -> {
+//                Intent intent = new Intent(this, FoodInfoActivity.class);
+//                startActivity(intent);
+//            });
+//
+//        });
+//
+//        findViewById(R.id.post_food).setOnClickListener(v -> {
+//            Intent intent = new Intent(this, FoodPostActivity.class);
+//            startActivity(intent);
+//        });
     }
 
     protected void onSaveInstanceState(Bundle savedInstance) {
@@ -221,37 +241,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.setContentView(dialog_layout);
         dialog.show();
     }
+
     private void showBottomDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.bottomsheet_layout);
 
-        LinearLayout user1 = dialog.findViewById(R.id.user1);
-        LinearLayout user2 = dialog.findViewById(R.id.user2);
-        LinearLayout user3 = dialog.findViewById(R.id.user3);
+        LinearLayout rso1 = dialog.findViewById(R.id.rso1);
         ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
 
-        user1.setOnClickListener(new View.OnClickListener() {
+        rso1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                Toast.makeText(MainActivity.this, "Switching to user 1", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        user2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                Toast.makeText(MainActivity.this, "Switching to user 2", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        user3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                Toast.makeText(MainActivity.this, "Switching to user 3", Toast.LENGTH_SHORT).show();
+                setContentView(R.layout.rso_base_screen); // Switch to rso_base_screen layout
+                Toast.makeText(MainActivity.this, "Switching to RSO screen", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -268,30 +272,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.getWindow().getAttributes().windowAnimations = com.google.android.material.R.style.MaterialAlertDialog_Material3_Animation;
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.overflow_menu, menu);
-        return true;
-    }
-
-    private void showMenu(View v, @MenuRes int menuRes) {
-        PopupMenu popup = new PopupMenu(MainActivity.this, v);
-        popup.getMenuInflater().inflate(menuRes, popup.getMenu());
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                // Respond to menu item click.
-                return false;
-            }
-        });
-        popup.setOnDismissListener(new PopupMenu.OnDismissListener() {
-            @Override
-            public void onDismiss(PopupMenu menu) {
-                // Respond to popup being dismissed.
-            }
-        });
-        popup.show();
-    }
 }
+
+
 
