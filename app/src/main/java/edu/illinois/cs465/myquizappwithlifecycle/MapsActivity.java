@@ -138,7 +138,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // TODO: delete this when ready
         // clears map, initializes two food listings at CIF and Illini Union
 
-        viewmodal.deleteAllFoodListings();
+//          viewmodal.deleteAllFoodListings();
+
         FoodListing fl1 = new FoodListing();
         fl1.food_name = "Pizza @ CIF";
         fl1.description = "yo this is bomb";
@@ -146,25 +147,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fl1.longitude = -88.22836335177905;
         fl1.status = "LOW";
         ArrayList<String> temp_diets = new ArrayList<>();
-        temp_diets.add("vegetarian");
-        temp_diets.add("vegan");
+        temp_diets.add("Vegetarian");
+        temp_diets.add("Vegan");
         fl1.dietary_restrictions =temp_diets;
         viewmodal.insertFoodListing(fl1);
 
-/*
         FoodListing fl2 = new FoodListing();
-        fl2.food_id = 6;
-        fl2.food_name = "Sandwiches @ Illini Union";
-        fl2.description = "yo this is goooodddddd asfffffffff";
-        fl2.latitude = 40.10934133355023;
-        fl2.longitude = -88.22725468192122;
-        fl2.status = "LOW";
-        ArrayList<String> temp_diets2 = new ArrayList<>();
-        temp_diets2.add("gluten-free");
-        temp_diets2.add("vegan");
-        fl2.dietary_restrictions =temp_diets2;
+        fl2.food_name = "FREE Samosas!!";
+        fl2.description = "these are fire, get you some";
+        fl2.latitude = 40.11398325552492;
+        fl2.longitude = -88.22495883787813;
+        fl2.status = "AVAILABLE";
+        ArrayList<String> temp_diets1 = new ArrayList<>();
+        temp_diets1.add("Vegetarian");
+        temp_diets1.add("Vegan");
+        fl2.dietary_restrictions =temp_diets1;
         viewmodal.insertFoodListing(fl2);
-         */
+
+
+//        FoodListing fl3 = new FoodListing();
+//        fl2.food_id = 6;
+//        fl2.food_name = "Sandwiches @ Illini Union";
+//        fl2.description = "yo this is goooodddddd asfffffffff";
+//        fl2.latitude = 40.10934133355023;
+//        fl2.longitude = -88.22725468192122;
+//        fl2.status = "LOW";
+//        ArrayList<String> temp_diets2 = new ArrayList<>();
+//        temp_diets2.add("gluten-free");
+//        temp_diets2.add("vegan");
+//        fl2.dietary_restrictions =temp_diets2;
+//        viewmodal.insertFoodListing(fl2);
+
+
     }
 
     /**

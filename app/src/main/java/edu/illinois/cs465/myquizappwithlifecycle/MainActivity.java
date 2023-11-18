@@ -57,11 +57,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+        startActivity(intent);
 
         super.onCreate(savedInstanceState);
         Log.d(DEBUG, "onCreate()");
-        setContentView(R.layout.landing_screen);
-        setContentView(R.layout.activity_maps);
+//        setContentView(R.layout.landing_screen);
+//        setContentView(R.layout.activity_maps);
 
 //        RsoBaseScreenBinding binding = RsoBaseScreenBinding.inflate(getLayoutInflater());
 //        setContentView(binding.getRoot());
@@ -128,15 +130,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //
 //        });
 //
-        findViewById(R.id.post_food).setOnClickListener(v -> {
-            Intent intent = new Intent(this, FoodPostActivity.class);
-            startActivity(intent);
-        });
-
-        findViewById(R.id.RSO_View).setOnClickListener(v -> {
-            Intent intent = new Intent(this, RSOActivity.class);
-            startActivity(intent);
-        });
+//        findViewById(R.id.post_food).setOnClickListener(v -> {
+//            Intent intent = new Intent(this, FoodPostActivity.class);
+//            startActivity(intent);
+//        });
+//
+//        findViewById(R.id.RSO_View).setOnClickListener(v -> {
+//            Intent intent = new Intent(this, RSOActivity.class);
+//            startActivity(intent);
+//        });
 
         ImageView accountCircleImage = findViewById(R.id.account_circle_image);
         accountCircleImage.setOnClickListener(v -> showBottomDialog());

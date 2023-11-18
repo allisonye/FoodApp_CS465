@@ -115,12 +115,18 @@ public class FoodPostActivity extends AppCompatActivity {
                 }
                 showNotification();
                 Log.d("DEBUG", "IM HRERE");
+
+
             }
+//            Intent intent = new Intent(this, MapsActivity.class);
+//            startActivity(intent);
+
         });
-        findViewById(R.id.direction_button).setOnClickListener(v -> {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        });
+
+//        findViewById(R.id.direction_button).setOnClickListener(v -> {
+//            Log.d("DEBUG", "I'm cool for inserting a FOOD LISTING");
+//            I
+//        });
 
         
 
