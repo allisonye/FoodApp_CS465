@@ -36,6 +36,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.view.ViewGroup;
 import android.view.Window;
@@ -81,10 +82,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Button buttonDistance = findViewById(R.id.buttonDistance);
         Button buttonRestrictions = findViewById(R.id.buttonRestrictions);
+        FloatingActionButton information = findViewById(R.id.information);
         SeekBar distanceSlider = findViewById(R.id.distanceSlider);
 
         ImageView accountCircleImage = findViewById(R.id.account_circle_image);
         accountCircleImage.setOnClickListener(v -> showBottomDialog());
+
+        information.setOnClickListener(v -> {showLegendPopup();});
 
         buttonDistance.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -257,6 +261,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
+    private void showLegendPopup( ) {
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.legend, null);
+        Dialog dialog = new Dialog(MapsActivity.this);
+        dialog.setContentView(dialogLayout);
+        dialog.show();
+       Log.d("STATUS", "HERE");
+    }
 
     private void getCurrentLocation() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
