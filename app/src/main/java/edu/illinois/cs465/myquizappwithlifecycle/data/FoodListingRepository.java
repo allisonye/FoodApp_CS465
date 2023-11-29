@@ -60,7 +60,7 @@ public class FoodListingRepository {
         @Override
         protected Void doInBackground(FoodListing... foodListings) {
             // below line is use to insert our modal in dao.
-            dao.insert(foodListings[0]);
+            dao.insertWithTimestamp(foodListings[0]);
             return null;
         }
     }

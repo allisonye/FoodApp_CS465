@@ -36,15 +36,22 @@
         <activity
             android:name=".MapsActivity"
             android:exported="true"
-            android:label="@string/title_activity_maps" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="MainActivity">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+
         </activity>
         <activity
             android:name=".FoodInfoActivity"
@@ -66,5 +73,13 @@
             android:name=".FoodPostActivity"
             android:exported="true"
             android:label="FoodPostActivity" />
+        <activity
+            android:name=".FoodPopUpActivity"
+            android:exported="true"
+            android:label="FoodPopUpActivity" />
+        <activity
+            android:name=".SwitchAccountActivity"
+            android:exported="true"
+            android:label="SwitchAccountActivity" />
     </application>
 </manifest>

@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,6 +16,13 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="20dp">
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Back"
+            android:textAllCaps="true"
+            android:id="@+id/submit_post_back"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -19,19 +30,17 @@
             android:text="@string/food_name"
             android:textSize="17sp">
         </TextView>
-        <com.google.android.material.textfield.TextInputLayout
+
+
+        <EditText
             android:id="@+id/textField1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/empty"
-            >
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/empty" />
 
-        </com.google.android.material.textfield.TextInputLayout>
 
 
         <Space
@@ -44,18 +53,35 @@
             android:textSize="17sp">
 
         </TextView>
-        <com.google.android.material.textfield.TextInputLayout
+
+
+        <EditText
             android:id="@+id/textField2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            android:hint="@string/empty"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/empty" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RSO Name*"
+            android:textSize="17sp">
+        </TextView>
+
+        <EditText
+            android:id="@+id/textField3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/empty"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
         <Space
             android:layout_width="match_parent"
             android:layout_height="10dp"/>
@@ -93,40 +119,34 @@
 
         </TextView>
 
-        <GridLayout
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupDiet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:rowCount="2"
-            android:columnCount="4"
-           >
+            app:chipSpacingHorizontal="5dp">
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip1"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_row="0"
-                android:layout_column="0"
                 android:text="Gluten-Free"
                 android:textAlignment="center"
-                android:layout_marginRight="10dp"/>
+                android:checkable="true"/>
 
             <com.google.android.material.chip.Chip
             android:id="@+id/chip2"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="1"
             android:text="Dairy-free"
-            android:layout_marginRight="10dp"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:checkable="true"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip3"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_row="0"
-                android:layout_column="2"
                 android:text="Vegetarian"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                android:checkable="true"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip4"
@@ -136,27 +156,25 @@
                 android:layout_column="0"
                 android:text="Nut-free"
                 android:textAlignment="center"
-                android:layout_marginRight="10dp"/>
+                android:checkable="true"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip5"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_row="1"
-                android:layout_column="1"
                 android:text="Shellfish-free"
                 android:textAlignment="center"
-                android:layout_marginRight="10dp"/>
+                android:checkable="true"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip6"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_row="1"
-                android:layout_column="2"
                 android:text="Vegan"
-                android:textAlignment="center"/>
-        </GridLayout>
+                android:textAlignment="center"
+                android:checkable="true"/>
+        </com.google.android.material.chip.ChipGroup>
+
         <Space
             android:layout_width="match_parent"
             android:layout_height="10dp"/>
@@ -177,19 +195,22 @@
             android:layout_height="wrap_content"
             app:chipSpacingHorizontal="30dp"
             app:singleSelection="true"
-            app:selectionRequired="true">
+            app:selectionRequired="true"
+            >
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_available"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Available"/>
+                android:text="Available"
+                android:checkable="true"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_runningLow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Running Low"/>
+                android:text="Running Low"
+                android:checkable="true"/>
 
         </com.google.android.material.chip.ChipGroup>
 
@@ -220,6 +241,8 @@
             android:layout_gravity="center"
             android:text="submit post"
             android:textAllCaps="true"
-            android:id="@+id/direction_button" />
+            android:id="@+id/direction_button"
+            android:layout_marginBottom="50dp"/>
     </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
