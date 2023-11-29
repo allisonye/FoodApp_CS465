@@ -145,7 +145,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // TODO: delete this when ready
         // clears map, initializes two food listings at CIF and Illini Union
 
-//          viewmodal.deleteAllFoodListings();
+        viewmodal.deleteAllFoodListings();
 
         FoodListing fl1 = new FoodListing();
         fl1.food_name = "Pizza @ CIF";
@@ -168,6 +168,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ArrayList<String> temp_diets1 = new ArrayList<>();
         temp_diets1.add("Vegetarian");
         temp_diets1.add("Vegan");
+        temp_diets1.add("Gluten-Free");
+        temp_diets1.add("Dairy-free");
         fl2.dietary_restrictions =temp_diets1;
         viewmodal.insertFoodListing(fl2);
 

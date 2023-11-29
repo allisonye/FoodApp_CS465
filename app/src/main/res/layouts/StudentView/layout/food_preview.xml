@@ -166,21 +166,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:chipSpacingHorizontal="5dp">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_diet"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:checkable="false"
-                android:textAlignment="center"
-                tools:ignore="SpeakableTextPresentCheck" />
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_diet2"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:checkable="false"
-                android:textAlignment="center"
-                tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.chip.ChipGroup>
         <Space
             android:layout_width="match_parent"
