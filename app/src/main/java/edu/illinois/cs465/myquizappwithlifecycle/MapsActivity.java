@@ -1,5 +1,8 @@
 package edu.illinois.cs465.myquizappwithlifecycle;
 
+import static java.security.AccessController.getContext;
+import static edu.illinois.cs465.myquizappwithlifecycle.R.*;
+
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -36,6 +39,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.view.ViewGroup;
 import android.view.Window;
@@ -76,15 +80,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(binding.getRoot());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(id.map);
         mapFragment.getMapAsync(this);
 
-        Button buttonDistance = findViewById(R.id.buttonDistance);
-        Button buttonRestrictions = findViewById(R.id.buttonRestrictions);
-        SeekBar distanceSlider = findViewById(R.id.distanceSlider);
+        Button buttonDistance = findViewById(id.buttonDistance);
+        Button buttonRestrictions = findViewById(id.buttonRestrictions);
+        FloatingActionButton information = findViewById(id.information);
+        SeekBar distanceSlider = findViewById(id.distanceSlider);
 
-        ImageView accountCircleImage = findViewById(R.id.account_circle_image);
+        ImageView accountCircleImage = findViewById(id.account_circle_image);
         accountCircleImage.setOnClickListener(v -> showBottomDialog());
+
+        information.setOnClickListener(v -> {showLegendPopup();});
 
         buttonDistance.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,7 +253,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void showPopup(FoodListing foodListing) {
         Dialog dialogLayout = FoodPopUpActivity.showFoodInfoPopup(this,foodListing);
-        Button seeMoreButton = (Button)dialogLayout.findViewById(R.id.see_more_button);
+        Button seeMoreButton = (Button)dialogLayout.findViewById(id.see_more_button);
         seeMoreButton.setOnClickListener(b -> {
             Intent intent = new Intent(this, FoodInfoActivity.class);
             intent.putExtra("foodName", foodListing.food_name);
@@ -257,6 +264,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
+    private void showLegendPopup( ) {
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogLayout = inflater.inflate(layout.legend, null);
+        ImageView iv1 = (ImageView) dialogLayout.findViewById(id.green_circle);
+        iv1.setImageResource(drawable.circle_status);
+        iv1.setColorFilter(ContextCompat.getColor(getApplicationContext(),R.color.status_available_color));
+
+        ImageView iv2 = (ImageView) dialogLayout.findViewById(id.yellow_screen);
+        iv2.setImageResource(drawable.circle_status);
+        iv2.setColorFilter(ContextCompat.getColor(getApplicationContext(), color.status_low_color));
+        Dialog dialog = new Dialog(MapsActivity.this);
+        dialog.setContentView(dialogLayout);
+        dialog.show();
+       Log.d("STATUS", "HERE");
+    }
 
     private void getCurrentLocation() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -321,11 +343,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void showBottomDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.bottomsheet_layout);
+        dialog.setContentView(layout.bottomsheet_layout);
 
-        LinearLayout rso1 = dialog.findViewById(R.id.rso1);
-        LinearLayout student1 = dialog.findViewById(R.id.student1);
-        ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
+        LinearLayout rso1 = dialog.findViewById(id.rso1);
+        LinearLayout student1 = dialog.findViewById(id.student1);
+        ImageView cancelButton = dialog.findViewById(id.cancelButton);
 
         rso1.setOnClickListener(new View.OnClickListener() {
             @Override
