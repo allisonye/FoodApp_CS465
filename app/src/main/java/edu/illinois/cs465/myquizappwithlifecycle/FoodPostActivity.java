@@ -120,11 +120,10 @@ public class FoodPostActivity extends AppCompatActivity {
                 showNotification();
                 Log.d("DEBUG", "IM HRERE");
 
-
+                finish();
             }
 //            Intent intent = new Intent(this, MapsActivity.class);
 //            startActivity(intent);
-
         });
 
 //        findViewById(R.id.direction_button).setOnClickListener(v -> {
