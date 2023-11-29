@@ -8,14 +8,63 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="20dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Available">
-
+        android:text="STATUS"
+        android:textSize="20dp"
+        android:layout_marginBottom="12dp"
+        android:gravity="center">
     </TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/green_circle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="center_horizontal"
+            app:tint="@color/status_available_color"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/circle_status"
+            android:scaleType="centerCrop"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="10dp"
+            android:text="Available"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/yellow_screen"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="center_horizontal"
+            app:tint="@color/status_low_color"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/circle_status"
+            android:scaleType="centerCrop"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Running Low"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="10dp"/>
+    </LinearLayout>
 </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
