@@ -49,6 +49,10 @@ public class FoodPostActivity extends AppCompatActivity {
         dietaryRestrictionsChipGroup = findViewById(R.id.chipGroupDiet);
         statusChipGroup = findViewById(R.id.chipGroup);
 
+        findViewById(R.id.submit_post_back).setOnClickListener(v -> {
+            finish();
+        });
+
         // Check for incoming FoodListing data
         if (getIntent().hasExtra("food_id")) {
             String foodNameValue = getIntent().getStringExtra("food_name");
@@ -127,8 +131,6 @@ public class FoodPostActivity extends AppCompatActivity {
 //            Log.d("DEBUG", "I'm cool for inserting a FOOD LISTING");
 //            I
 //        });
-
-        
 
     }
 
