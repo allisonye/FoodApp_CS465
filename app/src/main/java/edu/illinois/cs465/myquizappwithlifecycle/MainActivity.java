@@ -38,6 +38,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -45,6 +46,10 @@ import android.os.Build;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.util.ArrayList;
+
+import edu.illinois.cs465.myquizappwithlifecycle.data.FoodListing;
+import edu.illinois.cs465.myquizappwithlifecycle.data.ViewModal;
 import edu.illinois.cs465.myquizappwithlifecycle.databinding.FoodPopupBinding;
 import edu.illinois.cs465.myquizappwithlifecycle.databinding.LandingScreenBinding;
 import edu.illinois.cs465.myquizappwithlifecycle.databinding.RsoBaseScreenBinding;
@@ -54,14 +59,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static String DEBUG = "DEBUG";
     private static final String KEY = "KEY";
     private static final String VALUE = "We passed the bundle of data";
+    private ViewModal viewmodal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+//        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+//        startActivity(intent);
+
+        Log.d(DEBUG, "MainActivity onCreate()");
+        super.onCreate(savedInstanceState);
+        viewmodal = new ViewModelProvider(this).get(ViewModal.class);
+
+        // initialize some data
+        viewmodal.deleteAllFoodListings();
+
+        FoodListing fl1 = new FoodListing();
+        fl1.food_name = "Pizza @ CIF";
+        fl1.description = "yo this is bomb";
+        fl1.latitude = 40.11260764797458;
+        fl1.longitude = -88.22836335177905;
+        fl1.status = "LOW";
+        ArrayList<String> temp_diets = new ArrayList<>();
+        temp_diets.add("Vegetarian");
+        temp_diets.add("Vegan");
+        fl1.dietary_restrictions =temp_diets;
+        viewmodal.insertFoodListing(fl1);
+
+        FoodListing fl2 = new FoodListing();
+        fl2.food_name = "FREE Samosas!!";
+        fl2.description = "these are fire, get you some";
+        fl2.latitude = 40.11398325552492;
+        fl2.longitude = -88.22495883787813;
+        fl2.status = "AVAILABLE";
+        ArrayList<String> temp_diets1 = new ArrayList<>();
+        temp_diets1.add("Vegetarian");
+        temp_diets1.add("Vegan");
+        fl2.dietary_restrictions =temp_diets1;
+        viewmodal.insertFoodListing(fl2);
+
+        // redirect to MapsActivity
+        Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
 
-        super.onCreate(savedInstanceState);
-        Log.d(DEBUG, "onCreate()");
 //        setContentView(R.layout.landing_screen);
 //        setContentView(R.layout.activity_maps);
 

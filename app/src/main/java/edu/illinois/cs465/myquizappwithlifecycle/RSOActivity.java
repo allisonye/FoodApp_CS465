@@ -202,9 +202,19 @@ public class RSOActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 if (id == R.id.status_option_1) {
                     adapter.changeStatusAndUpdateColor(position, "AVAILABLE");
+
+                    FoodListing foodListing = adapter.getFoodListingAt(position);
+                    foodListing.status = "AVAILABLE";
+                    foodListingModal.updateFoodListing(foodListing);
+
                     return true;
                 } else if (id == R.id.status_option_2) {
                     adapter.changeStatusAndUpdateColor(position, "LOW");
+
+                    FoodListing foodListing = adapter.getFoodListingAt(position);
+                    foodListing.status = "LOW";
+                    foodListingModal.updateFoodListing(foodListing);
+
                     return true;
                 }
                 return false;
