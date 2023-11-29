@@ -217,6 +217,7 @@ public class RSOActivity extends AppCompatActivity {
         Intent intent = new Intent(this, FoodPostActivity.class);
         intent.putExtra("food_id", foodListing.food_id);
         intent.putExtra("food_name", foodListing.food_name);
+        intent.putExtra("rso_name", foodListing.rso_name);
         intent.putExtra("latitude", foodListing.latitude);
         intent.putExtra("longitude", foodListing.longitude);
         intent.putExtra("description", foodListing.description);

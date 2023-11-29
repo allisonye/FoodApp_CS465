@@ -32,6 +32,7 @@ import edu.illinois.cs465.myquizappwithlifecycle.data.ViewModal;
 public class FoodPostActivity extends AppCompatActivity {
     private EditText foodName;
     private EditText description;
+    private EditText rsoName;
     private ViewModal viewmodal;
     private ChipGroup dietaryRestrictionsChipGroup;
     private ChipGroup statusChipGroup;
@@ -46,6 +47,7 @@ public class FoodPostActivity extends AppCompatActivity {
 
         foodName = findViewById(R.id.textField1);
         description = findViewById(R.id.textField2);
+        rsoName = findViewById(R.id.textField3);
         dietaryRestrictionsChipGroup = findViewById(R.id.chipGroupDiet);
         statusChipGroup = findViewById(R.id.chipGroup);
 
@@ -57,11 +59,13 @@ public class FoodPostActivity extends AppCompatActivity {
         if (getIntent().hasExtra("food_id")) {
             String foodNameValue = getIntent().getStringExtra("food_name");
             String descriptionValue = getIntent().getStringExtra("description");
+            String rsoNameValue = getIntent().getStringExtra("rso_name");
             ArrayList<String> dietaryRestrictions = getIntent().getStringArrayListExtra("dietary_restrictions");
             String status = getIntent().getStringExtra("status");
 
             foodName.setText(foodNameValue);
             description.setText(descriptionValue);
+            rsoName.setText(rsoNameValue);
             setDietaryRestrictions(dietaryRestrictions);
             setStatusChip(status);
         }
@@ -80,6 +84,10 @@ public class FoodPostActivity extends AppCompatActivity {
                 //Get description of the food
                 description = (EditText)findViewById(R.id.textField2);
                 fl1.description = description.getText().toString();
+
+                //Get rso name
+                rsoName = (EditText)findViewById(R.id.textField3);
+                fl1.rso_name = rsoName.getText().toString();
 
                 //get checked values from chipGroup for the dietary restriction
                 ChipGroup chipGroup = findViewById(R.id.chipGroupDiet);
@@ -119,18 +127,9 @@ public class FoodPostActivity extends AppCompatActivity {
                 }
                 showNotification();
                 Log.d("DEBUG", "IM HRERE");
-
                 finish();
             }
-//            Intent intent = new Intent(this, MapsActivity.class);
-//            startActivity(intent);
         });
-
-//        findViewById(R.id.direction_button).setOnClickListener(v -> {
-//            Log.d("DEBUG", "I'm cool for inserting a FOOD LISTING");
-//            I
-//        });
-
     }
 
     private void setDietaryRestrictions(ArrayList<String> restrictions) {

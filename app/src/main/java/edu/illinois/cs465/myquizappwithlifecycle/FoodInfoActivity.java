@@ -22,6 +22,8 @@ public class FoodInfoActivity extends AppCompatActivity {
         status.setText((String)intent.getSerializableExtra("status"));
         TextView description = findViewById(R.id.description);
         description.setText((String)intent.getSerializableExtra("description"));
+        TextView rso_name = findViewById(R.id.rso_name_text);
+        rso_name.setText((String)intent.getSerializableExtra("rso_name"));
         Chip c = findViewById(R.id.chip_diet);
         Chip c2 = findViewById(R.id.chip_diet2);
         ArrayList<String> diets =  (ArrayList<String>)intent.getSerializableExtra("diet");
