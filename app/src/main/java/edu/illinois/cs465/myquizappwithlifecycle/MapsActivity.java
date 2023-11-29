@@ -257,6 +257,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         seeMoreButton.setOnClickListener(b -> {
             Intent intent = new Intent(this, FoodInfoActivity.class);
             intent.putExtra("foodName", foodListing.food_name);
+            intent.putExtra("rso_name", foodListing.rso_name);
             intent.putExtra("description", foodListing.description);
             intent.putExtra("diet",foodListing.dietary_restrictions);
             intent.putExtra("status",foodListing.status);

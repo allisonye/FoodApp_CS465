@@ -24,6 +24,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/rso_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ACM X WCS"

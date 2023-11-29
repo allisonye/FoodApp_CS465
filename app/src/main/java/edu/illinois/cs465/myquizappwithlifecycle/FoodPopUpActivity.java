@@ -31,6 +31,8 @@ public class FoodPopUpActivity  extends AppCompatActivity implements Serializabl
         dialog.setContentView(dialogLayout);
         TextView tv = (TextView) dialog.findViewById(R.id.title_popUp);
         tv.setText(foodListing.food_name);
+        TextView rsoView = (TextView) dialog.findViewById(R.id.rso_name);
+        rsoView.setText(foodListing.rso_name);
         Chip status = (Chip) dialog.findViewById(R.id.chip3);
         status.setText(foodListing.status);
 
