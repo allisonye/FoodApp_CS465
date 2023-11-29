@@ -16,6 +16,13 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="20dp">
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Back"
+            android:textAllCaps="true"
+            android:id="@+id/submit_post_back"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -73,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/empty"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="SpeakableTextPresentCheck"/>
 
         <Space
             android:layout_width="match_parent"
