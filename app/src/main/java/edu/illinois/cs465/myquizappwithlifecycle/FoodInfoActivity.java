@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 
@@ -35,6 +37,10 @@ public class FoodInfoActivity extends AppCompatActivity {
             }
         }
 
+        findViewById(R.id.direction_button).setOnClickListener(v -> {
+            showNavigateToMapsPopUp();
+        });
+
         findViewById(R.id.back_button).setOnClickListener(v -> {
             finish();
         });
@@ -51,5 +57,13 @@ public class FoodInfoActivity extends AppCompatActivity {
         chip.setLayoutParams(new ChipGroup.LayoutParams(ChipGroup.LayoutParams.WRAP_CONTENT, ChipGroup.LayoutParams.WRAP_CONTENT));
         chip.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         chipGroup.addView(chip);
+    }
+
+    private void showNavigateToMapsPopUp() {
+        AlertDialog dialog = new MaterialAlertDialogBuilder(FoodInfoActivity.this)
+                .setMessage("Open in Google Maps?")
+                .setPositiveButton("OPEN", null)
+                .setNegativeButton("CANCEL", null)
+                .show();
     }
 }

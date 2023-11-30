@@ -190,7 +190,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="directon"
+            android:text="directions"
             android:textAllCaps="true"
             android:id="@+id/direction_button"></Button>
 
