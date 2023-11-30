@@ -66,10 +66,6 @@
             android:exported="true"
             android:label="EditPostFoodActivity" />
         <activity
-            android:name=".AddPostActivity"
-            android:exported="true"
-            android:label="AddPostActivity" />
-        <activity
             android:name=".FoodPostActivity"
             android:exported="true"
             android:label="FoodPostActivity" />
