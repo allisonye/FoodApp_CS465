@@ -73,7 +73,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(DEBUG,"onCreate()");
+        Log.d(DEBUG,"MapsActivity onCreate()");
         super.onCreate(savedInstanceState);
 
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
@@ -168,6 +168,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ArrayList<String> temp_diets1 = new ArrayList<>();
         temp_diets1.add("Vegetarian");
         temp_diets1.add("Vegan");
+        temp_diets1.add("Gluten-Free");
+        temp_diets1.add("Dairy-free");
         fl2.dietary_restrictions =temp_diets1;
         viewmodal.insertFoodListing(fl2);*/
 
