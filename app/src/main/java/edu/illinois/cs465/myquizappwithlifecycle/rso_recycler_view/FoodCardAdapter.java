@@ -155,30 +155,57 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
     }
 
 
+//    private void updateStatusButtonColor(ImageView statusButtonImg, String status) {
+//        int color = status.equals("LOW") ? Color.rgb(255, 255, 0) : Color.rgb(0, 255, 0); // Yellow for LOW, Green for AVAILABLE
+//        statusButtonImg.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+//    }
     private void updateStatusButtonColor(ImageView statusButtonImg, String status) {
-        int color = status.equals("LOW") ? Color.rgb(255, 255, 0) : Color.rgb(0, 255, 0); // Yellow for LOW, Green for AVAILABLE
-        statusButtonImg.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        Drawable drawable = null;
+        if ("AVAILABLE".equals(status)) {
+            drawable = ContextCompat.getDrawable(statusButtonImg.getContext(), R.drawable.circle_status);
+            statusButtonImg.setColorFilter(Color.rgb(0, 0, 255), PorterDuff.Mode.SRC_IN);
+        } else if ("LOW".equals(status)) {
+            drawable = ContextCompat.getDrawable(statusButtonImg.getContext(), R.drawable.half_circle);
+            statusButtonImg.setColorFilter(Color.rgb(0, 0, 255), PorterDuff.Mode.SRC_IN);
+        }
+        statusButtonImg.setImageDrawable(drawable);
     }
+
+
+//    public void changeStatusAndUpdateColor(int position, String newStatus) {
+//        if (position >= 0 && position < foodListings.size()) {
+//            FoodListing foodListing = foodListings.get(position);
+//            foodListing.status = newStatus;
+//
+//            // Determine the color based on the new status
+//            int color;
+//            if ("AVAILABLE".equals(newStatus)) {
+//                color = Color.rgb(0, 255, 0); // Green for AVAILABLE
+//            } else if ("LOW".equals(newStatus)) {
+//                color = Color.rgb(255, 255, 0); // Yellow for LOW
+//            } else {
+//                color = Color.GRAY; // Default color if status is neither
+//            }
+//
+//            // Update color immediately if the holder is visible
+//            FoodCardHolder holder = (FoodCardHolder) recyclerView.findViewHolderForAdapterPosition(position);
+//            if (holder != null) {
+//                holder.statusButtonImg.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+//            }
+//
+//            notifyItemChanged(position);
+//        }
+//    }
 
     public void changeStatusAndUpdateColor(int position, String newStatus) {
         if (position >= 0 && position < foodListings.size()) {
             FoodListing foodListing = foodListings.get(position);
             foodListing.status = newStatus;
 
-            // Determine the color based on the new status
-            int color;
-            if ("AVAILABLE".equals(newStatus)) {
-                color = Color.rgb(0, 255, 0); // Green for AVAILABLE
-            } else if ("LOW".equals(newStatus)) {
-                color = Color.rgb(255, 255, 0); // Yellow for LOW
-            } else {
-                color = Color.GRAY; // Default color if status is neither
-            }
-
-            // Update color immediately if the holder is visible
+            // Update the drawable immediately if the holder is visible
             FoodCardHolder holder = (FoodCardHolder) recyclerView.findViewHolderForAdapterPosition(position);
             if (holder != null) {
-                holder.statusButtonImg.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                updateStatusButtonColor(holder.statusButtonImg, newStatus);
             }
 
             notifyItemChanged(position);

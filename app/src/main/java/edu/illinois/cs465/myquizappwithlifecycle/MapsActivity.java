@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import androidx.appcompat.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -271,11 +272,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         View dialogLayout = inflater.inflate(layout.legend, null);
         ImageView iv1 = (ImageView) dialogLayout.findViewById(id.green_circle);
         iv1.setImageResource(drawable.circle_status);
-        iv1.setColorFilter(ContextCompat.getColor(getApplicationContext(),R.color.status_available_color));
+        iv1.setColorFilter(Color.rgb(0, 0, 255), PorterDuff.Mode.SRC_IN);
 
         ImageView iv2 = (ImageView) dialogLayout.findViewById(id.yellow_screen);
-        iv2.setImageResource(drawable.circle_status);
-        iv2.setColorFilter(ContextCompat.getColor(getApplicationContext(), color.status_low_color));
+        iv2.setImageResource(drawable.half_circle);
+        iv2.setColorFilter(Color.rgb(0, 0, 255), PorterDuff.Mode.SRC_IN);
         Dialog dialog = new Dialog(MapsActivity.this);
         dialog.setContentView(dialogLayout);
         dialog.show();

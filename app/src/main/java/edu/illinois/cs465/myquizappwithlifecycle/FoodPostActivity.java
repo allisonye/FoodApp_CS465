@@ -253,7 +253,7 @@ private String apiKey;
 
         // Build the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channel_id")
-                .setSmallIcon(R.drawable.account_circle_24px) // Make sure this icon exists
+                .setSmallIcon(R.drawable.switch_account)
                 .setContentTitle("Free Food Alert!")
                 .setContentText("Pizza Available at Siebel CS NOW!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
