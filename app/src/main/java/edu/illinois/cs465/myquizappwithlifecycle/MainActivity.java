@@ -52,7 +52,6 @@ import edu.illinois.cs465.myquizappwithlifecycle.data.FoodListing;
 import edu.illinois.cs465.myquizappwithlifecycle.data.ViewModal;
 import edu.illinois.cs465.myquizappwithlifecycle.databinding.FoodPopupBinding;
 import edu.illinois.cs465.myquizappwithlifecycle.databinding.LandingScreenBinding;
-import edu.illinois.cs465.myquizappwithlifecycle.databinding.RsoBaseScreenBinding;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -94,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ArrayList<String> temp_diets1 = new ArrayList<>();
         temp_diets1.add("Vegetarian");
         temp_diets1.add("Vegan");
+        temp_diets1.add("Dairy-free");
         fl2.dietary_restrictions =temp_diets1;
         viewmodal.insertFoodListing(fl2);
 
