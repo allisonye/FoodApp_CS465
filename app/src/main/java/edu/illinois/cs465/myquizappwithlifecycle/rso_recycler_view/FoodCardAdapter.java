@@ -162,11 +162,11 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
     private void updateStatusButtonColor(ImageView statusButtonImg, String status) {
         Drawable drawable = null;
         if ("AVAILABLE".equals(status)) {
-            drawable = ContextCompat.getDrawable(statusButtonImg.getContext(), R.drawable.circle_status);
-            statusButtonImg.setColorFilter(Color.rgb(0, 0, 255), PorterDuff.Mode.SRC_IN);
+            drawable = ContextCompat.getDrawable(statusButtonImg.getContext(), R.drawable.cookie);
+            statusButtonImg.setColorFilter(Color.rgb(66, 135, 245), PorterDuff.Mode.SRC_IN);
         } else if ("LOW".equals(status)) {
             drawable = ContextCompat.getDrawable(statusButtonImg.getContext(), R.drawable.half_circle);
-            statusButtonImg.setColorFilter(Color.rgb(0, 0, 255), PorterDuff.Mode.SRC_IN);
+            statusButtonImg.setColorFilter(Color.rgb(66, 135, 245), PorterDuff.Mode.SRC_IN);
         }
         statusButtonImg.setImageDrawable(drawable);
     }
