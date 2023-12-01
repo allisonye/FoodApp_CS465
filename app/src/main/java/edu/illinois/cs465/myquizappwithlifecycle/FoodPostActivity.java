@@ -2,6 +2,7 @@ package edu.illinois.cs465.myquizappwithlifecycle;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -23,6 +24,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.google.android.gms.common.api.Status;
@@ -50,6 +52,7 @@ import java.util.Properties;
 
 import edu.illinois.cs465.myquizappwithlifecycle.data.FoodListing;
 import edu.illinois.cs465.myquizappwithlifecycle.data.ViewModal;
+import edu.illinois.cs465.myquizappwithlifecycle.rso_recycler_view.FoodCardAdapter;
 
 public class FoodPostActivity extends AppCompatActivity {
     private EditText foodName;
@@ -62,6 +65,8 @@ public class FoodPostActivity extends AppCompatActivity {
     private int editingFoodId = -1; // ID of the FoodListing being edited
     private double latitude = 0.0;
     private double longitude = 0.0;
+
+    private FoodCardAdapter adapter;
 
 private String apiKey;
     @Override
@@ -93,6 +98,8 @@ private String apiKey;
         rsoName = findViewById(R.id.textField3);
         dietaryRestrictionsChipGroup = findViewById(R.id.chipGroupDiet);
         statusChipGroup = findViewById(R.id.chipGroup);
+
+
 
         Places.initializeWithNewPlacesApiEnabled(getApplicationContext(), BuildConfig.MAPS_API_KEY);
 
@@ -200,17 +207,12 @@ private String apiKey;
 
                 postedItemPosition = getIntent().getIntExtra("food_id", -1);
 
-                // Handler to delete the post after 10 seconds
-                new Handler().postDelayed(new Runnable() {
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (postedItemPosition != -1) {
-                            Intent intent = new Intent("DELETE_POST");
-                            intent.putExtra("position", postedItemPosition);
-                            sendBroadcast(intent);
-                        }
+                        viewmodal.deleteFoodListing(fl1); // Delete from database
                     }
-                }, 10000); // 10 seconds delay
+                }, 1800000); //Deletes the post after 30 min = 1,800,000 miliseconds
 
                 finish();
             }
@@ -261,10 +263,10 @@ private String apiKey;
         }
 
         Intent notifyIntent = new Intent(this, MainActivity.class);
-        // Set the Activity to start in a new, empty task.
+
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        // Create the PendingIntent.
+
         PendingIntent notifyPendingIntent = PendingIntent.getActivity(
                 this, 0, notifyIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE

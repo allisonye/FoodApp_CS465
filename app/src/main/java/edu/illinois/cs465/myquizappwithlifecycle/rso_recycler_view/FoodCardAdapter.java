@@ -48,23 +48,7 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
 
     // Constructor accepting RecyclerView reference
     public FoodCardAdapter(RecyclerView recyclerView, Context context) {
-
         this.recyclerView = recyclerView;
-//        this.context = context;
-//
-//        // Register BroadcastReceiver
-//        BroadcastReceiver deleteReceiver = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                if ("DELETE_POST".equals(intent.getAction())) {
-//                    int position = intent.getIntExtra("position", -1);
-//                    if (position != -1 && position < foodListings.size()) {
-//                        removeFoodListing(position);
-//                    }
-//                }
-//            }
-//        };
-//        this.context.registerReceiver(deleteReceiver, new IntentFilter("DELETE_POST"));
     }
 
     @NonNull
@@ -118,6 +102,7 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
             }
         });
     }
+
 
     @Override
     public int getItemCount() {
@@ -175,7 +160,6 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
             notifyItemRemoved(position);
         }
     }
-
 
     private void updateStatusButtonColor(ImageView statusButtonImg, String status) {
         int color = status.equals("LOW") ? Color.rgb(255, 255, 0) : Color.rgb(0, 255, 0); // Yellow for LOW, Green for AVAILABLE
