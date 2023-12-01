@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -62,6 +63,10 @@ public class FoodPostActivity extends AppCompatActivity {
     private EditText rsoName;
     private ViewModal viewmodal;
     private ChipGroup dietaryRestrictionsChipGroup;
+
+    private ArrayList<String> dietaryRestrictionsList;
+
+    private String foodStatus;
     private ChipGroup statusChipGroup;
     private boolean isEditMode = false;
     private int editingFoodId = -1; // ID of the FoodListing being edited
@@ -69,6 +74,7 @@ public class FoodPostActivity extends AppCompatActivity {
     private double longitude = 0.0;
     private String locationName;
     private Long createdTimeValue;
+    private Date timeAtSubmit;
 
     private FoodCardAdapter adapter;
 
@@ -157,6 +163,7 @@ private String apiKey;
             public void onClick(View v) {
                 //make a FoodListing object
                 FoodListing fl1 = new FoodListing();
+                timeAtSubmit = new Date(System.currentTimeMillis());
 
                 //Get food name
                 foodName = (EditText)findViewById(R.id.textField1);
@@ -178,6 +185,7 @@ private String apiKey;
                     Chip chip = chipGroup.findViewById(id);
                     dietary_res.add(chip.getText().toString());
                 }
+                dietaryRestrictionsList = dietary_res;
                 fl1.dietary_restrictions = dietary_res;
 
                 //get status
@@ -185,6 +193,7 @@ private String apiKey;
                 Integer id2 = chipGroup2.getCheckedChipId();
                 Chip chip_status = chipGroup2.findViewById(id2);
                 String status = chip_status.getText().toString();
+                foodStatus = status;
                 Log.d("DEBUG", "status: " + status);
                 if(status.equals("Available")){
                     fl1.status = "AVAILABLE";
@@ -273,7 +282,15 @@ private String apiKey;
             notificationManager.createNotificationChannel(channel);
         }
 
-        Intent notifyIntent = new Intent(this, RSOActivity.class);
+        Intent notifyIntent = new Intent(this, FoodInfoActivity.class);
+        notifyIntent.putExtra("foodName", foodName.getText().toString());
+        notifyIntent.putExtra("rso_name", rsoName.getText().toString());
+        notifyIntent.putExtra("description", description.getText());
+        notifyIntent.putExtra("diet", dietaryRestrictionsList);
+        notifyIntent.putExtra("status", foodStatus);
+        notifyIntent.putExtra("created_at", timeAtSubmit);
+        notifyIntent.putExtra("latitude", latitude);
+        notifyIntent.putExtra("longitude", longitude);
 
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
