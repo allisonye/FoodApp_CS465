@@ -64,7 +64,7 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
         int hour = expiryTime.getHours();
         int minute = expiryTime.getMinutes();
         String ampm = "am";
-        if (hour > 12) {
+        if (hour >= 12) {
             hour -= 12;
             ampm = "pm";
         }
