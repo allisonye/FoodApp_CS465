@@ -86,7 +86,7 @@ public class FoodInfoActivity extends AppCompatActivity {
         } catch (IOException e) {
             Toast.makeText(getApplicationContext(),"Unable connect to Geocoder",Toast.LENGTH_LONG).show();
         }
-        TextView locationTextView = findViewById(R.id.location_name);
+        TextView locationTextView = findViewById(R.id.locationName);
         locationTextView.setText(addressString);
 
         findViewById(R.id.direction_button).setOnClickListener(v -> {

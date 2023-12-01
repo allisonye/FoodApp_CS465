@@ -67,7 +67,7 @@ public class FoodPostActivity extends AppCompatActivity {
     private int editingFoodId = -1; // ID of the FoodListing being edited
     private double latitude = 0.0;
     private double longitude = 0.0;
-
+    private String locationName;
     private Long createdTimeValue;
 
     private FoodCardAdapter adapter;
@@ -140,12 +140,15 @@ private String apiKey;
             String rsoNameValue = getIntent().getStringExtra("rso_name");
             ArrayList<String> dietaryRestrictions = getIntent().getStringArrayListExtra("dietary_restrictions");
             String status = getIntent().getStringExtra("status");
-
+            locationName = getIntent().getStringExtra("locationName");
+            latitude = getIntent().getDoubleExtra("latitude",1.0);
+            longitude = getIntent().getDoubleExtra("longitude",1.0);
             foodName.setText(foodNameValue);
             description.setText(descriptionValue);
             rsoName.setText(rsoNameValue);
             setDietaryRestrictions(dietaryRestrictions);
             setStatusChip(status);
+            autocompleteFragment.setHint(locationName);
         }
 
         // insert or update db on submit
@@ -201,9 +204,7 @@ private String apiKey;
                     createdTimeValue = getIntent().getLongExtra("createdAt",0);
                     Date copiedDate = new Date(createdTimeValue);
                     fl1.createdAt = copiedDate;
-                    latitude = getIntent().getDoubleExtra("latitude",1.0);
-                    longitude = getIntent().getDoubleExtra("longitude",1.0);
-                    fl1.latitude = latitude;
+                    fl1.latitude  = latitude;
                     fl1.longitude = longitude;
                     viewmodal.updateFoodListing(fl1);
                 } else {
