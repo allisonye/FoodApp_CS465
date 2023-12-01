@@ -217,15 +217,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+//    private void addMarkerForFoodListing(FoodListing foodListing) {
+//        BitmapDescriptor icon;
+//        if ("LOW".equals(foodListing.status)) {
+//            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW); // Yellow for low availability
+//        } else {
+//            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN); // Green for available
+//        }
+//
+//        // Create and add the marker to the map
+//        Marker m = mMap.addMarker(new MarkerOptions()
+//                .position(new LatLng(foodListing.latitude, foodListing.longitude))
+//                .title(foodListing.food_name)
+//                .icon(icon)
+//        );
+//
+//        // Set a tag for the marker if needed for further processing or identification
+//        m.setTag(foodListing);
+//    }
+
     private void addMarkerForFoodListing(FoodListing foodListing) {
         BitmapDescriptor icon;
         if ("LOW".equals(foodListing.status)) {
-            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW); // Yellow for low availability
+            // Use your custom yellow icon for LOW status
+            icon = resizeMapIcons("pizza_yellow_half", 100, 100);
         } else {
-            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN); // Green for available
+            // Use your custom green icon for AVAILABLE status
+            icon = resizeMapIcons("pizza_full_green_pin", 100, 100);
         }
 
-        // Create and add the marker to the map
+        // Create and add the marker to the map with the custom icon
         Marker m = mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(foodListing.latitude, foodListing.longitude))
                 .title(foodListing.food_name)
@@ -235,6 +256,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Set a tag for the marker if needed for further processing or identification
         m.setTag(foodListing);
     }
+
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId, int width, int height) {
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
