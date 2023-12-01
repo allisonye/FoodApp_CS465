@@ -77,7 +77,8 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
         if (hour == 0) {
             hour = 12;
         }
-        holder.textViewExpiryTime.setText("Available until " + hour + ":" + minute + ampm);
+        String minuteStr = minute < 10 ? "0" + Integer.toString(minute) : Integer.toString(minute);
+        holder.textViewExpiryTime.setText("Available until " + hour + ":" + minuteStr + ampm);
 
         // imageView.setColorFilter(Color.argb(255, 255, 255, 255)); // White Tint
         holder.statusButtonImg.setColorFilter(currentFoodListing.status.equals("LOW") ? Color.rgb(255, 255, 0) : Color.rgb(0, 255, 0));

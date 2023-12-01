@@ -63,14 +63,15 @@ public class FoodPopUpActivity  extends AppCompatActivity implements Serializabl
         int hour = expiryTime.getHours();
         int minute = expiryTime.getMinutes();
         String ampm = "am";
-        if (hour > 12) {
+        if (hour >= 12) {
             hour -= 12;
             ampm = "pm";
         }
         if (hour == 0) {
             hour = 12;
         }
-        expiryTimeView.setText("Available until " + hour + ":" + minute + ampm);
+        String minuteStr = minute < 10 ? "0" + Integer.toString(minute) : Integer.toString(minute);
+        expiryTimeView.setText("Available until " + hour + ":" + minuteStr + ampm);
 
         // convert latlng to location name to be displayed
         // https://www.geeksforgeeks.org/reverse-geocoding-in-android/
