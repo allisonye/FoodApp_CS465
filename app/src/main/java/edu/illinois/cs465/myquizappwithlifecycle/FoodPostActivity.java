@@ -262,7 +262,7 @@ private String apiKey;
             notificationManager.createNotificationChannel(channel);
         }
 
-        Intent notifyIntent = new Intent(this, MainActivity.class);
+        Intent notifyIntent = new Intent(this, RSOActivity.class);
 
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -275,8 +275,8 @@ private String apiKey;
         // Build the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channel_id")
                 .setSmallIcon(R.drawable.account_circle_24px) // Make sure this icon exists
-                .setContentTitle("Free Food Alert!")
-                .setContentText("Pizza Available at Siebel CS NOW!")
+                .setContentTitle("Alert: New Food Post by " + rsoName.getText().toString())
+                .setContentText(foodName.getText().toString() + " is available! (click to learn more)")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(notifyPendingIntent)
                 .setAutoCancel(true); // Auto-cancel the notification after it's tapped
