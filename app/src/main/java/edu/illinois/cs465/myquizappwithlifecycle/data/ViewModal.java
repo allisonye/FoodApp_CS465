@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
@@ -12,6 +13,15 @@ public class ViewModal extends AndroidViewModel {
     private FoodListingRepository foodListingRepository;
     private LiveData<List<FoodListing>> allFoodListings;
 
+    private MutableLiveData<Integer> postSubmitted = new MutableLiveData<>();
+
+    public LiveData<Integer> getPostSubmitted() {
+        return postSubmitted;
+    }
+
+    public void setPostSubmitted(int foodId) {
+        postSubmitted.setValue(foodId);
+    }
     public ViewModal(@NonNull Application application) {
         super(application);
         foodListingRepository = new FoodListingRepository(application);

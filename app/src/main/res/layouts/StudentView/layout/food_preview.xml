@@ -38,22 +38,26 @@
         </TextView>
 
 <!--        Timer icon and Time-->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/timer"
-                android:paddingTop="1.5dp"
-                android:layout_marginRight="4dp"></ImageView>
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal">-->
+<!--            <ImageView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:src="@drawable/timer"-->
+<!--                android:paddingTop="1.5dp"-->
+<!--                android:layout_marginRight="4dp"></ImageView>-->
             <TextView
+                android:id="@+id/expiry_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="UNTIL 9PM">
+                android:text="UNTIL 9PM"
+                android:drawableStart="@drawable/timer"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical">
             </TextView>
-        </LinearLayout>
+<!--        </LinearLayout>-->
         <!--        carrousel of images-->
         <HorizontalScrollView
             android:layout_width="match_parent"
@@ -98,6 +102,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/location_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Siebel Center for Computer Science">
