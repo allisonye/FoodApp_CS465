@@ -38,7 +38,7 @@
                     android:gravity="center_horizontal"
                     app:tint="@color/status_available_color"
                     android:layout_gravity="center"
-                    app:srcCompat="@drawable/circle_status"
+                    app:srcCompat="@drawable/food_filled"
                     android:scaleType="centerCrop"
                     />
                 <ImageView

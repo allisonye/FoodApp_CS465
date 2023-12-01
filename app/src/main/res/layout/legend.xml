@@ -32,7 +32,7 @@
             android:gravity="center_horizontal"
             app:tint="@color/status_available_color"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/circle_status"
+            app:srcCompat="@drawable/pizza_full"
             android:scaleType="centerCrop"
             />
         <TextView
@@ -55,7 +55,7 @@
             android:gravity="center_horizontal"
             app:tint="@color/status_low_color"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/circle_status"
+            app:srcCompat="@drawable/pizza_half"
             android:scaleType="centerCrop"
             />
         <TextView
