@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -38,6 +40,8 @@ public class FoodPostActivity extends AppCompatActivity {
     private ChipGroup statusChipGroup;
     private boolean isEditMode = false;
     private int editingFoodId = -1; // ID of the FoodListing being edited
+
+    private int postedItemPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +131,21 @@ public class FoodPostActivity extends AppCompatActivity {
                 }
                 showNotification();
                 Log.d("DEBUG", "IM HRERE");
+
+                postedItemPosition = getIntent().getIntExtra("food_id", -1);
+
+                // Handler to delete the post after 10 seconds
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (postedItemPosition != -1) {
+                            Intent intent = new Intent("DELETE_POST");
+                            intent.putExtra("position", postedItemPosition);
+                            sendBroadcast(intent);
+                        }
+                    }
+                }, 10000); // 10 seconds delay
+
                 finish();
             }
         });

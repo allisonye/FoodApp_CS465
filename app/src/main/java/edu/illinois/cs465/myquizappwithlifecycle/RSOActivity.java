@@ -9,6 +9,8 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -57,7 +59,7 @@ public class RSOActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        adapter = new FoodCardAdapter(recyclerView);
+        adapter = new FoodCardAdapter(recyclerView, this);
         recyclerView.setAdapter(adapter);
 
         foodListingModal = new ViewModelProvider(this).get(ViewModal.class);
@@ -121,6 +123,7 @@ public class RSOActivity extends AppCompatActivity {
             Intent intent = new Intent(this, FoodPostActivity.class);
             startActivity(intent);
         });
+
     }
 
 //    private void showDeleteConfirmationPopup() {

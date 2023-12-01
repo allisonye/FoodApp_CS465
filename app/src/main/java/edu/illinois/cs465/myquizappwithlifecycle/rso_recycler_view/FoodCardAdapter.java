@@ -1,7 +1,11 @@
 package edu.illinois.cs465.myquizappwithlifecycle.rso_recycler_view;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -39,9 +43,27 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
     private OnClickListener onClickListener;
     private RecyclerView recyclerView; // Add this line
 
+    private Context context; // Context member variable
+
     // Constructor accepting RecyclerView reference
-    public FoodCardAdapter(RecyclerView recyclerView) {
+    public FoodCardAdapter(RecyclerView recyclerView, Context context) {
+
         this.recyclerView = recyclerView;
+//        this.context = context;
+//
+//        // Register BroadcastReceiver
+//        BroadcastReceiver deleteReceiver = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                if ("DELETE_POST".equals(intent.getAction())) {
+//                    int position = intent.getIntExtra("position", -1);
+//                    if (position != -1 && position < foodListings.size()) {
+//                        removeFoodListing(position);
+//                    }
+//                }
+//            }
+//        };
+//        this.context.registerReceiver(deleteReceiver, new IntentFilter("DELETE_POST"));
     }
 
     @NonNull
