@@ -1,12 +1,17 @@
 package edu.illinois.cs465.myquizappwithlifecycle;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 
@@ -24,26 +29,41 @@ public class FoodInfoActivity extends AppCompatActivity {
         description.setText((String)intent.getSerializableExtra("description"));
         TextView rso_name = findViewById(R.id.rso_name_text);
         rso_name.setText((String)intent.getSerializableExtra("rso_name"));
-        Chip c = findViewById(R.id.chip_diet);
-        Chip c2 = findViewById(R.id.chip_diet2);
-        ArrayList<String> diets =  (ArrayList<String>)intent.getSerializableExtra("diet");
-        if(diets == null || diets.size()==0){
-            c.setText("Vegetarian");
-            c2.setText("Dairy-Free");
-        }
-        if(diets.size()==2) {
-            c.setText(diets.get(0));
-            c2.setText(diets.get(1));
-        }
-        else if(diets.size()==1){
-            c.setText(diets.get(0));
-            c2.setText("Dairy-Free");
+        ChipGroup chipGroup = findViewById(R.id.chipGroupDiet);
+        ArrayList<String> diets = (ArrayList<String>)intent.getSerializableExtra("diet");
+        if(diets != null) {
+            for (String diet : diets) {
+                addReadOnlyChipToGroup(this, chipGroup, diet);
+            }
         }
 
+        findViewById(R.id.direction_button).setOnClickListener(v -> {
+            showNavigateToMapsPopUp();
+        });
 
         findViewById(R.id.back_button).setOnClickListener(v -> {
             finish();
         });
 
+    }
+
+    private void addReadOnlyChipToGroup(Context context, ChipGroup chipGroup, String text) {
+        Chip chip = new Chip(context);
+        chip.setText(text);
+        chip.setClickable(false);
+        chip.setFocusable(false);
+        chip.setCheckable(false);
+
+        chip.setLayoutParams(new ChipGroup.LayoutParams(ChipGroup.LayoutParams.WRAP_CONTENT, ChipGroup.LayoutParams.WRAP_CONTENT));
+        chip.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        chipGroup.addView(chip);
+    }
+
+    private void showNavigateToMapsPopUp() {
+        AlertDialog dialog = new MaterialAlertDialogBuilder(FoodInfoActivity.this)
+                .setMessage("Open in Google Maps?")
+                .setPositiveButton("OPEN", null)
+                .setNegativeButton("CANCEL", null)
+                .show();
     }
 }
