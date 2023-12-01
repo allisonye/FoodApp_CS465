@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         FoodListing fl1 = new FoodListing();
         fl1.food_name = "Pizza @ CIF";
+        fl1.rso_name = "ACM";
         fl1.description = "yo this is bomb";
         fl1.latitude = 40.11260764797458;
         fl1.longitude = -88.22836335177905;
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         FoodListing fl2 = new FoodListing();
         fl2.food_name = "FREE Samosas!!";
+        fl2.rso_name = "WCS";
         fl2.description = "these are fire, get you some";
         fl2.latitude = 40.11398325552492;
         fl2.longitude = -88.22495883787813;
