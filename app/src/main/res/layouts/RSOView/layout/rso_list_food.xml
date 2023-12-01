@@ -27,6 +27,7 @@
         app:layout_anchor="@id/bottomAppBar"
         app:layout_anchorGravity="center|top"
         app:srcCompat="@drawable/ic_add_24dp"
+        app:backgroundTint="#b3cde0"
         android:layout_marginBottom="16dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -36,7 +37,8 @@
         android:layout_gravity="top|left"
         android:layout_margin="25dp"
         android:contentDescription="@string/fab_content_desc"
-        app:srcCompat="@drawable/account_circle_24px"/>
+        app:backgroundTint="#b3cde0"
+        app:srcCompat="@drawable/switch_account"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
