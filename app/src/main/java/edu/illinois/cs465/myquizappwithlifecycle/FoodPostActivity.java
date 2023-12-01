@@ -237,7 +237,9 @@ private String apiKey;
             case "Gluten-Free": return R.id.chip1;
             case "Dairy-free": return R.id.chip2;
             case "Vegetarian": return R.id.chip3;
-            // Add other mappings here
+            case "Nut-free": return R.id.chip4;
+            case "Shellfish-free": return R.id.chip5;
+            case "Vegan": return R.id.chip6;
             default: return -1;
         }
     }
