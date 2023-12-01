@@ -37,6 +37,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -46,6 +47,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +72,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FusedLocationProviderClient fusedLocationClient;
     private ViewModal viewmodal;
     List<Marker> markers;
+    private boolean isGlutenFreeChecked = true;
+    private boolean isVegetarianChecked = true;
+    private boolean isLactoseFreeChecked = true;
+    private boolean isVeganChecked = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,10 +103,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         buttonDistance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (distanceSlider.getVisibility() == View.GONE) {
-                    distanceSlider.setVisibility(View.VISIBLE);
+                LinearLayout seekBarContainer = findViewById(R.id.seekBarContainer);
+                if (seekBarContainer.getVisibility() == View.GONE) {
+                    seekBarContainer.setVisibility(View.VISIBLE);
                 } else {
-                    distanceSlider.setVisibility(View.GONE);
+                    seekBarContainer.setVisibility(View.GONE);
                 }
             }
         });
@@ -124,10 +132,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         buttonRestrictions.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                showRestrictionsDialog();
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(MapsActivity.this, v);
+                popupMenu.getMenuInflater().inflate(R.menu.restrictions_menu, popupMenu.getMenu());
+
+                // Set initial checkbox states
+                popupMenu.getMenu().findItem(R.id.menu_gluten_free).setChecked(isGlutenFreeChecked);
+                popupMenu.getMenu().findItem(R.id.menu_vegetarian).setChecked(isVegetarianChecked);
+                popupMenu.getMenu().findItem(R.id.menu_lactose_free).setChecked(isLactoseFreeChecked);
+                popupMenu.getMenu().findItem(R.id.menu_vegan).setChecked(isVeganChecked);
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        item.setChecked(!item.isChecked());
+                        handleCheckboxSelection(item.getItemId(), item.isChecked());
+                        return true;
+                    }
+                });
+                popupMenu.show();
+
+                // After setting the dietary flags, refresh the markers
+                refreshMarkersBasedOnDietaryRestrictions();
             }
         });
+
+
 
 //        accountCircleImage.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -189,6 +219,66 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
+
+    // Utility method to check if a FoodListing matches the current dietary restrictions
+    private boolean matchesDietaryRestrictions(FoodListing foodListing) {
+        // Example condition, adjust according to your data structure and requirements
+        return (isGlutenFreeChecked && foodListing.dietary_restrictions.contains("Gluten-Free")) ||
+                (isVegetarianChecked && foodListing.dietary_restrictions.contains("Vegetarian")) ||
+                (isLactoseFreeChecked && foodListing.dietary_restrictions.contains("Lactose-Free")) ||
+                (isVeganChecked && foodListing.dietary_restrictions.contains("Vegan"));
+    }
+
+
+    private void refreshMarkersBasedOnDietaryRestrictions() {
+        if (mMap != null) {
+            mMap.clear(); // Clear all markers
+            // Re-add markers based on dietary restrictions
+            viewmodal.getAllFoodListings().observe(this, new Observer<List<FoodListing>>() {
+                @Override
+                public void onChanged(List<FoodListing> foodListings) {
+                    for (FoodListing foodListing : foodListings) {
+                        if (matchesDietaryRestrictions(foodListing)) {
+                            addMarkerForFoodListing(foodListing);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    private void addMarkerForFoodListing(FoodListing foodListing) {
+        BitmapDescriptor icon;
+        if ("LOW".equals(foodListing.status)) {
+            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW); // Yellow for low availability
+        } else {
+            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN); // Green for available
+        }
+
+        // Create and add the marker to the map
+        Marker m = mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(foodListing.latitude, foodListing.longitude))
+                .title(foodListing.food_name)
+                .icon(icon)
+        );
+
+        // Set a tag for the marker if needed for further processing or identification
+        m.setTag(foodListing);
+    }
+
+    private void handleCheckboxSelection(int itemId, boolean isChecked) {
+        if (itemId == R.id.menu_gluten_free) {
+            isGlutenFreeChecked = isChecked;
+        } else if (itemId == R.id.menu_vegetarian) {
+            isVegetarianChecked = isChecked;
+        } else if (itemId == R.id.menu_lactose_free) {
+            isLactoseFreeChecked = isChecked;
+        } else if (itemId == R.id.menu_vegan) {
+            isVeganChecked = isChecked;
+        }
+    }
+
+
 
     /**
      * Manipulates the map once available.

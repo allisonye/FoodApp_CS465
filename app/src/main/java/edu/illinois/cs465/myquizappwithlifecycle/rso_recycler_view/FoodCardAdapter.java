@@ -1,7 +1,11 @@
 package edu.illinois.cs465.myquizappwithlifecycle.rso_recycler_view;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -40,8 +44,10 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
     private OnClickListener onClickListener;
     private RecyclerView recyclerView; // Add this line
 
+    private Context context; // Context member variable
+
     // Constructor accepting RecyclerView reference
-    public FoodCardAdapter(RecyclerView recyclerView) {
+    public FoodCardAdapter(RecyclerView recyclerView, Context context) {
         this.recyclerView = recyclerView;
     }
 
@@ -110,6 +116,7 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
         });
     }
 
+
     @Override
     public int getItemCount() {
         return foodListings.size();
@@ -166,7 +173,6 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
             notifyItemRemoved(position);
         }
     }
-
 
     private void updateStatusButtonColor(ImageView statusButtonImg, String status) {
         int color = status.equals("LOW") ? Color.rgb(255, 255, 0) : Color.rgb(0, 255, 0); // Yellow for LOW, Green for AVAILABLE
