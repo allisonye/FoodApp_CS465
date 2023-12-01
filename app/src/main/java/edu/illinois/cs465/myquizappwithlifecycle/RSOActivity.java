@@ -206,40 +206,49 @@ public class RSOActivity extends AppCompatActivity {
         snackbar.show();
     }
 
-
-
-
     @SuppressLint("RestrictedApi")
     private void showStatusMenu(View v, @MenuRes int menuRes, int position) {
         PopupMenu popup = new PopupMenu(this, v);
         popup.getMenuInflater().inflate(menuRes, popup.getMenu());
 
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int id = item.getItemId();
-                if (id == R.id.status_option_1) {
-                    adapter.changeStatusAndUpdateColor(position, "AVAILABLE");
+        // Define your colors
+        int statusAvailableColor = ContextCompat.getColor(this, R.color.status_available_color);
+        int statusLowColor = ContextCompat.getColor(this, R.color.status_low_color);
 
-                    FoodListing foodListing = adapter.getFoodListingAt(position);
-                    foodListing.status = "AVAILABLE";
-                    foodListingModal.updateFoodListing(foodListing);
+        if (popup.getMenu() instanceof MenuBuilder) {
+            MenuBuilder menuBuilder = (MenuBuilder) popup.getMenu();
+            menuBuilder.setOptionalIconsVisible(true);
 
-                    return true;
-                } else if (id == R.id.status_option_2) {
-                    adapter.changeStatusAndUpdateColor(position, "LOW");
-
-                    FoodListing foodListing = adapter.getFoodListingAt(position);
-                    foodListing.status = "LOW";
-                    foodListingModal.updateFoodListing(foodListing);
-
-                    return true;
+            for (MenuItem item : menuBuilder.getVisibleItems()) {
+                Drawable icon = item.getIcon();
+                if (icon != null) {
+                    // Set the tint based on some condition or item ID
+                    if (item.getItemId() == R.id.status_option_1) {
+                        icon.setColorFilter(statusAvailableColor, PorterDuff.Mode.SRC_IN);
+                    } else if (item.getItemId() == R.id.status_option_2) {
+                        icon.setColorFilter(statusLowColor, PorterDuff.Mode.SRC_IN);
+                    }
                 }
-                return false;
             }
+        }
+
+        popup.setOnMenuItemClickListener(item -> {
+            FoodListing foodListing = adapter.getFoodListingAt(position);
+            int id = item.getItemId();
+            if (id == R.id.status_option_1) {
+                adapter.changeStatusAndUpdateColor(position, "AVAILABLE");
+                foodListing.status = "AVAILABLE";
+            } else if (id == R.id.status_option_2) {
+                adapter.changeStatusAndUpdateColor(position, "LOW");
+                foodListing.status = "LOW";
+            }
+            foodListingModal.updateFoodListing(foodListing);
+            return true;
         });
+
         popup.show();
     }
+
 
     private void startFoodPostActivityWithFoodListing(FoodListing foodListing) {
         Intent intent = new Intent(this, FoodPostActivity.class);
