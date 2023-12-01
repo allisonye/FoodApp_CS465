@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
 import android.os.Handler;
@@ -42,7 +44,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import edu.illinois.cs465.myquizappwithlifecycle.data.FoodListing;
 import edu.illinois.cs465.myquizappwithlifecycle.data.ViewModal;
@@ -257,6 +261,24 @@ public class RSOActivity extends AppCompatActivity {
         intent.putExtra("description", foodListing.description);
         intent.putStringArrayListExtra("dietary_restrictions", foodListing.dietary_restrictions);
         intent.putExtra("status", foodListing.status);
+
+
+        Geocoder mGeocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+        String addressString = "";
+        try {
+            List<Address> addressList = mGeocoder.getFromLocation(
+                    foodListing.latitude,
+                    foodListing.longitude,
+                    1);
+            if (addressList != null && !addressList.isEmpty()) {
+                Address address = addressList.get(0);
+                addressString = address.getAddressLine(0);
+                Log.d("DEBUG", "addressString is " + addressString);
+            }
+        } catch (IOException e) {
+            Toast.makeText(getApplicationContext(),"Unable connect to Geocoder",Toast.LENGTH_LONG).show();
+        }
+        intent.putExtra("locationName", addressString);
 
         // For Date, you need to convert it to a long or string as Intent doesn't support Date directly
         if (foodListing.createdAt != null) {
