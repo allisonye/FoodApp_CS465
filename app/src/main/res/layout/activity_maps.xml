@@ -24,7 +24,8 @@
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="25dp"
         android:contentDescription="@string/fab_content_desc"
-        app:srcCompat="@drawable/account_circle_24px" />
+        app:backgroundTint="#b3cde0"
+        app:srcCompat="@drawable/switch_account" />
 
     <!-- Top Panel LinearLayout -->
     <LinearLayout
@@ -90,13 +91,13 @@
             android:layout_marginStart="8dp"/>
     </LinearLayout>
 
+
     <!-- Information FloatingActionButton -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
-        android:gravity="bottom|right">
+        android:gravity="bottom|right"
+        android:orientation="vertical">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/information"
@@ -104,8 +105,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:contentDescription="information"
-            app:srcCompat="@drawable/info_icon"
-            app:fabSize="mini" />
+            app:backgroundTint="#b3cde0"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/info_icon" />
     </LinearLayout>
 
 </RelativeLayout>

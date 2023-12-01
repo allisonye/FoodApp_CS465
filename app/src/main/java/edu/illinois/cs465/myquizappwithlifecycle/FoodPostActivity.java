@@ -242,10 +242,12 @@ private String apiKey;
     private int getDietaryRestrictionChipId(String restriction) {
         // Map restriction strings to chip IDs
         switch (restriction) {
-            case "Gluten-Free": return R.id.chip1;
+            case "Gluten-free": return R.id.chip1;
             case "Dairy-free": return R.id.chip2;
             case "Vegetarian": return R.id.chip3;
-            // Add other mappings here
+            case "Nut-free": return R.id.chip4;
+            case "Shellfish-free": return R.id.chip5;
+            case "Vegan": return R.id.chip6;
             default: return -1;
         }
     }
@@ -282,7 +284,7 @@ private String apiKey;
 
         // Build the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channel_id")
-                .setSmallIcon(R.drawable.account_circle_24px) // Make sure this icon exists
+                .setSmallIcon(R.drawable.switch_account)
                 .setContentTitle("Alert: New Food Post by " + rsoName.getText().toString())
                 .setContentText(foodName.getText().toString() + " is available! (click to learn more)")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

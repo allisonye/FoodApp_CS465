@@ -3,17 +3,23 @@ package edu.illinois.cs465.myquizappwithlifecycle;
 import static java.security.AccessController.getContext;
 import static edu.illinois.cs465.myquizappwithlifecycle.R.*;
 
+import androidx.annotation.DrawableRes;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import androidx.appcompat.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -54,7 +60,9 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 
 import edu.illinois.cs465.myquizappwithlifecycle.data.AppDatabase;
@@ -72,11 +80,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FusedLocationProviderClient fusedLocationClient;
     private ViewModal viewmodal;
     List<Marker> markers;
-    private boolean isGlutenFreeChecked = true;
-    private boolean isVegetarianChecked = true;
-    private boolean isLactoseFreeChecked = true;
-    private boolean isVeganChecked = true;
-
+    Map<Integer, String> filterNameOfId;
+    Map<String, Boolean> isFilterSelected;
+    private int[] filterIdList = {R.id.menu_gluten_free, R.id.menu_dairy_free, R.id.menu_vegetarian, R.id.menu_nut_free, R.id.menu_shellfish_free, R.id.menu_vegan};
+    private String[] filterNameList = {"Gluten-free", "Dairy-free", "Vegetarian", "Nut-free", "Shellfish-free", "Vegan"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +106,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         accountCircleImage.setOnClickListener(v -> showBottomDialog());
 
         information.setOnClickListener(v -> {showLegendPopup();});
+
+        // initialize viewmodal, gmaps markers list
+        viewmodal = new ViewModelProvider(this).get(ViewModal.class);
+        markers = new ArrayList<Marker>();
+        filterNameOfId = new HashMap<>();
+        isFilterSelected = new HashMap<>();
+        for (int i = 0; i < 6; i++) {
+            filterNameOfId.put(filterIdList[i], filterNameList[i]);
+            isFilterSelected.put(filterNameList[i], false);
+        }
 
         buttonDistance.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,10 +154,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 popupMenu.getMenuInflater().inflate(R.menu.restrictions_menu, popupMenu.getMenu());
 
                 // Set initial checkbox states
-                popupMenu.getMenu().findItem(R.id.menu_gluten_free).setChecked(isGlutenFreeChecked);
-                popupMenu.getMenu().findItem(R.id.menu_vegetarian).setChecked(isVegetarianChecked);
-                popupMenu.getMenu().findItem(R.id.menu_lactose_free).setChecked(isLactoseFreeChecked);
-                popupMenu.getMenu().findItem(R.id.menu_vegan).setChecked(isVeganChecked);
+                for (int i = 0; i < 6; i++) {
+                    popupMenu.getMenu().findItem(filterIdList[i]).setChecked(isFilterSelected.get(filterNameList[i]));
+                }
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -157,8 +173,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-
-
 //        accountCircleImage.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -172,64 +186,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         viewmodal = new ViewModelProvider(this).get(ViewModal.class);
         markers = new ArrayList<Marker>();
 
-        // TODO: delete this when ready
-        // clears map, initializes two food listings at CIF and Illini Union
-/*
-        viewmodal.deleteAllFoodListings();
-
-        FoodListing fl1 = new FoodListing();
-        fl1.food_name = "Pizza @ CIF";
-        fl1.description = "yo this is bomb";
-        fl1.rso_name = "ACM";
-        fl1.latitude = 40.11260764797458;
-        fl1.longitude = -88.22836335177905;
-        fl1.status = "LOW";
-        ArrayList<String> temp_diets = new ArrayList<>();
-        temp_diets.add("Vegetarian");
-        temp_diets.add("Vegan");
-        fl1.dietary_restrictions =temp_diets;
-        viewmodal.insertFoodListing(fl1);
-
-        FoodListing fl2 = new FoodListing();
-        fl2.food_name = "FREE Samosas!!";
-        fl2.rso_name = "WCS";
-        fl2.description = "these are fire, get you some";
-        fl2.latitude = 40.11398325552492;
-        fl2.longitude = -88.22495883787813;
-        fl2.status = "AVAILABLE";
-        ArrayList<String> temp_diets1 = new ArrayList<>();
-        temp_diets1.add("Vegetarian");
-        temp_diets1.add("Vegan");
-        temp_diets1.add("Gluten-Free");
-        temp_diets1.add("Dairy-free");
-        fl2.dietary_restrictions =temp_diets1;
-        viewmodal.insertFoodListing(fl2);
-
-
-        FoodListing fl3 = new FoodListing();
-        fl2.food_id = 6;
-        fl2.food_name = "Sandwiches @ Illini Union";
-        fl2.rso_name = "WCS"
-        fl2.description = "yo this is goooodddddd asfffffffff";
-        fl2.latitude = 40.10934133355023;
-        fl2.longitude = -88.22725468192122;
-        fl2.status = "LOW";
-        ArrayList<String> temp_diets2 = new ArrayList<>();
-        temp_diets2.add("gluten-free");
-        temp_diets2.add("vegan");
-        fl2.dietary_restrictions =temp_diets2;
-        viewmodal.insertFoodListing(fl2);
-*/
-
     }
 
     // Utility method to check if a FoodListing matches the current dietary restrictions
     private boolean matchesDietaryRestrictions(FoodListing foodListing) {
         // Example condition, adjust according to your data structure and requirements
-        return (isGlutenFreeChecked && foodListing.dietary_restrictions.contains("Gluten-Free")) ||
-                (isVegetarianChecked && foodListing.dietary_restrictions.contains("Vegetarian")) ||
-                (isLactoseFreeChecked && foodListing.dietary_restrictions.contains("Lactose-Free")) ||
-                (isVeganChecked && foodListing.dietary_restrictions.contains("Vegan"));
+        for (String restriction : filterNameList) {
+            if (isFilterSelected.get(restriction) && !foodListing.dietary_restrictions.contains(restriction)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
@@ -269,19 +236,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         m.setTag(foodListing);
     }
 
-    private void handleCheckboxSelection(int itemId, boolean isChecked) {
-        if (itemId == R.id.menu_gluten_free) {
-            isGlutenFreeChecked = isChecked;
-        } else if (itemId == R.id.menu_vegetarian) {
-            isVegetarianChecked = isChecked;
-        } else if (itemId == R.id.menu_lactose_free) {
-            isLactoseFreeChecked = isChecked;
-        } else if (itemId == R.id.menu_vegan) {
-            isVeganChecked = isChecked;
-        }
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId, int width, int height) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
-
+    private BitmapDescriptor resizeMapIcons(String iconName, int width, int height){
+        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(iconName, "drawable", getPackageName()));
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
+        return BitmapDescriptorFactory.fromBitmap(resizedBitmap);
+    }
+  
+    private void handleCheckboxSelection(int itemId, boolean isChecked) {
+        isFilterSelected.replace(filterNameOfId.get(itemId), isChecked);
+    }
 
     /**
      * Manipulates the map once available.
@@ -307,6 +279,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        LatLng siebelCenterDesign = new LatLng(40.1027, -88.2328); // Coordinates for Siebel Center for Design
 //        Marker siebelMarker = mMap.addMarker(new MarkerOptions().position(siebelCenterDesign).title("Siebel Center for Design"));
 
+//        viewmodal.getAllFoodListings().observe(this, new Observer<List<FoodListing>>() {
+//            @Override
+//            public void onChanged(List<FoodListing> foodListings) {
+//                // clear existing markers from map
+//                for (Marker m : markers) {
+//                    m.remove();
+//                }
+//                markers.clear();
+//                // add markers back to map
+//                for (FoodListing foodListing : foodListings) {
+//                    BitmapDescriptor icon = foodListing.status.equals("LOW")
+//                            ? BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)
+//                            : BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+//                    Marker m = mMap.addMarker(new MarkerOptions()
+//                            .position(new LatLng(foodListing.latitude, foodListing.longitude))
+//                            .title(foodListing.food_name)
+//                            .icon(icon)
+//
+//                    );
+//                    m.setTag(foodListing);
+//                    markers.add(m);
+//                }
+//            }
+//
+//
+//        });
+
+
+
+
         viewmodal.getAllFoodListings().observe(this, new Observer<List<FoodListing>>() {
             @Override
             public void onChanged(List<FoodListing> foodListings) {
@@ -315,20 +317,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     m.remove();
                 }
                 markers.clear();
+
                 // add markers back to map
                 for (FoodListing foodListing : foodListings) {
-                    BitmapDescriptor icon = foodListing.status.equals("LOW")
-                            ? BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)
-                            : BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+                    BitmapDescriptor icon;
+                    if (foodListing.status.equals("LOW")) {
+                        icon = resizeMapIcons("pizza_half_yellow", 100, 100);
+                    } else {
+                        icon = resizeMapIcons("pizza_full_green", 100, 100);
+                    }
                     Marker m = mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(foodListing.latitude, foodListing.longitude))
                             .title(foodListing.food_name)
                             .icon(icon)
-
                     );
                     m.setTag(foodListing);
                     markers.add(m);
                 }
+
             }
         });
 
@@ -366,11 +372,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LayoutInflater inflater = getLayoutInflater();
         View dialogLayout = inflater.inflate(layout.legend, null);
         ImageView iv1 = (ImageView) dialogLayout.findViewById(id.green_circle);
-        iv1.setImageResource(drawable.circle_status);
+        iv1.setImageResource(drawable.pizza_full);
         iv1.setColorFilter(ContextCompat.getColor(getApplicationContext(),R.color.status_available_color));
 
         ImageView iv2 = (ImageView) dialogLayout.findViewById(id.yellow_screen);
-        iv2.setImageResource(drawable.circle_status);
+        iv2.setImageResource(drawable.pizza_half);
         iv2.setColorFilter(ContextCompat.getColor(getApplicationContext(), color.status_low_color));
         Dialog dialog = new Dialog(MapsActivity.this);
         dialog.setContentView(dialogLayout);
