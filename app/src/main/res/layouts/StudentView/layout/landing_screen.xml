@@ -24,7 +24,7 @@
             android:layout_gravity="top|left"
             android:layout_margin="25dp"
             android:contentDescription="@string/fab_content_desc"
-            app:srcCompat="@drawable/account_circle_24px"/>
+            app:srcCompat="@drawable/switch_account"/>
 
         <Button
             android:id="@+id/deleted_post_button"

@@ -3,17 +3,23 @@ package edu.illinois.cs465.myquizappwithlifecycle;
 import static java.security.AccessController.getContext;
 import static edu.illinois.cs465.myquizappwithlifecycle.R.*;
 
+import androidx.annotation.DrawableRes;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import androidx.appcompat.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -226,11 +232,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         m.setTag(foodListing);
     }
 
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId, int width, int height) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    private BitmapDescriptor resizeMapIcons(String iconName, int width, int height){
+        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(iconName, "drawable", getPackageName()));
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
+        return BitmapDescriptorFactory.fromBitmap(resizedBitmap);
+    }
+  
     private void handleCheckboxSelection(int itemId, boolean isChecked) {
         isFilterSelected.replace(filterNameOfId.get(itemId), isChecked);
     }
-
-
 
     /**
      * Manipulates the map once available.
@@ -256,6 +275,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        LatLng siebelCenterDesign = new LatLng(40.1027, -88.2328); // Coordinates for Siebel Center for Design
 //        Marker siebelMarker = mMap.addMarker(new MarkerOptions().position(siebelCenterDesign).title("Siebel Center for Design"));
 
+//        viewmodal.getAllFoodListings().observe(this, new Observer<List<FoodListing>>() {
+//            @Override
+//            public void onChanged(List<FoodListing> foodListings) {
+//                // clear existing markers from map
+//                for (Marker m : markers) {
+//                    m.remove();
+//                }
+//                markers.clear();
+//                // add markers back to map
+//                for (FoodListing foodListing : foodListings) {
+//                    BitmapDescriptor icon = foodListing.status.equals("LOW")
+//                            ? BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)
+//                            : BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+//                    Marker m = mMap.addMarker(new MarkerOptions()
+//                            .position(new LatLng(foodListing.latitude, foodListing.longitude))
+//                            .title(foodListing.food_name)
+//                            .icon(icon)
+//
+//                    );
+//                    m.setTag(foodListing);
+//                    markers.add(m);
+//                }
+//            }
+//
+//
+//        });
+
+
+
+
         viewmodal.getAllFoodListings().observe(this, new Observer<List<FoodListing>>() {
             @Override
             public void onChanged(List<FoodListing> foodListings) {
@@ -264,20 +313,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     m.remove();
                 }
                 markers.clear();
+
                 // add markers back to map
                 for (FoodListing foodListing : foodListings) {
-                    BitmapDescriptor icon = foodListing.status.equals("LOW")
-                            ? BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)
-                            : BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+                    BitmapDescriptor icon;
+                    if (foodListing.status.equals("LOW")) {
+                        icon = resizeMapIcons("pizza_half_yellow", 100, 100);
+                    } else {
+                        icon = resizeMapIcons("pizza_full_green", 100, 100);
+                    }
                     Marker m = mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(foodListing.latitude, foodListing.longitude))
                             .title(foodListing.food_name)
                             .icon(icon)
-
                     );
                     m.setTag(foodListing);
                     markers.add(m);
                 }
+
             }
         });
 
@@ -315,11 +368,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LayoutInflater inflater = getLayoutInflater();
         View dialogLayout = inflater.inflate(layout.legend, null);
         ImageView iv1 = (ImageView) dialogLayout.findViewById(id.green_circle);
-        iv1.setImageResource(drawable.circle_status);
+        iv1.setImageResource(drawable.pizza_full);
         iv1.setColorFilter(ContextCompat.getColor(getApplicationContext(),R.color.status_available_color));
 
         ImageView iv2 = (ImageView) dialogLayout.findViewById(id.yellow_screen);
-        iv2.setImageResource(drawable.circle_status);
+        iv2.setImageResource(drawable.pizza_half);
         iv2.setColorFilter(ContextCompat.getColor(getApplicationContext(), color.status_low_color));
         Dialog dialog = new Dialog(MapsActivity.this);
         dialog.setContentView(dialogLayout);
