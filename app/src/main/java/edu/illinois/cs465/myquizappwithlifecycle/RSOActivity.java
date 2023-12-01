@@ -9,6 +9,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +35,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -163,32 +165,48 @@ public class RSOActivity extends AppCompatActivity {
     private void showVertMenu(View v, @MenuRes int menuRes, int position) {
         PopupMenu popup = new PopupMenu(this, v);
         popup.getMenuInflater().inflate(menuRes, popup.getMenu());
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.option_vert_menu_delete) {
-                    showDeleteConfirmationPopup(position);
-                    return true;
-                }
-                else if (item.getItemId() == R.id.option_vert_menu_edit){
-                    FoodListing foodListing = adapter.getFoodListingAt(position);
-                    startFoodPostActivityWithFoodListing(foodListing);
-                    return true;
-                }
-                // Handle other menu item clicks if necessary
-                return false;
+        popup.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.option_vert_menu_delete) {
+                showSnackbarWithAction(v, position);
+                return true;
             }
-        });
-        popup.setOnDismissListener(new PopupMenu.OnDismissListener() {
-            @Override
-            public void onDismiss(PopupMenu menu) {
-                // Respond to popup being dismissed.
+            else if (item.getItemId() == R.id.option_vert_menu_edit){
+                FoodListing foodListing = adapter.getFoodListingAt(position);
+                startFoodPostActivityWithFoodListing(foodListing);
+                return true;
             }
+            // Handle other menu item clicks if necessary
+            return false;
         });
 
         // Show the popup menu.
         popup.show();
     }
+
+    private void showSnackbarWithAction(View view, final int position) {
+        final FoodListing deletedFoodListing = adapter.getFoodListingAt(position);
+        adapter.removeFoodListing(position);
+
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.add_food_button), "Item deleted", Snackbar.LENGTH_LONG);
+        snackbar.setAction("UNDO", v -> {
+            Log.d("Snackbar", "Undo clicked");
+            adapter.restoreFoodListing(deletedFoodListing, position);
+        });
+        snackbar.addCallback(new Snackbar.Callback() {
+            @Override
+            public void onDismissed(Snackbar snackbar, int event) {
+                if (    event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT ||
+                        event == Snackbar.Callback.DISMISS_EVENT_CONSECUTIVE ||
+                        event == Snackbar.Callback.DISMISS_EVENT_SWIPE) {
+                    foodListingModal.deleteFoodListing(deletedFoodListing);
+                }
+            }
+        });
+        snackbar.setAnchorView(findViewById(R.id.add_food_button));
+        snackbar.show();
+    }
+
+
 
 
     @SuppressLint("RestrictedApi")
@@ -202,9 +220,19 @@ public class RSOActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 if (id == R.id.status_option_1) {
                     adapter.changeStatusAndUpdateColor(position, "AVAILABLE");
+
+                    FoodListing foodListing = adapter.getFoodListingAt(position);
+                    foodListing.status = "AVAILABLE";
+                    foodListingModal.updateFoodListing(foodListing);
+
                     return true;
                 } else if (id == R.id.status_option_2) {
                     adapter.changeStatusAndUpdateColor(position, "LOW");
+
+                    FoodListing foodListing = adapter.getFoodListingAt(position);
+                    foodListing.status = "LOW";
+                    foodListingModal.updateFoodListing(foodListing);
+
                     return true;
                 }
                 return false;

@@ -1,5 +1,7 @@
 package edu.illinois.cs465.myquizappwithlifecycle;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -12,19 +14,37 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import edu.illinois.cs465.myquizappwithlifecycle.BuildConfig;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 import edu.illinois.cs465.myquizappwithlifecycle.data.FoodListing;
 import edu.illinois.cs465.myquizappwithlifecycle.data.ViewModal;
@@ -38,6 +58,25 @@ public class FoodPostActivity extends AppCompatActivity {
     private ChipGroup statusChipGroup;
     private boolean isEditMode = false;
     private int editingFoodId = -1; // ID of the FoodListing being edited
+    private double latitude = 0.0;
+    private double longitude = 0.0;
+
+private String apiKey;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == AutocompleteActivity.RESULT_OK) {
+            if (data != null) {
+                Log.d("DEBUG","succeed");
+            }
+        } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+            if (data != null) {
+                Log.d("DEBUG", "error"+Autocomplete.getStatusFromIntent(data));
+            }
+        } else if (resultCode == RESULT_CANCELED) {
+            Log.d("DEBUG", "cancelled");
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +90,32 @@ public class FoodPostActivity extends AppCompatActivity {
         dietaryRestrictionsChipGroup = findViewById(R.id.chipGroupDiet);
         statusChipGroup = findViewById(R.id.chipGroup);
 
+        Places.initializeWithNewPlacesApiEnabled(getApplicationContext(), BuildConfig.MAPS_API_KEY);
+
         findViewById(R.id.submit_post_back).setOnClickListener(v -> {
             finish();
+        });
+
+        // Initialize the AutocompleteSupportFragment.
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+        Log.d("DEBUG", "autocomplete: "+autocompleteFragment);
+        // Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
+
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                 latitude = place.getLatLng().latitude;
+                 longitude = place.getLatLng().longitude;
+                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+            }
+            @Override
+            public void onError(@NonNull Status status) {
+                Log.i(TAG, "An error occurred: " + status);
+            }
         });
 
         // Check for incoming FoodListing data
@@ -114,8 +177,11 @@ public class FoodPostActivity extends AppCompatActivity {
                 };
 
 //                to do: get from gmap values
-                fl1.latitude = 40.10934133355023;
-                fl1.longitude = -88.22725468192122;
+                fl1.latitude = latitude;
+                fl1.longitude = longitude;
+
+//                fl1.latitude = 40.10934133355023;
+//                fl1.longitude = -88.22725468192122;
 
                 if (getIntent().hasExtra("food_id")) {
                     Log.d("DEBUG", "UPDATING FOOD LISTING WITH ID " + getIntent().getIntExtra("food_id", 0));

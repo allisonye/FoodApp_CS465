@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -109,6 +110,13 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
     public FoodListing getFoodListingAt(int position) {
         return foodListings.get(position);
     }
+
+    public void restoreFoodListing(FoodListing foodListing, int position) {
+        if (position >= 0 && position <= foodListings.size()) {
+            foodListings.add(position, foodListing);
+            notifyItemInserted(position);
+        }
+    }
     class FoodCardHolder extends RecyclerView.ViewHolder{
         private TextView textViewTitle;
         // private TextView textViewDate;
@@ -145,6 +153,7 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
             notifyItemRemoved(position);
         }
     }
+
 
     private void updateStatusButtonColor(ImageView statusButtonImg, String status) {
         int color = status.equals("LOW") ? Color.rgb(255, 255, 0) : Color.rgb(0, 255, 0); // Yellow for LOW, Green for AVAILABLE
