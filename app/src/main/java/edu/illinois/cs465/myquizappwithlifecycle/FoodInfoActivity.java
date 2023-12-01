@@ -13,6 +13,8 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class FoodInfoActivity extends AppCompatActivity {
@@ -21,14 +23,34 @@ public class FoodInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         setContentView(R.layout.food_preview);
+
         TextView title = findViewById(R.id.post_title);
         title.setText((String)intent.getSerializableExtra("foodName"));
+
+        // format expiration time
+        TextView expiryTimeView = findViewById(R.id.expiry_time);
+        Timestamp expiryTime = new Timestamp(((Date) intent.getSerializableExtra("created_at")).getTime() + 30*60000);
+        int hour = expiryTime.getHours();
+        int minute = expiryTime.getMinutes();
+        String ampm = "am";
+        if (hour > 12) {
+            hour -= 12;
+            ampm = "pm";
+        }
+        if (hour == 0) {
+            hour = 12;
+        }
+        expiryTimeView.setText("Available until " + hour + ":" + minute + ampm);
+
         TextView status = findViewById(R.id.status_food);
         status.setText((String)intent.getSerializableExtra("status"));
+
         TextView description = findViewById(R.id.description);
         description.setText((String)intent.getSerializableExtra("description"));
+
         TextView rso_name = findViewById(R.id.rso_name_text);
         rso_name.setText((String)intent.getSerializableExtra("rso_name"));
+
         ChipGroup chipGroup = findViewById(R.id.chipGroupDiet);
         ArrayList<String> diets = (ArrayList<String>)intent.getSerializableExtra("diet");
         if(diets != null) {

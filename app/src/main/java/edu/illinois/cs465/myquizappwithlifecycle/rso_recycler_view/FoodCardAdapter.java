@@ -58,8 +58,21 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
         holder.cardId.setTag(currentFoodListing.food_id);
         holder.textViewTitle.setText(currentFoodListing.food_name);
         // holder.textViewDate.setText(new Timestamp(currentFoodListing.createdAt.getTime()).toString());
-        String expiryTime = new Timestamp(currentFoodListing.createdAt.getTime() + 30*60000).toString();
-        holder.textViewExpiryTime.setText("Available until " + expiryTime.substring(0, expiryTime.length() - 7));
+
+        // format expiration time
+        Timestamp expiryTime = new Timestamp(currentFoodListing.createdAt.getTime() + 30*60000);
+        int hour = expiryTime.getHours();
+        int minute = expiryTime.getMinutes();
+        String ampm = "am";
+        if (hour > 12) {
+            hour -= 12;
+            ampm = "pm";
+        }
+        if (hour == 0) {
+            hour = 12;
+        }
+        holder.textViewExpiryTime.setText("Available until " + hour + ":" + minute + ampm);
+
         // imageView.setColorFilter(Color.argb(255, 255, 255, 255)); // White Tint
         holder.statusButtonImg.setColorFilter(currentFoodListing.status.equals("LOW") ? Color.rgb(255, 255, 0) : Color.rgb(0, 255, 0));
         //TODO: Repeat for time and date use String.valueOf()

@@ -18,6 +18,7 @@ import com.google.android.material.chip.ChipGroup;
 import org.w3c.dom.Text;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import edu.illinois.cs465.myquizappwithlifecycle.data.FoodListing;
@@ -35,14 +36,30 @@ public class FoodPopUpActivity  extends AppCompatActivity implements Serializabl
 
         TextView tv = dialogLayout.findViewById(R.id.title_popUp);
         tv.setText(foodListing.food_name);
+
         TextView rsoView = dialogLayout.findViewById(R.id.rso_name);
         rsoView.setText(foodListing.rso_name);
+
         Chip status = dialogLayout.findViewById(R.id.chip3);
         status.setText(foodListing.status);
 
+        // format expiration time
+        TextView expiryTimeView = dialogLayout.findViewById(R.id.expiry_time);
+        Timestamp expiryTime = new Timestamp(foodListing.createdAt.getTime() + 30*60000);
+        int hour = expiryTime.getHours();
+        int minute = expiryTime.getMinutes();
+        String ampm = "am";
+        if (hour > 12) {
+            hour -= 12;
+            ampm = "pm";
+        }
+        if (hour == 0) {
+            hour = 12;
+        }
+        expiryTimeView.setText("Available until " + hour + ":" + minute + ampm);
+
         ChipGroup chipGroup = dialogLayout.findViewById(R.id.chipGroupDietPopUp);
         ArrayList<String> diets = foodListing.dietary_restrictions;
-
         if (diets != null) {
             for (String diet : diets) {
                 addReadOnlyChipToGroup(context, chipGroup, diet);

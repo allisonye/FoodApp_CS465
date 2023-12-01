@@ -262,6 +262,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             intent.putExtra("description", foodListing.description);
             intent.putExtra("diet",foodListing.dietary_restrictions);
             intent.putExtra("status",foodListing.status);
+            intent.putExtra("created_at", foodListing.createdAt);
             startActivity(intent);
         });
     }
