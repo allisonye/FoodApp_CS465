@@ -285,7 +285,7 @@ private String apiKey;
         Intent notifyIntent = new Intent(this, FoodInfoActivity.class);
         notifyIntent.putExtra("foodName", foodName.getText().toString());
         notifyIntent.putExtra("rso_name", rsoName.getText().toString());
-        notifyIntent.putExtra("description", description.getText());
+        notifyIntent.putExtra("description", description.getText().toString());
         notifyIntent.putExtra("diet", dietaryRestrictionsList);
         notifyIntent.putExtra("status", foodStatus);
         notifyIntent.putExtra("created_at", timeAtSubmit);
