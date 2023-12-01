@@ -3,17 +3,23 @@ package edu.illinois.cs465.myquizappwithlifecycle;
 import static java.security.AccessController.getContext;
 import static edu.illinois.cs465.myquizappwithlifecycle.R.*;
 
+import androidx.annotation.DrawableRes;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import androidx.appcompat.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -190,6 +196,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId, int width, int height) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    private BitmapDescriptor resizeMapIcons(String iconName, int width, int height){
+        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(iconName, "drawable", getPackageName()));
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
+        return BitmapDescriptorFactory.fromBitmap(resizedBitmap);
+    }
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -214,6 +235,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        LatLng siebelCenterDesign = new LatLng(40.1027, -88.2328); // Coordinates for Siebel Center for Design
 //        Marker siebelMarker = mMap.addMarker(new MarkerOptions().position(siebelCenterDesign).title("Siebel Center for Design"));
 
+//        viewmodal.getAllFoodListings().observe(this, new Observer<List<FoodListing>>() {
+//            @Override
+//            public void onChanged(List<FoodListing> foodListings) {
+//                // clear existing markers from map
+//                for (Marker m : markers) {
+//                    m.remove();
+//                }
+//                markers.clear();
+//                // add markers back to map
+//                for (FoodListing foodListing : foodListings) {
+//                    BitmapDescriptor icon = foodListing.status.equals("LOW")
+//                            ? BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)
+//                            : BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+//                    Marker m = mMap.addMarker(new MarkerOptions()
+//                            .position(new LatLng(foodListing.latitude, foodListing.longitude))
+//                            .title(foodListing.food_name)
+//                            .icon(icon)
+//
+//                    );
+//                    m.setTag(foodListing);
+//                    markers.add(m);
+//                }
+//            }
+//
+//
+//        });
+
+
+
+
         viewmodal.getAllFoodListings().observe(this, new Observer<List<FoodListing>>() {
             @Override
             public void onChanged(List<FoodListing> foodListings) {
@@ -222,20 +273,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     m.remove();
                 }
                 markers.clear();
+
                 // add markers back to map
                 for (FoodListing foodListing : foodListings) {
-                    BitmapDescriptor icon = foodListing.status.equals("LOW")
-                            ? BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)
-                            : BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+                    BitmapDescriptor icon;
+                    if (foodListing.status.equals("LOW")) {
+                        icon = resizeMapIcons("pizza_half_yellow", 100, 100);
+                    } else {
+                        icon = resizeMapIcons("pizza_full_green", 100, 100);
+                    }
                     Marker m = mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(foodListing.latitude, foodListing.longitude))
                             .title(foodListing.food_name)
                             .icon(icon)
-
                     );
                     m.setTag(foodListing);
                     markers.add(m);
                 }
+
             }
         });
 
