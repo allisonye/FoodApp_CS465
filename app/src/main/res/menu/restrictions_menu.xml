@@ -4,12 +4,20 @@
         android:title="Gluten-free"
         android:checkable="true"/>
     <item
+        android:id="@+id/menu_dairy_free"
+        android:title="Dairy-free"
+        android:checkable="true"/>
+    <item
         android:id="@+id/menu_vegetarian"
         android:title="Vegetarian"
         android:checkable="true"/>
     <item
-        android:id="@+id/menu_lactose_free"
-        android:title="Lactose-free"
+        android:id="@+id/menu_nut_free"
+        android:title="Nut-free"
+        android:checkable="true"/>
+    <item
+        android:id="@+id/menu_shellfish_free"
+        android:title="Shellfish-free"
         android:checkable="true"/>
     <item
         android:id="@+id/menu_vegan"
