@@ -182,6 +182,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //            }
 //        });
 
+        // initialize viewmodal, gmaps markers list
+        viewmodal = new ViewModelProvider(this).get(ViewModal.class);
+        markers = new ArrayList<Marker>();
+
     }
 
     // Utility method to check if a FoodListing matches the current dietary restrictions

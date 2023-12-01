@@ -45,6 +45,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import edu.illinois.cs465.myquizappwithlifecycle.BuildConfig;
+
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -65,6 +67,8 @@ public class FoodPostActivity extends AppCompatActivity {
     private int editingFoodId = -1; // ID of the FoodListing being edited
     private double latitude = 0.0;
     private double longitude = 0.0;
+    private String locationName;
+    private Long createdTimeValue;
 
     private FoodCardAdapter adapter;
 
@@ -136,12 +140,15 @@ private String apiKey;
             String rsoNameValue = getIntent().getStringExtra("rso_name");
             ArrayList<String> dietaryRestrictions = getIntent().getStringArrayListExtra("dietary_restrictions");
             String status = getIntent().getStringExtra("status");
-
+            locationName = getIntent().getStringExtra("locationName");
+            latitude = getIntent().getDoubleExtra("latitude",1.0);
+            longitude = getIntent().getDoubleExtra("longitude",1.0);
             foodName.setText(foodNameValue);
             description.setText(descriptionValue);
             rsoName.setText(rsoNameValue);
             setDietaryRestrictions(dietaryRestrictions);
             setStatusChip(status);
+            autocompleteFragment.setHint(locationName);
         }
 
         // insert or update db on submit
@@ -170,7 +177,6 @@ private String apiKey;
                 for(Integer id:ids){
                     Chip chip = chipGroup.findViewById(id);
                     dietary_res.add(chip.getText().toString());
-//                    Log.d("DEBUG", "chip_name: " + chip.getText().toString());
                 }
                 fl1.dietary_restrictions = dietary_res;
 
@@ -191,12 +197,15 @@ private String apiKey;
                 fl1.latitude = latitude;
                 fl1.longitude = longitude;
 
-//                fl1.latitude = 40.10934133355023;
-//                fl1.longitude = -88.22725468192122;
 
                 if (getIntent().hasExtra("food_id")) {
                     Log.d("DEBUG", "UPDATING FOOD LISTING WITH ID " + getIntent().getIntExtra("food_id", 0));
                     fl1.food_id = getIntent().getIntExtra("food_id", 0);
+                    createdTimeValue = getIntent().getLongExtra("createdAt",0);
+                    Date copiedDate = new Date(createdTimeValue);
+                    fl1.createdAt = copiedDate;
+                    fl1.latitude  = latitude;
+                    fl1.longitude = longitude;
                     viewmodal.updateFoodListing(fl1);
                 } else {
                     Log.d("DEBUG", "INSERTING FOOD LISTING");
