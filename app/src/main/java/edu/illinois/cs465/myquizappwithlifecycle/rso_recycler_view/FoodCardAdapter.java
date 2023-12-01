@@ -1,7 +1,11 @@
 package edu.illinois.cs465.myquizappwithlifecycle.rso_recycler_view;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -40,8 +44,10 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
     private OnClickListener onClickListener;
     private RecyclerView recyclerView; // Add this line
 
+    private Context context; // Context member variable
+
     // Constructor accepting RecyclerView reference
-    public FoodCardAdapter(RecyclerView recyclerView) {
+    public FoodCardAdapter(RecyclerView recyclerView, Context context) {
         this.recyclerView = recyclerView;
     }
 
@@ -58,8 +64,22 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
         holder.cardId.setTag(currentFoodListing.food_id);
         holder.textViewTitle.setText(currentFoodListing.food_name);
         // holder.textViewDate.setText(new Timestamp(currentFoodListing.createdAt.getTime()).toString());
-        String expiryTime = new Timestamp(currentFoodListing.createdAt.getTime() + 30*60000).toString();
-        holder.textViewExpiryTime.setText("Available until " + expiryTime.substring(0, expiryTime.length() - 7));
+
+        // format expiration time
+        Timestamp expiryTime = new Timestamp(currentFoodListing.createdAt.getTime() + 30*60000);
+        int hour = expiryTime.getHours();
+        int minute = expiryTime.getMinutes();
+        String ampm = "am";
+        if (hour >= 12) {
+            hour -= 12;
+            ampm = "pm";
+        }
+        if (hour == 0) {
+            hour = 12;
+        }
+        String minuteStr = minute < 10 ? "0" + Integer.toString(minute) : Integer.toString(minute);
+        holder.textViewExpiryTime.setText("Available until " + hour + ":" + minuteStr + ampm);
+
         // imageView.setColorFilter(Color.argb(255, 255, 255, 255)); // White Tint
         holder.statusButtonImg.setColorFilter(currentFoodListing.status.equals("LOW") ? Color.rgb(255, 255, 0) : Color.rgb(0, 255, 0));
         //TODO: Repeat for time and date use String.valueOf()
@@ -96,6 +116,7 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
             }
         });
     }
+
 
     @Override
     public int getItemCount() {
@@ -154,11 +175,6 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
         }
     }
 
-
-//    private void updateStatusButtonColor(ImageView statusButtonImg, String status) {
-//        int color = status.equals("LOW") ? Color.rgb(255, 255, 0) : Color.rgb(0, 255, 0); // Yellow for LOW, Green for AVAILABLE
-//        statusButtonImg.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-//    }
     private void updateStatusButtonColor(ImageView statusButtonImg, String status) {
         Drawable drawable = null;
         if ("AVAILABLE".equals(status)) {
