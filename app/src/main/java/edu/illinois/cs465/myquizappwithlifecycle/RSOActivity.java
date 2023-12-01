@@ -9,12 +9,12 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-<<<<<<< HEAD
+
 import android.os.Handler;
 import android.os.Looper;
-=======
+
 import android.util.Log;
->>>>>>> 7ecb1c4c35973d07a17f6dca1d24efdd29e00ad2
+
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;

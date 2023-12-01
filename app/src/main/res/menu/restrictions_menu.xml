@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_gluten_free"
+        android:title="Gluten-free"
+        android:checkable="true"/>
+    <item
+        android:id="@+id/menu_vegetarian"
+        android:title="Vegetarian"
+        android:checkable="true"/>
+    <item
+        android:id="@+id/menu_lactose_free"
+        android:title="Lactose-free"
+        android:checkable="true"/>
+    <item
+        android:id="@+id/menu_vegan"
+        android:title="Vegan"
+        android:checkable="true"/>
+</menu>

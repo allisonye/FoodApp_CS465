@@ -37,6 +37,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -46,6 +47,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +72,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FusedLocationProviderClient fusedLocationClient;
     private ViewModal viewmodal;
     List<Marker> markers;
+    private boolean isGlutenFreeChecked = false;
+    private boolean isVegetarianChecked = false;
+    private boolean isLactoseFreeChecked = false;
+    private boolean isVeganChecked = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,10 +103,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         buttonDistance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (distanceSlider.getVisibility() == View.GONE) {
-                    distanceSlider.setVisibility(View.VISIBLE);
+                LinearLayout seekBarContainer = findViewById(R.id.seekBarContainer);
+                if (seekBarContainer.getVisibility() == View.GONE) {
+                    seekBarContainer.setVisibility(View.VISIBLE);
                 } else {
-                    distanceSlider.setVisibility(View.GONE);
+                    seekBarContainer.setVisibility(View.GONE);
                 }
             }
         });
@@ -124,10 +132,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         buttonRestrictions.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                showRestrictionsDialog();
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(MapsActivity.this, v);
+                popupMenu.getMenuInflater().inflate(R.menu.restrictions_menu, popupMenu.getMenu());
+
+                // Set initial checkbox states
+                popupMenu.getMenu().findItem(R.id.menu_gluten_free).setChecked(isGlutenFreeChecked);
+                popupMenu.getMenu().findItem(R.id.menu_vegetarian).setChecked(isVegetarianChecked);
+                popupMenu.getMenu().findItem(R.id.menu_lactose_free).setChecked(isLactoseFreeChecked);
+                popupMenu.getMenu().findItem(R.id.menu_vegan).setChecked(isVeganChecked);
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        item.setChecked(!item.isChecked());
+                        handleCheckboxSelection(item.getItemId(), item.isChecked());
+                        return true;
+                    }
+                });
+                popupMenu.show();
             }
         });
+
+
 
 //        accountCircleImage.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -189,6 +216,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
+
+    private void handleCheckboxSelection(int itemId, boolean isChecked) {
+        if (itemId == R.id.menu_gluten_free) {
+            isGlutenFreeChecked = isChecked;
+        } else if (itemId == R.id.menu_vegetarian) {
+            isVegetarianChecked = isChecked;
+        } else if (itemId == R.id.menu_lactose_free) {
+            isLactoseFreeChecked = isChecked;
+        } else if (itemId == R.id.menu_vegan) {
+            isVeganChecked = isChecked;
+        }
+        // Update your map or data based on the selection
+    }
+
+
 
     /**
      * Manipulates the map once available.
