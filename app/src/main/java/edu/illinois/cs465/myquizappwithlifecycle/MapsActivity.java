@@ -322,9 +322,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 for (FoodListing foodListing : foodListings) {
                     BitmapDescriptor icon;
                     if (foodListing.status.equals("LOW")) {
-                        icon = resizeMapIcons("pizza_half_yellow", 100, 100);
+                        icon = resizeMapIcons("pizza_yellow_half", 100, 100);
                     } else {
-                        icon = resizeMapIcons("pizza_full_green", 100, 100);
+                        icon = resizeMapIcons("pizza_full_green_pin", 100, 100);
                     }
                     Marker m = mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(foodListing.latitude, foodListing.longitude))

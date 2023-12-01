@@ -179,10 +179,10 @@ public class FoodCardAdapter extends RecyclerView.Adapter<FoodCardAdapter.FoodCa
         Drawable drawable = null;
         if ("AVAILABLE".equals(status)) {
             drawable = ContextCompat.getDrawable(statusButtonImg.getContext(), R.drawable.pizza_full);
-            statusButtonImg.setColorFilter(Color.rgb(66, 135, 245), PorterDuff.Mode.SRC_IN);
+            statusButtonImg.setColorFilter(Color.rgb(17, 168, 57), PorterDuff.Mode.SRC_IN);
         } else if ("LOW".equals(status)) {
             drawable = ContextCompat.getDrawable(statusButtonImg.getContext(), R.drawable.pizza_half);
-            statusButtonImg.setColorFilter(Color.rgb(66, 135, 245), PorterDuff.Mode.SRC_IN);
+            statusButtonImg.setColorFilter(Color.rgb(255, 193, 7), PorterDuff.Mode.SRC_IN);
         }
         statusButtonImg.setImageDrawable(drawable);
     }

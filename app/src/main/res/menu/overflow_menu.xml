@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/status_option_1"
-        android:icon="@drawable/circle_status"
+        android:icon="@drawable/pizza_full"
         android:title="@string/food_card_status_option_1"
         android:iconTint="@color/status_low_color"/>
     <item android:id="@+id/status_option_2"
-        android:icon="@drawable/circle_status"
+        android:icon="@drawable/pizza_half"
         android:iconTint="@color/status_available_color"
         android:title="@string/food_card_status_option_2" />
 </menu>
