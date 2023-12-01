@@ -257,10 +257,10 @@ public class RSOActivity extends AppCompatActivity {
         intent.putExtra("description", foodListing.description);
         intent.putStringArrayListExtra("dietary_restrictions", foodListing.dietary_restrictions);
         intent.putExtra("status", foodListing.status);
-        intent.putExtra("rso_name", foodListing.rso_name);
 
         // For Date, you need to convert it to a long or string as Intent doesn't support Date directly
         if (foodListing.createdAt != null) {
+            Log.d("DEBUG", "createdAt " + foodListing.createdAt.getTime());
             intent.putExtra("createdAt", foodListing.createdAt.getTime());
         }
 
