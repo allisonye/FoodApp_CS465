@@ -6,4 +6,5 @@
     <color name="status_low_color">#FFC107</color>
     <color name="gray">#808080</color>
     <color name="dark_gray">#545454</color>
+    <color name="transparent">#00000000</color>
 </resources>
