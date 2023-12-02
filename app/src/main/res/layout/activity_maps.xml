@@ -28,93 +28,77 @@
         app:srcCompat="@drawable/switch_account" />
 
     <!-- Top Panel LinearLayout -->
-<!--    <LinearLayout-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentTop="true"-->
-<!--        android:layout_alignParentEnd="true"-->
-<!--        android:orientation="vertical">-->
-<!--        <RelativeLayout-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content">-->
-            <LinearLayout
-                android:id="@+id/topPanel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="16dp">
+    <LinearLayout
+        android:id="@+id/topPanel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp">
 
-                <!-- Restrictions Button -->
-                <Button
-                    android:id="@+id/buttonRestrictions"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/restrictionsbox" />
+        <!-- Restrictions Button -->
+        <Button
+            android:id="@+id/buttonRestrictions"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/restrictionsbox" />
 
-                <!-- Distance Button -->
-                <Button
-                    android:id="@+id/buttonDistance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/distancebox" />
-
-            </LinearLayout>
-            <!-- SeekBar positioned absolutely using RelativeLayout -->
-            <LinearLayout
-                android:id="@+id/seekBarContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/round_seekbar_background"
-                android:padding="8dp"
-                android:visibility="gone"
-                android:layout_below="@id/topPanel"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="8dp">
-
-                <!-- Label "1x" -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1x"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="8dp"/>
-
-                <!-- SeekBar -->
-                <SeekBar
-                    android:id="@+id/distanceSlider"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:max="20"
-                    android:min="5"/>
-
-                <!-- Label "5x" -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5x"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="8dp"/>
-            </LinearLayout>
-<!--        </RelativeLayout>-->
-        <TextView
-            android:id="@+id/currentFilters"
+        <!-- Distance Button -->
+        <Button
+            android:id="@+id/buttonDistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/topPanel"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="0dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="16dp"
-            android:padding="6dp">
-        </TextView>
-<!--    </LinearLayout>-->
+            android:background="@drawable/distancebox" />
 
+    </LinearLayout>
+    <!-- SeekBar positioned absolutely using RelativeLayout -->
+    <LinearLayout
+        android:id="@+id/seekBarContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/round_seekbar_background"
+        android:padding="8dp"
+        android:visibility="gone"
+        android:layout_below="@id/topPanel"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp">
 
+        <!-- Label "1x" -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1x"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="8dp"/>
 
+        <!-- SeekBar -->
+        <SeekBar
+            android:id="@+id/distanceSlider"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:max="20"
+            android:min="5"/>
+
+        <!-- Label "5x" -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5x"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"/>
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/currentFilters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/seekBarContainer"
+        android:layout_alignLeft="@id/topPanel"
+        android:layout_alignRight="@id/topPanel"/>
 
     <!-- Information FloatingActionButton -->
     <LinearLayout
@@ -132,6 +116,7 @@
             app:backgroundTint="#b3cde0"
             app:fabSize="mini"
             app:srcCompat="@drawable/info_icon" />
+
     </LinearLayout>
 
 </RelativeLayout>
