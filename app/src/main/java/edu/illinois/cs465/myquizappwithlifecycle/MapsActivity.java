@@ -132,8 +132,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         distanceSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // Handle the zoom level based on slider progress
-                mMap.moveCamera(CameraUpdateFactory.zoomTo(progress));
+                if (fromUser) {
+                    mMap.moveCamera(CameraUpdateFactory.zoomTo(progress));
+                }
             }
 
             @Override
@@ -369,6 +370,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return true;
                 }
                 return false;
+            }
+        });
+
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(12));
+
+        SeekBar distanceSlider = findViewById(R.id.distanceSlider);
+        distanceSlider.setProgress(12);
+
+        mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            @Override
+            public void onCameraMove() {
+                int zoomLevel = (int) mMap.getCameraPosition().zoom;
+                distanceSlider.setProgress(zoomLevel);
             }
         });
     }
