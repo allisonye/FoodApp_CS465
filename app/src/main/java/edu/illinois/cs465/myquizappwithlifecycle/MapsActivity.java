@@ -163,13 +163,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     public boolean onMenuItemClick(MenuItem item) {
                         item.setChecked(!item.isChecked());
                         handleCheckboxSelection(item.getItemId(), item.isChecked());
+                        refreshMarkersBasedOnDietaryRestrictions();
                         return true;
                     }
                 });
                 popupMenu.show();
 
                 // After setting the dietary flags, refresh the markers
-                refreshMarkersBasedOnDietaryRestrictions();
+//                refreshMarkersBasedOnDietaryRestrictions();
             }
         });
 
@@ -214,6 +215,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 }
             });
+            // show existing filters
+//            boolean show = false;
+            String commaList = "";
+            for (String restriction : filterNameList) {
+                if (isFilterSelected.get(restriction)) {
+                    commaList += restriction + ", ";
+                }
+            }
+            if (!commaList.isEmpty()) {
+                TextView filterListTV = findViewById(R.id.currentFilters);
+                filterListTV.setText("Filtering by: " + commaList.substring(0, commaList.length() - 2));
+                filterListTV.setBackgroundResource(R.color.white);
+            } else {
+                TextView filterListTV = findViewById(R.id.currentFilters);
+                filterListTV.setText("");
+                filterListTV.setBackgroundResource(R.color.transparent);
+            }
         }
     }
 
