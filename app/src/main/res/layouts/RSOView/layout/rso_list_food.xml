@@ -8,9 +8,10 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
         android:paddingBottom="100dp"
-        android:clipToPadding="false">
-    </androidx.core.widget.NestedScrollView>
+        app:layout_anchor="@+id/recycler_view"
+        app:layout_anchorGravity="center"></androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
@@ -39,6 +40,16 @@
         android:contentDescription="@string/fab_content_desc"
         app:backgroundTint="#b3cde0"
         app:srcCompat="@drawable/switch_account"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Posts"
+        android:textStyle="bold"
+        android:textSize="40dp"
+        app:layout_anchor="@id/rso_profile_icon"
+        app:layout_anchorGravity="center|left"
+        android:layout_marginLeft="100dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
