@@ -74,6 +74,7 @@ import edu.illinois.cs465.myquizappwithlifecycle.databinding.ActivityMapsBinding
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Serializable {
+    private static int ZOOM_LEVEL = 13;
     private static String DEBUG = "DEBUG";
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
@@ -391,10 +392,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        mMap.moveCamera(CameraUpdateFactory.zoomTo(12));
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(ZOOM_LEVEL));
 
         SeekBar distanceSlider = findViewById(R.id.distanceSlider);
-        distanceSlider.setProgress(12);
+        distanceSlider.setProgress(ZOOM_LEVEL);
 
         mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
@@ -450,7 +451,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onSuccess(Location location) {
                 if (location != null) {
                     LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 12));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, ZOOM_LEVEL));
                 }
             }
         });

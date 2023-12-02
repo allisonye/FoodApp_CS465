@@ -1,9 +1,11 @@
 package edu.illinois.cs465.myquizappwithlifecycle;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -120,8 +122,30 @@ public class FoodInfoActivity extends AppCompatActivity {
     private void showNavigateToMapsPopUp() {
         AlertDialog dialog = new MaterialAlertDialogBuilder(FoodInfoActivity.this)
                 .setMessage("Open in Google Maps?")
-                .setPositiveButton("OPEN", null)
+                .setPositiveButton("OPEN", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        redirectToGoogleMaps();
+                    }
+                })
                 .setNegativeButton("CANCEL", null)
                 .show();
+    }
+
+    private void redirectToGoogleMaps() {
+        double destinationLatitude = (double) getIntent().getSerializableExtra("latitude");
+        double destinationLongitude = (double) getIntent().getSerializableExtra("longitude");
+
+        Uri gmmIntentUri = Uri.parse("geo:" + destinationLatitude + "," + destinationLongitude + "?q=" + destinationLatitude + "," + destinationLongitude);
+
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+
+        mapIntent.setPackage("com.google.android.apps.maps");
+
+        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(mapIntent);
+        } else {
+            Toast.makeText(this, "Google Maps is not installed on your device.", Toast.LENGTH_SHORT).show();
+        }
     }
 }
