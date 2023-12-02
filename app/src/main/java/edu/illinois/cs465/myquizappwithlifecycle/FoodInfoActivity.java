@@ -94,6 +94,12 @@ public class FoodInfoActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.back_button).setOnClickListener(v -> {
+            if (isTaskRoot())
+            {
+                Intent mapsIntent = new Intent(this, MapsActivity.class);
+                startActivity(mapsIntent);
+                finish();
+            }
             finish();
         });
 
